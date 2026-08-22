@@ -55,7 +55,7 @@
         <ol class="text-xs text-gray-600 list-decimal list-inside space-y-0.5">
           <li>Scan QR / tunjukkan nomor antrian di loket Jalur Khusus.</li>
           <li>Pesanan disiapkan tanpa perlu ikut antre biasa.</li>
-          <li>Ambil pesanan saat status berubah menjadi "Siap".</li>
+          <li>Ambil pesanan saat status "Siap Diambil".</li>
         </ol>
       </div>
 
@@ -266,8 +266,9 @@ function updateStatusBadge(status) {
   badge.textContent = status;
   const styles = {
     'Dipesan':       ['bg-blue-100', 'text-blue-700'],
-    'Diproses':      ['bg-yellow-100', 'text-yellow-700'],
-    'Siap':          ['bg-green-100', 'text-green-700'],
+    'Diterima':      ['bg-indigo-100', 'text-indigo-700'],
+    'Disiapkan':     ['bg-yellow-100', 'text-yellow-700'],
+    'Siap Diambil':  ['bg-green-100', 'text-green-700'],
     'Selesai':       ['bg-gray-200', 'text-gray-600']
   };
   const s = styles[status] || styles['Dipesan'];
