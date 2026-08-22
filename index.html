@@ -93,6 +93,35 @@
   </div>
 
 <script>
+const API_URL = '/api/orders';
+
+async function apiGetOrders() {
+  try {
+    const r = await fetch(API_URL);
+    if (r.ok) { const j = await r.json(); if (Array.isArray(j)) return j; }
+  } catch {}
+  // fallback localStorage
+  try { return JSON.parse(localStorage.getItem('kantin_orders') || '[]'); } catch { return []; }
+}
+
+async function apiCreateOrder(payload) {
+  try {
+    const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    if (r.ok) return await r.json();
+  } catch {}
+  return null; // signal fallback
+}
+
+async function apiPatchStatus(id, status) {
+  try {
+    const r = await fetch(API_URL + '?id=' + encodeURIComponent(id) + '&status=' + encodeURIComponent(status), { method: 'PATCH' });
+    if (r.ok) return true;
+    // fallback PATCH via body
+    const r2 = await fetch(API_URL, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) });
+    return r2.ok;
+  } catch { return false; }
+}
+
 const warungs = [
   { id: 'siti', nama: 'Warung Bu Siti', emoji: '🍛', color: 'orange', menu: [
     { nama: 'Nasi Ayam Geprek', harga: 15000 },
@@ -203,32 +232,39 @@ function updateCartBar() {
   document.getElementById('cart-total').textContent = rupiah(total);
 }
 
-function checkout() {
+async function checkout() {
   const items = Object.values(cart);
   if (items.length === 0) return;
   const w = warungs.find(x => x.id === selectedWarungId);
   const total = items.reduce((s, c) => s + c.item.harga * c.qty, 0);
-
-  const counter = parseInt(localStorage.getItem('kantin_counter') || '0') + 1;
-  localStorage.setItem('kantin_counter', counter);
-  const antrian = 'A-' + String(counter).padStart(3, '0');
-
-  const order = {
+  const payload = {
     id: 'ORD-' + Date.now(),
-    antrian,
     warungId: w.id,
     warungNama: w.nama,
     items: items.map(c => ({ nama: c.item.nama, harga: c.item.harga, qty: c.qty })),
     total,
-    waktu: new Date().toLocaleString('id-ID'),
-    status: 'Dipesan'
+    waktu: new Date().toLocaleString('id-ID')
   };
 
-  const orders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
-  orders.push(order);
-  localStorage.setItem('kantin_orders', JSON.stringify(orders));
+  // try API first
+  let order = await apiCreateOrder(payload);
+  if (!order) {
+    // fallback localStorage (old logic)
+    const counter = parseInt(localStorage.getItem('kantin_counter') || '0') + 1;
+    localStorage.setItem('kantin_counter', counter);
+    const antrian = 'A-' + String(counter).padStart(3, '0');
+    order = { ...payload, antrian, status: 'Dipesan' };
+    const orders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+    orders.push(order);
+    localStorage.setItem('kantin_orders', JSON.stringify(orders));
+  } else {
+    // also mirror to localStorage for offline cache
+    try {
+      const cached = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+      if (!cached.find(o => o.id === order.id)) { cached.push(order); localStorage.setItem('kantin_orders', JSON.stringify(cached)); }
+    } catch {}
+  }
   localStorage.setItem('kantin_last_order_id', order.id);
-
   showSuccess(order);
 }
 
@@ -278,24 +314,24 @@ function updateStatusBadge(status) {
 renderWarungs();
 
 // On load: restore last order
-(function () {
+(async function () {
   const lastId = localStorage.getItem('kantin_last_order_id');
   if (!lastId) return;
-  const orders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+  const orders = await apiGetOrders();
   const order = orders.find(o => o.id === lastId);
   if (order) showSuccess(order);
 })();
 
 // Polling status
-setInterval(() => {
+setInterval(async () => {
   if (document.getElementById('success-section').classList.contains('hidden')) return;
   const lastId = localStorage.getItem('kantin_last_order_id');
   if (!lastId) return;
-  const orders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+  const orders = await apiGetOrders();
   const order = orders.find(o => o.id === lastId);
   if (!order) return;
   updateStatusBadge(order.status);
-}, 1000);
+}, 1500);
 </script>
 </body>
 </html>

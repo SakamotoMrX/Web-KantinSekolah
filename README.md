@@ -44,6 +44,13 @@ Lalu buka http://localhost:8000 (siswa) dan http://localhost:8000/penjual.html (
 - Data disimpan di `localStorage` — hanya tersinkron di device/browser yang sama (demo: buka siswa & penjual di 2 tab browser yang sama). **Bukan** cross-device.
 - Tanpa autentikasi, tanpa database.
 
+## Cross-device (NEW)
+
+- Frontend sekarang fetch `/api/orders` (Vercel serverless) untuk sinkron antar device.
+- Fallback ke localStorage jika API offline (file:// atau localhost tanpa `vercel dev`).
+- Server hybrid: jika env `UPSTASH_REDIS_REST_URL`+`UPSTASH_REDIS_REST_TOKEN` ada → pakai Upstash Redis (persistent). Jika tidak → pakai `globalThis._kantin_orders` in-memory (ephemeral, cukup untuk demo, hilang saat cold start).
+- Cara jadikan persistent 1 click: Vercel Dashboard → Storage → Upstash Redis → Create → connect ke project Web-KantinSekolah → redeploy. Tanpa setup tetap jalan cross-device selama function warm.
+
 ## Tech
 
 - Tailwind CSS (CDN)

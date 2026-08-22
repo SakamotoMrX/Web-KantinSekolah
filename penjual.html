@@ -61,6 +61,26 @@
   </main>
 
 <script>
+const API_URL = '/api/orders';
+
+async function apiGetOrders() {
+  try { const r = await fetch(API_URL); if (r.ok) return await r.json(); } catch {}
+  try { return JSON.parse(localStorage.getItem('kantin_orders') || '[]'); } catch { return []; }
+}
+
+async function apiPatchStatus(id, status) {
+  try {
+    let r = await fetch(API_URL + '?id=' + encodeURIComponent(id) + '&status=' + encodeURIComponent(status), { method: 'PATCH' });
+    if (r.ok) return true;
+    r = await fetch(API_URL, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) });
+    return r.ok;
+  } catch { return false; }
+}
+
+async function apiDelete(clear) {
+  try { const r = await fetch(API_URL + '?clear=' + clear, { method: 'DELETE' }); return r.ok; } catch { return false; }
+}
+
 const FLOW = {
   'Dipesan':     { next: 'Diterima',   label: 'Terima Pesanan' },
   'Diterima':    { next: 'Disiapkan',  label: 'Siapkan' },
@@ -78,38 +98,48 @@ const BADGE = {
 
 function rupiah(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
 
-function loadOrders() {
-  return JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+function fallbackOrders() {
+  try { return JSON.parse(localStorage.getItem('kantin_orders') || '[]'); } catch { return []; }
 }
 
-function saveOrders(orders) {
+function saveFallbackOrders(orders) {
   localStorage.setItem('kantin_orders', JSON.stringify(orders));
 }
 
-function nextStatus(id) {
-  const orders = loadOrders();
+async function nextStatus(id) {
+  const orders = await apiGetOrders();
   const o = orders.find(x => x.id === id);
   if (!o || !FLOW[o.status]) return;
-  o.status = FLOW[o.status].next;
-  saveOrders(orders);
+  const newStatus = FLOW[o.status].next;
+  if (!(await apiPatchStatus(id, newStatus))) {
+    // fallback localStorage update
+    const local = fallbackOrders();
+    const lo = local.find(x => x.id === id);
+    if (lo) { lo.status = newStatus; saveFallbackOrders(local); }
+  }
   render();
 }
 
-function hapusSelesai() {
+async function hapusSelesai() {
   if (!confirm('Hapus semua pesanan berstatus Selesai?')) return;
-  saveOrders(loadOrders().filter(o => o.status !== 'Selesai'));
+  if (!(await apiDelete('selesai'))) {
+    saveFallbackOrders(fallbackOrders().filter(o => o.status !== 'Selesai'));
+  }
   render();
 }
 
-function hapusSemua() {
+async function hapusSemua() {
   if (!confirm('Hapus SEMUA pesanan? Tidak bisa dibatalkan.')) return;
-  saveOrders([]);
+  if (!(await apiDelete('all'))) {
+    saveFallbackOrders([]);
+  }
   render();
 }
 
-function render() {
+async function render() {
   // ponytail: urut = posisi array (index.html push kronologis), cukup reverse
-  const orders = loadOrders().slice().reverse();
+  const ordersRaw = await apiGetOrders();
+  const orders = ordersRaw.slice().reverse();
 
   document.getElementById('stat-total').textContent = orders.length;
   document.getElementById('stat-baru').textContent = orders.filter(o => o.status === 'Dipesan').length;
@@ -148,7 +178,7 @@ function render() {
     </article>`).join('');
 }
 
-setInterval(render, 1000);
+setInterval(render, 1500);
 window.addEventListener('storage', render);
 render();
 </script>
