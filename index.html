@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kantin Sekolah - Pre-order</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen pb-28">
+
+  <!-- Header -->
+  <header class="bg-orange-500 text-white px-4 py-5 shadow-lg">
+    <div class="max-w-md mx-auto flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold">Kantin Sekolah</h1>
+        <p class="text-sm text-orange-100">Pre-order tanpa antre</p>
+      </div>
+      <a href="penjual.html" class="bg-white/20 hover:bg-white/30 transition rounded-xl px-3 py-2 text-sm font-semibold flex items-center gap-1">
+        🏪 Penjual
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-md mx-auto px-4 py-5">
+
+    <!-- Success Section -->
+    <section id="success-section" class="hidden mb-6 bg-white rounded-xl shadow p-5 text-center">
+      <div class="w-14 h-14 mx-auto bg-green-100 rounded-full flex items-center justify-center text-3xl mb-2">✅</div>
+      <h2 class="text-lg font-bold text-green-600">Pesanan Berhasil!</h2>
+      <p class="text-xs text-gray-500 mb-3" id="success-waktu"></p>
+
+      <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-4">
+        <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Nomor Antrian</p>
+        <p id="antrian-number" class="text-4xl font-extrabold text-orange-500 my-1">A-001</p>
+        <p class="text-xs text-gray-500">Tunjukkan QR di Jalur Khusus</p>
+      </div>
+
+      <div class="flex justify-center mb-4">
+        <div id="qrcode" class="p-2 border border-gray-200 rounded-xl"></div>
+      </div>
+
+      <span id="status-badge" class="inline-block bg-blue-100 text-blue-700 text-sm font-bold px-4 py-1.5 rounded-full mb-4">Dipesan</span>
+
+      <div class="text-left bg-gray-50 rounded-xl p-3 mb-4">
+        <p class="font-bold text-sm mb-1" id="success-warung"></p>
+        <ul id="success-items" class="text-sm text-gray-600 space-y-1"></ul>
+        <div class="flex justify-between font-bold text-sm mt-2 pt-2 border-t border-gray-200">
+          <span>Total</span><span id="success-total" class="text-orange-500"></span>
+        </div>
+      </div>
+
+      <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-3 text-left">
+        <p class="text-xs font-bold text-yellow-700 mb-1">🚶 Instruksi Pengambilan — Jalur Khusus</p>
+        <ol class="text-xs text-gray-600 list-decimal list-inside space-y-0.5">
+          <li>Scan QR / tunjukkan nomor antrian di loket Jalur Khusus.</li>
+          <li>Pesanan disiapkan tanpa perlu ikut antre biasa.</li>
+          <li>Ambil pesanan saat status berubah menjadi "Siap".</li>
+        </ol>
+      </div>
+
+      <button onclick="backToMenu()" class="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-xl transition">
+        Pesan Lagi
+      </button>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order-section">
+      <!-- Warung Grid -->
+      <section id="warung-view">
+        <h2 class="font-bold text-lg mb-3">Pilih Warung</h2>
+        <div id="warung-grid" class="grid grid-cols-2 gap-3"></div>
+      </section>
+
+      <!-- Menu View -->
+      <section id="menu-view" class="hidden">
+        <button onclick="showWarungs()" class="text-orange-500 font-semibold text-sm mb-3 flex items-center gap-1">← Kembali ke Warung</button>
+        <h2 id="menu-title" class="font-bold text-lg mb-3"></h2>
+        <div id="menu-grid" class="space-y-3"></div>
+      </section>
+    </section>
+  </main>
+
+  <!-- Floating Cart Bar -->
+  <div id="cart-bar" class="hidden fixed bottom-0 left-0 right-0 max-w-md mx-auto p-3">
+    <button onclick="checkout()" class="w-full bg-orange-500 hover:bg-orange-600 active:scale-[0.98] transition text-white rounded-xl shadow-lg px-4 py-3.5 flex items-center justify-between">
+      <span class="flex items-center gap-2">
+        <span id="cart-count-badge" class="bg-white text-orange-500 text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">0</span>
+        <span class="font-semibold">Pesan Sekarang</span>
+      </span>
+      <span id="cart-total" class="font-bold"></span>
+    </button>
+  </div>
+
+<script>
+const warungs = [
+  { id: 'siti', nama: 'Warung Bu Siti', emoji: '🍛', color: 'orange', menu: [
+    { nama: 'Nasi Ayam Geprek', harga: 15000 },
+    { nama: 'Nasi Gudeg', harga: 13000 },
+    { nama: 'Soto Ayam', harga: 12000 },
+    { nama: 'Es Teh Manis', harga: 4000 }
+  ]},
+  { id: 'joko', nama: 'Warung Pak Joko', emoji: '🍜', color: 'red', menu: [
+    { nama: 'Mie Ayam Bakso', harga: 14000 },
+    { nama: 'Bakso Urat', harga: 16000 },
+    { nama: 'Mie Goreng Jawa', harga: 13000 }
+  ]},
+  { id: 'sehat', nama: 'Kedai Sehat', emoji: '🥗', color: 'green', menu: [
+    { nama: 'Salad Buah', harga: 12000 },
+    { nama: 'Jus Alpukat', harga: 10000 },
+    { nama: 'Oat Bowl', harga: 15000 },
+    { nama: 'Air Mineral', harga: 3000 },
+    { nama: 'Yogurt Drink', harga: 8000 }
+  ]},
+  { id: 'snack', nama: 'Aneka Snack', emoji: '🍩', color: 'pink', menu: [
+    { nama: 'Roti Bakar Coklat', harga: 8000 },
+    { nama: 'Donat Kentang', harga: 6000 },
+    { nama: 'Risoles Mayo', harga: 5000 }
+  ]}
+];
+
+const colors = {
+  orange: { bg: 'bg-orange-100', text: 'text-orange-500' },
+  red:    { bg: 'bg-red-100',    text: 'text-red-500' },
+  green:  { bg: 'bg-green-100',  text: 'text-green-500' },
+  pink:   { bg: 'bg-pink-100',   text: 'text-pink-500' }
+};
+
+let selectedWarungId = null;
+let cart = {};
+
+function rupiah(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
+
+function showWarungs() {
+  selectedWarungId = null;
+  document.getElementById('warung-view').classList.remove('hidden');
+  document.getElementById('menu-view').classList.add('hidden');
+}
+
+function showMenu(id) {
+  selectedWarungId = id;
+  const w = warungs.find(x => x.id === id);
+  document.getElementById('menu-title').textContent = w.emoji + ' ' + w.nama;
+  renderMenu();
+  document.getElementById('warung-view').classList.add('hidden');
+  document.getElementById('menu-view').classList.remove('hidden');
+}
+
+function renderWarungs() {
+  document.getElementById('warung-grid').innerHTML = warungs.map(w => {
+    const c = colors[w.color];
+    return `<button onclick="showMenu('${w.id}')" class="bg-white rounded-xl shadow p-4 text-left active:scale-[0.97] transition hover:shadow-md">
+      <div class="${c.bg} ${c.text} w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-2">${w.emoji}</div>
+      <p class="font-bold text-sm">${w.nama}</p>
+      <p class="text-xs text-gray-500">${w.menu.length} menu</p>
+    </button>`;
+  }).join('');
+}
+
+function renderMenu() {
+  const w = warungs.find(x => x.id === selectedWarungId);
+  document.getElementById('menu-grid').innerHTML = w.menu.map((item, i) => {
+    const key = item.nama;
+    const qty = cart[key] ? cart[key].qty : 0;
+    return `<div class="bg-white rounded-xl shadow p-4 flex items-center justify-between gap-3">
+      <div>
+        <p class="font-semibold text-sm">${item.nama}</p>
+        <p class="text-orange-500 font-bold text-sm">${rupiah(item.harga)}</p>
+      </div>
+      ${qty === 0
+        ? `<button onclick="addToCart(${i})" class="bg-orange-500 text-white w-9 h-9 rounded-full font-bold text-lg active:scale-90 transition flex items-center justify-center shrink-0">+</button>`
+        : `<div class="flex items-center gap-2 shrink-0">
+            <button onclick="changeQty('${key}',-1)" class="bg-gray-200 w-8 h-8 rounded-full font-bold">−</button>
+            <span class="font-bold w-5 text-center">${qty}</span>
+            <button onclick="changeQty('${key}',1)" class="bg-orange-500 text-white w-8 h-8 rounded-full font-bold">+</button>
+          </div>`}
+    </div>`;
+  }).join('');
+}
+
+function addToCart(i) {
+  const item = warungs.find(x => x.id === selectedWarungId).menu[i];
+  if (cart[item.nama]) cart[item.nama].qty++;
+  else cart[item.nama] = { item, qty: 1 };
+  updateCartBar();
+  renderMenu();
+}
+
+function changeQty(key, delta) {
+  cart[key].qty += delta;
+  if (cart[key].qty <= 0) delete cart[key];
+  updateCartBar();
+  renderMenu();
+}
+
+function updateCartBar() {
+  const bar = document.getElementById('cart-bar');
+  const count = Object.values(cart).reduce((s, c) => s + c.qty, 0);
+  const total = Object.values(cart).reduce((s, c) => s + c.item.harga * c.qty, 0);
+  if (count === 0) { bar.classList.add('hidden'); return; }
+  bar.classList.remove('hidden');
+  document.getElementById('cart-count-badge').textContent = count;
+  document.getElementById('cart-total').textContent = rupiah(total);
+}
+
+function checkout() {
+  const items = Object.values(cart);
+  if (items.length === 0) return;
+  const w = warungs.find(x => x.id === selectedWarungId);
+  const total = items.reduce((s, c) => s + c.item.harga * c.qty, 0);
+
+  const counter = parseInt(localStorage.getItem('kantin_counter') || '0') + 1;
+  localStorage.setItem('kantin_counter', counter);
+  const antrian = 'A-' + String(counter).padStart(3, '0');
+
+  const order = {
+    id: 'ORD-' + Date.now(),
+    antrian,
+    warungId: w.id,
+    warungNama: w.nama,
+    items: items.map(c => ({ nama: c.item.nama, harga: c.item.harga, qty: c.qty })),
+    total,
+    waktu: new Date().toLocaleString('id-ID'),
+    status: 'Dipesan'
+  };
+
+  const orders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+  orders.push(order);
+  localStorage.setItem('kantin_orders', JSON.stringify(orders));
+  localStorage.setItem('kantin_last_order_id', order.id);
+
+  showSuccess(order);
+}
+
+function showSuccess(order) {
+  document.getElementById('order-section').classList.add('hidden');
+  const sec = document.getElementById('success-section');
+  sec.classList.remove('hidden');
+  window.scrollTo({ top: 0 });
+
+  document.getElementById('antrian-number').textContent = order.antrian;
+  document.getElementById('success-waktu').textContent = order.waktu;
+  document.getElementById('success-warung').textContent = order.warungNama;
+  document.getElementById('success-items').innerHTML =
+    order.items.map(i => `<li class="flex justify-between"><span>${i.nama} ×${i.qty}</span><span>${rupiah(i.harga * i.qty)}</span></li>`).join('');
+  document.getElementById('success-total').textContent = rupiah(order.total);
+
+  const qrDiv = document.getElementById('qrcode');
+  qrDiv.innerHTML = '';
+  new QRCode(qrDiv, { text: order.id, width: 180, height: 180 });
+
+  updateStatusBadge(order.status);
+}
+
+function backToMenu() {
+  cart = {};
+  localStorage.removeItem('kantin_last_order_id');
+  updateCartBar();
+  document.getElementById('success-section').classList.add('hidden');
+  document.getElementById('order-section').classList.remove('hidden');
+  showWarungs();
+}
+
+function updateStatusBadge(status) {
+  const badge = document.getElementById('status-badge');
+  badge.textContent = status;
+  const styles = {
+    'Dipesan':       ['bg-blue-100', 'text-blue-700'],
+    'Diproses':      ['bg-yellow-100', 'text-yellow-700'],
+    'Siap':          ['bg-green-100', 'text-green-700'],
+    'Selesai':       ['bg-gray-200', 'text-gray-600']
+  };
+  const s = styles[status] || styles['Dipesan'];
+  badge.className = 'inline-block text-sm font-bold px-4 py-1.5 rounded-full mb-4 ' + s.join(' ');
+}
+
+renderWarungs();
+
+// On load: restore last order
+(function () {
+  const lastId = localStorage.getItem('kantin_last_order_id');
+  if (!lastId) return;
+  const orders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+  const order = orders.find(o => o.id === lastId);
+  if (order) showSuccess(order);
+})();
+
+// Polling status
+setInterval(() => {
+  if (document.getElementById('success-section').classList.contains('hidden')) return;
+  const lastId = localStorage.getItem('kantin_last_order_id');
+  if (!lastId) return;
+  const orders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+  const order = orders.find(o => o.id === lastId);
+  if (!order) return;
+  updateStatusBadge(order.status);
+}, 1000);
+</script>
+</body>
+</html>
