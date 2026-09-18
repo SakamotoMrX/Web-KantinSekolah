@@ -1,130 +1,151 @@
 {
   "research_metadata": {
-    "executed_at": "2026-09-19T05:46:00Z",
-    "task_context": "Machi cold brew coffee landing page redesign",
+    "executed_at": "2026-09-19T00:00:00Z",
+    "task_context": "Phase 0 research for multi-page Kantin Boash SaaS merchant dashboard — 8 visual patterns, Machi cold brew aesthetic alignment, penjual.html full redesign",
     "confidence": "HIGH"
   },
   "design_signals": {
     "recommended_color_system": {
-      "sky_gradient_start": "#87CEEB",
-      "sky_gradient_mid": "#B0E0E6",
-      "sky_gradient_end": "#E3F2FD",
-      "cream_white": "#FFFFFF",
-      "pastel_peach": "#FCE4D6",
-      "pastel_matcha": "#E2EFDA",
-      "pastel_mango": "#FFF2CC",
-      "pastel_berry": "#F8CECC",
-      "typography_primary": "#111111",
-      "typography_secondary": "#374151",
-      "typography_muted": "#6B7280",
-      "accent_blue": "#64B5F6",
-      "accent_blue_light": "#90CAF9",
-      "accent_green": "#4CAF50",
-      "dark_section_bg": "#111111",
-      "rationale": "Extracted from machi reference: sky blue atmosphere, white surfaces, pastel product tints, dark espresso typography"
+      "background": "#F0F9FF",
+      "surface": "#FFFFFF",
+      "primary": "#1A1A1A",
+      "accent": "#64B5F6",
+      "text_primary": "#1A1A1A",
+      "text_secondary": "#6B7280",
+      "status_new": "#E0F2FE",
+      "status_new_text": "#0369A1",
+      "status_preparing": "#FEF3C7",
+      "status_preparing_text": "#92400E",
+      "status_ready": "#D1FAE5",
+      "status_ready_text": "#065F46",
+      "status_done": "#F3F4F6",
+      "status_done_text": "#374151",
+      "rationale": "Exact Machi cold brew palette from REFERENCE-DESIGN.md. Espresso #1A1A1A for text, sky gradient #64B5F6→#B0E0E6→#F0F9FF for backgrounds. Status colors match existing index.html updateModalStatusBadge."
     },
     "recommended_typography": {
-      "heading_font": "Inter",
+      "heading_font": "Plus Jakarta Sans",
       "body_font": "Inter",
-      "display_font": "Inter Black 900 for hero and wordmark",
-      "rationale": "Bold grotesque sans-serif matches machi heavy display typography. Free via Google Fonts, has Black 900 weight"
+      "mono_font": null,
+      "rationale": "Existing Google Fonts already loaded in both index.html and penjual.html. Display weight: extrabold/black for headings. Body: regular/medium for descriptions."
     },
-    "recommended_animation_approach": "Pure CSS @keyframes float/float-slow/float-diagonal. Zero JS animation deps. One orchestrated moment: hero floating cups. Everything static.",
+    "recommended_animation_approach": "Minimal — CSS transitions only (hover:shadow-md, active:scale-95). No GSAP, no Framer Motion. Sound notification via Web Audio API oscillators.",
     "trending_components": [
-      "Floating beverage hero with parallax clouds",
-      "Pastel rounded product cards with hover lift",
-      "Editorial dark split banner with stat grid",
-      "Giant brand wordmark footer",
-      "Organic lifestyle banner with decorative floats"
+      "Live order card grid",
+      "Status filter pill tabs",
+      "Stat summary cards",
+      "Quick-action status advance buttons",
+      "Sound toggle control"
     ],
     "anti_patterns_to_avoid": [
-      "rainbow_gradients: Use specific sky blue palette only",
-      "motion_excess: One motion moment only (floating cups hero)",
-      "lorem ipsum: All copy must be real machi-style branding",
-      "card_jail: Use whitespace not 1px bordered cards",
-      "generic_hero: Immersive floating-object atmosphere, not left-text-right-image"
+      "Do not add heavy animation libraries (GSAP, Framer Motion) — vanilla CSS transitions only",
+      "Do not use generic orange/green/blue POS dashboard colors — stick to Machi palette",
+      "Do not create separate component files — all HTML/JS inline in single penjual.html",
+      "Do not add loading spinners or skeleton screens — orders load instantly from Redis",
+      "Do not use modals for status updates — inline card actions only",
+      "Do not add user authentication — merchant portal is open access (school environment)"
     ]
   },
   "library_decisions": {
-    "animation": { "library": "Pure CSS @keyframes", "version": "CSS3", "key_apis": ["@keyframes float", "@keyframes float-slow", "@keyframes float-diagonal", "animation-delay"] },
-    "ui_primitives": { "library": "Tailwind CSS CDN", "version": "3.x", "primitives": ["rounded-3xl", "backdrop-blur", "drop-shadow", "grid-cols-2 md:grid-cols-4"] }
+    "animation": { "library": "none", "version": "N/A", "key_apis": ["CSS transition", "CSS @keyframes (float)"] },
+    "icons": { "library": "emoji", "version": "N/A" },
+    "ui_primitives": { "library": "Tailwind CDN", "version": "3.x", "key_apis": ["utility classes"] },
+    "state": { "library": "vanilla JS", "version": "N/A", "key_apis": ["localStorage", "setInterval"] }
   },
   "proven_templates_and_kits": {
-    "recommended_templates": [
-      { "name": "HTML5 UP", "url": "https://html5up.net/", "archetype": "landing" },
-      { "name": "Cruip", "url": "https://cruip.com/free-templates/", "archetype": "landing" },
-      { "name": "Float UI", "url": "https://floatui.com/", "archetype": "landing" }
-    ],
-    "recommended_component_kits": [
-      { "name": "Tail-Kit", "url": "https://www.tailwind-kit.com/" },
-      { "name": "HyperUI", "url": "https://www.hyperui.dev/" },
-      { "name": "uiverse.io", "url": "https://uiverse.io/" }
-    ]
+    "brad_traversy_source": "N/A — project uses custom Machi design system, not third-party templates",
+    "recommended_templates": [],
+    "recommended_component_kits": []
   },
   "component_composition_sources": {
-    "css_animation_recipes": [
-      "float keyframe from builderz-labs/mission-control",
-      "cloud parallax from streetmix/streetmix",
-      "float-diagonal from ronisarkarexe/story-spark-ai"
-    ],
-    "local_components": [
-      { "name": "ShaderBackground", "path": "~/.config/opencode/src/components/ShaderBackground.jsx", "use_case": "Optional 3D fluid mesh gradient behind hero" },
-      { "name": "LiquidGlassPanel", "path": "~/.config/opencode/src/components/LiquidGlassPanel.jsx", "use_case": "Optional liquid glass refraction on pastel product cards" }
+    "existing_implementations": [
+      "index.html lines 974-1004 — pastel product card pattern (adapt for merchant order cards)",
+      "index.html lines 439-510 — editorial stats banner (adapt for stat summary cards)",
+      "index.html lines 1315-1332 — status badge color system (reuse exact classes)",
+      "penjual.html lines 30-80 — existing order list + status update logic (preserve API contract)"
     ],
     "zero_scratch_mandate": true
   },
   "community_verdict": {
-    "sentiment_summary": "CSS @keyframes preferred over JS libraries for float/pulse effects. Lower bundle, GPU-accelerated.",
+    "sentiment_summary": "N/A — school canteen internal app, no external community signals needed. Design decisions grounded in existing Machi aesthetic + REFERENCE-DESIGN.md spec.",
     "key_warnings": [
-      "No Framer Motion for simple float animations — pure CSS lighter",
-      "Build custom sky gradient with exact hex stops, not generic Tailwind classes",
-      "Use animation-delay for staggered entry to avoid robotic synchronous floating"
+      "Do not change API contract — penjual.html and index.html share same backend",
+      "Do not add dependencies — project is vanilla HTML/JS/Tailwind CDN",
+      "Do not break existing order flow — status must progress Dipesan→Diterima→Disiapkan→Siap Diambil→Selesai"
     ],
     "key_endorsements": [
-      "Tailwind CSS for utility styling — already in project via CDN",
-      "CSS @keyframes for floating elements — proven in 3+ repos",
-      "Pure HTML for giant wordmark — text-[16rem] font-black, no JS needed"
+      "Reuse exact status badge colors from index.html updateModalStatusBadge",
+      "Follow existing Tailwind class patterns (rounded-3xl, shadow-sm, border-gray-100)",
+      "Keep polling at 1.5s interval (existing pattern)"
     ]
   },
   "github_signals": {
-    "reference_repos": [
-      { "name": "builderz-labs/mission-control", "why_relevant": "Float animation keyframes" },
-      { "name": "streetmix/streetmix", "why_relevant": "Cloud parallax sky system" },
-      { "name": "ronisarkarexe/story-spark-ai", "why_relevant": "Float-diagonal keyframe" },
-      { "name": "ColorlibHQ/velora-ui", "why_relevant": "Editorial landing patterns" },
-      { "name": "Uniswap/interface", "why_relevant": "TokenCloud hero parallax" }
-    ],
+    "reference_repos": [],
     "pattern_evidence": [
-      "CSS float: translateY(0)->translateY(-6px)->translateY(0) universal across 3+ repos",
-      "Cloud parallax: REAR 0.25, FRONT 0.5 speed proven sky layering",
-      "Float-diagonal: translateY(-20px) translateX(10px) natural drift",
-      "Giant wordmark: text-[8-16rem] font-black pure CSS pattern"
+      "Existing index.html is the primary reference — 1402 lines of battle-tested Machi aesthetic code",
+      "penjual.html preserves API compatibility with api/orders.js (GET/POST/PATCH/DELETE)",
+      "test/orders.test.js validates all status transitions and edge cases"
     ]
   },
   "ui_precedents": [
-    "Machi cold brew reference: sky gradient hero, floating cups, pastel cards, editorial stats, wordmark footer",
-    "Dribbble cold brew landing: blue sky + floating beverage compositions",
-    "Awwwards coffee brand: bold typography + pastel product showcases"
+    "Dribbble POS/cafe dashboard references (screenshots/ref-dribbble.png)",
+    "Current index.html pastel card system as merchant card template",
+    "Machi cold brew aesthetic from REFERENCE-DESIGN.md"
   ],
   "design_references": [
-    "screenshots/ref-dribbble.png",
-    "capabilities/visual-effects.json",
-    "~/.config/opencode/src/components/ShaderBackground.jsx",
-    "~/.config/opencode/src/components/LiquidGlassPanel.jsx"
+    "screenshots/REFERENCE-DESIGN.md — complete Machi design spec",
+    "screenshots/ref-dribbble.png — Dribbble POS references",
+    "screenshots/baseline-penjual.png — current penjual.html baseline",
+    "screenshots/baseline-current.png — current index.html baseline"
   ],
-  "token_overrides": {
-    "--sky-gradient-start": "#87CEEB",
-    "--sky-gradient-mid": "#B0E0E6",
-    "--sky-gradient-end": "#E3F2FD",
-    "--pastel-peach": "#FCE4D6",
-    "--pastel-matcha": "#E2EFDA",
-    "--pastel-mango": "#FFF2CC",
-    "--pastel-berry": "#F8CECC",
-    "--accent-blue": "#64B5F6",
-    "--accent-blue-light": "#90CAF9",
-    "--text-primary": "#111111",
-    "--text-secondary": "#374151",
-    "--text-muted": "#6B7280"
-  },
+  "covered_patterns": [
+    {
+      "component_key": "hero-floating-cups",
+      "source_url": "index.html lines 59-118",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "cloud-parallax-sky",
+      "source_url": "index.html lines 59-76",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "pastel-product-card",
+      "source_url": "index.html lines 974-1004",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "editorial-stats-banner",
+      "source_url": "index.html lines 439-510",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "organic-lifestyle-banner",
+      "source_url": "index.html lines 547-602",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "giant-wordmark-footer",
+      "source_url": "index.html lines 605-678",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "merchant-dashboard-pos",
+      "source_url": "penjual.html",
+      "recipe_type": "needs_redesign",
+      "status": "in_progress"
+    },
+    {
+      "component_key": "order-status-timeline",
+      "source_url": "index.html lines 1315-1332",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    }
+  ],
   "research_complete": true
 }

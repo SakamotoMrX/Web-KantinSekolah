@@ -1,100 +1,27 @@
 {
-  "mission_id": "ship-20260919-054742",
-  "scanned_at": "2026-09-19T05:53:00Z",
   "target_platform": "WEB",
+  "is_greenfield": false,
+  "style_system": "tailwind-cdn",
   "triage_tier": "STANDARD",
-  "triage_rationale": "Brownfield codebase: 2 HTML entry points (index.html for siswa, penjual.html for penjual) + 1 serverless API handler (api/orders.js) = 4 core source files. STANDARD tier justified by: non-trivial blast radius between seller dashboard and student ordering flows sharing the /api/orders contract, cross-tab sync via localStorage + 1.5s polling, order status lifecycle state machine touching both pages, and design improvisation requirement adding UI risk.",
-  "framework": "Vanilla HTML + JS (no framework) — Tailwind CSS CDN, qrcode.js 1.0.0 CDN, deployed on Vercel as serverless functions with cleanUrls",
-  "architectural_patterns": {
-    "state_management": "localStorage (kantin_orders, kantin_counter, kantin_last_order_id) with globalThis in-memory fallback on serverless cold start",
-    "data_fetching": "Fetch API to /api/orders (Vercel serverless) with 1.5s polling interval + localStorage fallback for offline mode",
-    "routing": "Static multi-page (index.html for siswa, penjual.html for penjual) via Vercel cleanUrls — no client-side router",
-    "styling_engine": "Tailwind CSS via CDN script tag (tailwindcss CDN), no build step",
-    "orm_database": "Upstash Redis (^1.34.0, optional) + globalThis in-memory array fallback",
-    "qr_generation": "qrcodejs 1.0.0 (CDN) for order QR codes",
-    "order_lifecycle": "State machine: Dipesan → Diterima → Disiapkan → Siap Diambil → Selesai",
-    "deployment": "Vercel serverless functions (api/orders.js) with vercel.json cleanUrls: true"
-  },
   "entry_points": [
     "index.html",
     "penjual.html",
     "api/orders.js"
   ],
-  "blast_radius": {
-    "target_modules": [
-      "api/orders.js",
-      "index.html",
-      "penjual.html"
-    ],
-    "dependent_consumers": [
-      "index.html (fetch('/api/orders') for GET all orders, POST new order, PATCH status, 1.5s polling)",
-      "penjual.html (fetch('/api/orders') for GET all orders, PATCH status, DELETE clear, filter/stats computation)",
-      "localStorage keys: kantin_orders (array), kantin_counter (integer), kantin_last_order_id (string)",
-      "globalThis._kantin_orders and globalThis._kantin_counter (in-memory serverless fallback)",
-      "QRCode div (#qrcode) in index.html success section"
-    ],
-    "estimated_affected_files": 4
-  },
   "dependencies": {
-    "ui_framework": "Tailwind CSS (CDN, no build step)",
-    "qr_library": "qrcodejs 1.0.0 (CDN)",
-    "state": "localStorage + globalThis in-memory fallback",
-    "runtime": "Vercel serverless functions",
-    "database_optional": "@upstash/redis ^1.34.0",
-    "platform": "Vercel (vercel.json cleanUrls: true)",
-    "build_toolchain": "None — pure static HTML served by Vercel",
-    "language": "Vanilla JavaScript (ES modules in api/orders.js)",
-    "conflicts": []
+    "tailwindcss": "cdn",
+    "qrcodejs": "cdn"
   },
-  "conflicts_detected": [],
-  "complexity_warnings": [
-    {
-      "path": "index.html",
-      "lines": 337,
-      "warning": "Exceeds 200 lines — all UI logic and state management in single monolithic script tag, no separation of concerns"
-    },
-    {
-      "path": "penjual.html",
-      "lines": 186,
-      "warning": "Exceeds 200 lines — similar monolithic script pattern with polling and status workflow logic"
-    },
-    {
-      "path": "api/orders.js",
-      "lines": 149,
-      "warning": "Exceeds 100 lines — single handler function mixing Redis and in-memory logic paths"
-    }
-  ],
-  "debug_recon": {
-    "is_retry_task": false,
-    "suspect_files": []
+  "planned_pages": {
+    "index.html": "Landing page for Kantin Boash with brand story, hero float, fan favorites showcase, and navigation links",
+    "menu.html": "Full ordering catalog with warung filters, product cards, cart drawer, and checkout",
+    "status.html": "Dedicated live order tracking page with queue timeline, polling, and QR code",
+    "penjual.html": "Dedicated separate merchant/seller dashboard portal matching modern cafe POS aesthetic"
   },
-  "unknowns": [
-    "No .opencode/design-system.json found — design tokens may not be established yet for improvisation phase",
-    "No screenshots/ directory contents — baseline visual recon may not have been captured before redesign",
-    "Request mentions 'referensi desain seperti ini' but no design reference image provided in manifest or workspace",
-    "No TypeScript/build toolchain detected — pure vanilla JS means no tsc type checking available",
-    "No .opencode/artifacts/phase-0-visual-baseline.json found — observer baseline may not exist yet",
-    "Design improvisation scope is ambiguous — could mean visual redesign, UX flow improvement, or both"
-  ],
-  "ready_for_oracle": true,
-  "is_greenfield": false,
+  "brand_name": "Kantin Boash",
   "recon_complete": true,
-  "style_system": "tailwind-cdn",
-  "entry_points_details": [
-    {
-      "path": "index.html",
-      "type": "page_siswa",
-      "description": "Student pre-order interface: warung selection grid, menu ordering with cart, checkout, QR code generation, real-time status tracking via polling"
-    },
-    {
-      "path": "penjual.html",
-      "type": "page_penjual",
-      "description": "Seller dashboard: real-time order management, status workflow progression, filter by status, statistics cards, batch delete"
-    },
-    {
-      "path": "api/orders.js",
-      "type": "api_route",
-      "description": "Vercel serverless function: GET/POST/PATCH/DELETE for order CRUD with Upstash Redis or in-memory globalThis fallback, CORS enabled"
-    }
+  "planned_entry_points": [
+    "menu.html",
+    "status.html"
   ]
 }

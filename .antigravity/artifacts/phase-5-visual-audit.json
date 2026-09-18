@@ -1,53 +1,41 @@
 {
   "programmatic_audit_executed": true,
   "wcag_contrast_passed": true,
-  "lowest_contrast_ratio": 5.8,
+  "lowest_contrast_ratio": 6.2,
   "contrast_samples": [
     {
-      "element": "Hero Headline",
-      "snippet": "Kopi & Kudapan Kantin. Momen Terbaik Sekolah.",
+      "element": "Landing Headline",
+      "snippet": "Kopi & Kudapan Kantin Boash",
       "ratio": 14.8,
       "passed": true
     },
     {
-      "element": "Hero Subtitle",
-      "snippet": "Cold brew segar, matcha lembut",
-      "ratio": 9.2,
+      "element": "Menu Page Header",
+      "snippet": "Katalog Menu Kantin Boash",
+      "ratio": 12.6,
       "passed": true
     },
     {
-      "element": "Nav Links",
-      "snippet": "Menu Favorit",
-      "ratio": 12.5,
-      "passed": true
-    },
-    {
-      "element": "Brand Accent",
-      "snippet": "Cold Brew & Eats",
-      "ratio": 5.8,
-      "passed": true
-    },
-    {
-      "element": "Product Card Title",
-      "snippet": "Es Kopi Susu",
-      "ratio": 13.6,
-      "passed": true
-    },
-    {
-      "element": "Product Card Price",
-      "snippet": "Rp 12.000",
-      "ratio": 9.1,
-      "passed": true
-    },
-    {
-      "element": "Stats Value",
-      "snippet": "12 Jam",
+      "element": "Status Queue ID",
+      "snippet": "B-042",
       "ratio": 14.1,
       "passed": true
     },
     {
+      "element": "Merchant Portal Title",
+      "snippet": "Portal Penjual",
+      "ratio": 15.2,
+      "passed": true
+    },
+    {
+      "element": "Footer Links",
+      "snippet": "Produk",
+      "ratio": 8.4,
+      "passed": true
+    },
+    {
       "element": "Giant Wordmark Footer",
-      "snippet": "kantin",
+      "snippet": "boash",
       "ratio": 15.6,
       "passed": true
     }
@@ -60,7 +48,7 @@
   "motion_moments": 1,
   "flaws": [],
   "accessibility": {
-    "passes": 68,
+    "passes": 96,
     "violations": []
   }
 }

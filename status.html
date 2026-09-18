@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status Pesanan — Kantin Boash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            espresso: '#1A1A1A',
+            sky: {
+              top: '#64B5F6',
+              mid: '#B0E0E6',
+              soft: '#F0F9FF',
+            },
+            pastel: {
+              peach: '#FCE4D6',
+              matcha: '#E2EFDA',
+              mango: '#FFF2CC',
+              berry: '#F8CECC',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Orchestrated Motion Moment: Pulse indicator on active status stage */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-ring-active {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pulse-ring-active {
+        animation: none !important;
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid #1A1A1A !important;
+      outline-offset: 2px !important;
+    }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 2px solid #1A1A1A !important;
+      outline-offset: 2px !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F0F9FF;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-espresso font-sans antialiased selection:bg-sky-200 selection:text-espresso overflow-x-hidden w-full max-w-full">
+
+  <!-- ========================================================================= -->
+  <!-- TOP NAVIGATION BAR                                                        -->
+  <!-- ========================================================================= -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-sky-100/70 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group" aria-label="Kembali ke Beranda Kantin Boash">
+        <div class="w-11 h-11 rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-xl tracking-tighter shadow-md group-hover:scale-105 transition">
+          b
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boash</span>
+          <span class="text-xs font-bold text-[#0369A1] tracking-wide mt-0.5">Status Pesanan</span>
+        </div>
+      </a>
+
+      <!-- Center Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-700" aria-label="Navigasi Pelacak">
+        <a href="index.html" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Beranda</a>
+        <a href="menu.html" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Katalog Menu</a>
+        <a href="status.html" class="text-[#0369A1] font-bold py-3 px-3 inline-flex items-center min-h-[44px]">Cek Pesanan</a>
+      </nav>
+
+      <!-- Right Action: Back to Menu -->
+      <div class="flex items-center gap-3">
+        <a href="menu.html" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-espresso text-white text-xs font-bold hover:bg-black transition shadow-xs min-h-[44px]">
+          <span>+</span> Pesan Menu Lain
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="overflow-x-hidden w-full max-w-full w-full max-w-full pt-28 pb-20">
+
+    <!-- Atmospheric Sky Header -->
+    <div class="bg-gradient-to-b from-[#64B5F6]/20 via-[#B0E0E6]/15 to-transparent pt-8 pb-10 border-b border-sky-100/30">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-sky-100 text-sky-800 text-xs font-bold mb-3 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 "></span>
+          Live Polling Real-time (2 detik)
+        </div>
+        <h1 class="font-display font-black text-3xl sm:text-4xl text-espresso tracking-tight">
+          Status Pesanan Kamu
+        </h1>
+        <p class="text-xs sm:text-sm text-gray-600 mt-2">
+          Pantau antrean secara langsung dan ambil pesananmu tepat waktu di loket.
+        </p>
+      </div>
+    </div>
+
+    <!-- Container Content -->
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 mt-8">
+
+      <!-- ========================================================================= -->
+      <!-- 1. EMPTY STATE (IF NO ORDER FOUND)                                        -->
+      <!-- ========================================================================= -->
+      <div id="empty-state" class="hidden bg-white rounded-[28px] p-8 sm:p-14 border border-gray-100 shadow-sm text-center">
+        <div class="w-20 h-20 mx-auto bg-sky-50 text-[#0369A1] rounded-3xl flex items-center justify-center text-4xl mb-4">
+          ☕
+        </div>
+        <h2 class="font-display font-black text-2xl text-espresso mb-2">Tidak Ada Pesanan Aktif</h2>
+        <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto mb-8 leading-relaxed">
+          Kamu belum memiliki pesanan aktif saat ini. Yuk buat pesanan makanan atau minuman segar dari menu sebelum jam istirahat!
+        </p>
+        <a href="menu.html" class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-espresso hover:bg-black text-white font-display font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition active:scale-95 min-h-[44px]">
+          <span>Mulai Pesan di Menu</span>
+          <span></span>
+        </a>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- 2. ORDER QUEUE CARD (ACTIVE ORDER FOUND)                                  -->
+      <!-- ========================================================================= -->
+      <div id="active-order-card" class="space-y-6">
+
+        <!-- Top Ticket Banner -->
+        <div class="bg-white rounded-[28px] p-6 sm:p-8 border border-gray-100 shadow-sm relative overflow-hidden">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-100">
+            <div>
+              <p class="text-[11px] font-bold text-slate-300 tracking-normal">Nomor Antrean</p>
+              <h2 id="queue-number-display" class="font-display font-black text-5xl sm:text-6xl text-[#0369A1] tracking-tight mt-1">
+                B-042
+              </h2>
+            </div>
+            <div class="text-left sm:text-right">
+              <span id="live-status-pill" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-black bg-sky-100 text-sky-800 shadow-xs">
+                <span class="w-2 h-2 rounded-full bg-sky-600"></span>
+                <span id="live-status-text">Menunggu Konfirmasi</span>
+              </span>
+              <p class="text-[11px] text-slate-300 mt-2" id="order-time-display">Dipesan: --:-- WIB</p>
+            </div>
+          </div>
+
+          <!-- Pickup Alert Notice (Appears when ready) -->
+          <div id="ready-pickup-alert" class="hidden mt-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center gap-3">
+            <span class="text-2xl">🎉</span>
+            <div>
+              <p class="font-display font-black text-sm">Pesanan Sudah Siap!</p>
+              <p class="text-xs text-emerald-700 mt-0.5">Silakan datang ke loket kantin sekarang dan tunjukkan QR Code kamu.</p>
+            </div>
+          </div>
+
+          <!-- 4-Step Visual Stepper -->
+          <div class="mt-8 pt-2">
+            <p class="text-xs font-bold text-slate-400 mb-6">Tahapan Proses Pesanan:</p>
+            
+            <div class="relative grid grid-cols-4 gap-2 text-center">
+              
+              <!-- Step 1: Menunggu Konfirmasi -->
+              <div class="flex flex-col items-center step-col" id="step-1">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition border-2 border-sky-500 bg-sky-500 text-white step-circle">
+                  1
+                </div>
+                <p class="font-bold text-[11px] sm:text-xs text-espresso mt-2 leading-tight">Menunggu Konfirmasi</p>
+                <p class="text-[10px] text-slate-300 hidden sm:block mt-0.5">Kantin menerima pesanan</p>
+              </div>
+
+              <!-- Step 2: Sedang Dimasak / Disiapkan -->
+              <div class="flex flex-col items-center step-col" id="step-2">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition border-2 border-gray-200 bg-gray-50 text-slate-300 step-circle">
+                  2
+                </div>
+                <p class="font-bold text-[11px] sm:text-xs text-slate-300 mt-2 leading-tight">Sedang Dimasak</p>
+                <p class="text-[10px] text-slate-300 hidden sm:block mt-0.5">Koki sedang membuat</p>
+              </div>
+
+              <!-- Step 3: Siap Diambil -->
+              <div class="flex flex-col items-center step-col" id="step-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition border-2 border-gray-200 bg-gray-50 text-slate-300 step-circle">
+                  3
+                </div>
+                <p class="font-bold text-[11px] sm:text-xs text-slate-300 mt-2 leading-tight">Siap Diambil</p>
+                <p class="text-[10px] text-slate-300 hidden sm:block mt-0.5">Silakan datang ke kantin!</p>
+              </div>
+
+              <!-- Step 4: Selesai -->
+              <div class="flex flex-col items-center step-col" id="step-4">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition border-2 border-gray-200 bg-gray-50 text-slate-300 step-circle">
+                  4
+                </div>
+                <p class="font-bold text-[11px] sm:text-xs text-slate-300 mt-2 leading-tight">Selesai</p>
+                <p class="text-[10px] text-slate-300 hidden sm:block mt-0.5">Pesanan tuntas</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Middle Row: QR Code & Pickup Verification -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+          
+          <!-- QR Card (5 cols) -->
+          <div class="md:col-span-5 bg-white rounded-[28px] p-6 border border-gray-100 shadow-sm text-center">
+            <p class="text-xs font-bold text-gray-700 mb-4">Kode Verifikasi Loket</p>
+            <div class="flex justify-center mb-4">
+              <div id="qrcode-box" class="p-3 bg-white border border-gray-200 rounded-2xl shadow-inner inline-block"></div>
+            </div>
+            <p class="text-[11px] text-slate-400 max-w-[200px] mx-auto leading-relaxed">
+              Tunjukkan kode QR ini kepada petugas kasir untuk verifikasi pengambilan.
+            </p>
+            <p class="text-[10px] font-mono text-slate-300 mt-3" id="order-id-display">ID: ORD-...</p>
+          </div>
+
+          <!-- Order Items Details Summary (7 cols) -->
+          <div class="md:col-span-7 bg-white rounded-[28px] p-6 border border-gray-100 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+                <div>
+                  <p class="text-xs font-bold text-espresso" id="order-student-name">Nama: Siswa</p>
+                  <p class="text-[11px] text-slate-400" id="order-student-class">Kelas: -</p>
+                </div>
+                <span class="text-xs font-extrabold text-sky-800 bg-sky-50 px-3 py-1 rounded-full border border-sky-100" id="order-warung-badge">
+                  Kantin Boash
+                </span>
+              </div>
+
+              <div class="space-y-2.5 max-h-60 overflow-y-auto pr-1" id="order-items-list">
+                <!-- Items list injected dynamically -->
+              </div>
+            </div>
+
+            <!-- Notes & Total -->
+            <div class="pt-4 mt-4 border-t border-gray-100 space-y-2">
+              <div id="order-notes-box" class="hidden text-[11px] bg-amber-50 text-amber-800 p-2.5 rounded-xl border border-amber-100">
+                <span class="font-bold">Catatan: </span><span id="order-notes-text">-</span>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <span class="text-xs font-bold text-slate-400">Total Harga:</span>
+                <span class="font-display font-black text-xl text-espresso" id="order-total-display">Rp 0</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Actions Row -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+          <button onclick="pollOrderStatus(true)" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white hover:bg-gray-50 text-espresso font-bold text-xs border border-gray-200 shadow-xs transition min-h-[44px]">
+            <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            <span>Refresh Status</span>
+          </button>
+
+          <a href="menu.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-espresso hover:bg-black text-white font-display font-bold text-xs tracking-wide shadow-md transition active:scale-95 min-h-[44px]">
+            <span>Pesan Menu Lain</span>
+            <span></span>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER WITH GIANT WORDMARK BOASH                                          -->
+  <!-- ========================================================================= -->
+  <footer class="bg-espresso text-white pt-20 pb-12 overflow-hidden relative mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-16 border-b border-white/10 text-sm">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-white text-espresso flex items-center justify-center font-display font-black text-lg">
+              b
+            </div>
+            <span class="font-display font-black text-2xl tracking-tight text-white">Kantin Boash</span>
+          </div>
+          <p class="text-xs text-slate-300 max-w-sm leading-relaxed">
+            Pantau antrean pesananmu dengan mudah. Hadir saat nomor antrean dipanggil untuk kenyamanan bersama.
+          </p>
+        </div>
+
+        <div>
+          <p class="font-bold text-white text-xs tracking-normal mb-4">Tautan Siswa</p>
+          <ul class="space-y-2.5 text-xs text-slate-300">
+            <li><a href="index.html" class="hover:text-white transition">Beranda</a></li>
+            <li><a href="menu.html" class="hover:text-white transition">Katalog Menu</a></li>
+            <li><a href="status.html" class="hover:text-white transition">Cek Status Pesanan</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="font-bold text-white text-xs tracking-normal mb-4">Portal Pengelola</p>
+          <ul class="space-y-2.5 text-xs text-slate-300">
+            <li><a href="penjual.html" class="hover:text-white transition">Portal Penjual (POS)</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Giant Wordmark boash -->
+      <div class="py-12 select-none pointer-events-none overflow-hidden text-center">
+        <p class="text-[12rem] md:text-[16rem] font-black tracking-tight leading-none text-center select-none text-white/90 font-display">
+          boash
+        </p>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        <p>© 2026 Kantin Boash. Momen Terbaik Sekolah.</p>
+        <p>Pengambilan Cepat - Loket Jalur Khusus</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- LIVE STATUS JAVASCRIPT LOGIC                                              -->
+  <!-- ========================================================================= -->
+  <script>
+    const API_URL = '/api/orders';
+    let activeOrderId = null;
+    let qrRendered = false;
+    let pollingTimer = null;
+
+    function rupiah(n) {
+      return 'Rp ' + Number(n).toLocaleString('id-ID');
+    }
+
+    function getOrderIdFromUrlOrStorage() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlId = urlParams.get('id');
+      if (urlId) return urlId;
+
+      return localStorage.getItem('kantin_active_order_id') || 
+             localStorage.getItem('kantin_last_order_id') || 
+             localStorage.getItem('kantin_pesanan_aktif') || 
+             null;
+    }
+
+    async function fetchOrderData(orderId) {
+      // 1. Try Live API
+      try {
+        const res = await fetch(API_URL);
+        if (res.ok) {
+          const list = await res.json();
+          if (Array.isArray(list)) {
+            const found = list.find(o => o.id === orderId);
+            if (found) return found;
+          }
+        }
+      } catch (e) {
+        // Fallback to local
+      }
+
+      // 2. Try Fallback LocalStorage
+      try {
+        const fallbackList = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+        const found = fallbackList.find(o => o.id === orderId);
+        if (found) return found;
+      } catch {}
+
+      return null;
+    }
+
+    async function pollOrderStatus(manual = false) {
+      if (!activeOrderId) {
+        showEmptyState();
+        return;
+      }
+
+      const order = await fetchOrderData(activeOrderId);
+      if (!order) {
+        // If not found at all, show empty
+        showEmptyState();
+        return;
+      }
+
+      renderOrderDetails(order);
+    }
+
+    function showEmptyState() {
+      document.getElementById('empty-state').classList.remove('hidden');
+      document.getElementById('active-order-card').classList.add('hidden');
+    }
+
+    function renderOrderDetails(order) {
+      document.getElementById('empty-state').classList.add('hidden');
+      document.getElementById('active-order-card').classList.remove('hidden');
+
+      // 1. Queue Number
+      const queueNumber = order.antrian || order.queueNumber || 'B-042';
+      document.getElementById('queue-number-display').textContent = queueNumber;
+
+      // 2. Order ID
+      document.getElementById('order-id-display').textContent = 'ID: ' + order.id;
+
+      // 3. Student details
+      document.getElementById('order-student-name').textContent = 'Nama: ' + (order.studentName || order.nama || 'Siswa');
+      document.getElementById('order-student-class').textContent = 'Kelas: ' + (order.studentClass || order.kelas || '-');
+      document.getElementById('order-warung-badge').textContent = order.warungNama || 'Kantin Boash';
+
+      // 4. Time
+      if (order.createdAt) {
+        const date = new Date(order.createdAt);
+        const timeStr = !isNaN(date.getTime()) 
+          ? date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB'
+          : 'Baru saja';
+        document.getElementById('order-time-display').textContent = 'Dipesan: ' + timeStr;
+      }
+
+      // 5. Notes
+      const notes = order.notes || order.catatan;
+      const notesBox = document.getElementById('order-notes-box');
+      const notesText = document.getElementById('order-notes-text');
+      if (notes && notes.trim().length > 0) {
+        notesBox.classList.remove('hidden');
+        notesText.textContent = notes;
+      } else {
+        notesBox.classList.add('hidden');
+      }
+
+      // 6. Items list
+      const itemsContainer = document.getElementById('order-items-list');
+      const items = order.items || [];
+      itemsContainer.innerHTML = items.map(it => {
+        const name = it.nama || it.name;
+        const qty = it.qty || it.quantity || 1;
+        const price = it.harga !== undefined ? it.harga : it.price;
+        return `
+          <div class="flex items-center justify-between text-xs py-1 border-b border-gray-50 last:border-0">
+            <div>
+              <span class="font-bold text-espresso">${name}</span>
+              <span class="text-slate-300 font-medium ml-1">×${qty}</span>
+            </div>
+            <span class="font-bold text-espresso">${rupiah(price * qty)}</span>
+          </div>
+        `;
+      }).join('');
+
+      // 7. Total Price
+      const total = order.total || order.totalAmount || 0;
+      document.getElementById('order-total-display').textContent = rupiah(total);
+
+      // 8. Stepper and Status Badge
+      updateStepperAndBadge(order.status || 'Dipesan');
+
+      // 9. QR Code
+      if (!qrRendered) {
+        const qrBox = document.getElementById('qrcode-box');
+        qrBox.innerHTML = '';
+        new QRCode(qrBox, {
+          text: order.id,
+          width: 140,
+          height: 140,
+          colorDark: '#1A1A1A',
+          colorLight: '#FFFFFF',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+        qrRendered = true;
+      }
+    }
+
+    function updateStepperAndBadge(status) {
+      // Standardize status:
+      // Step 1: Dipesan / menunggu
+      // Step 2: Diterima / Disiapkan / dimasak
+      // Step 3: Siap Diambil / siap
+      // Step 4: Selesai / selesai
+
+      let currentStep = 1;
+      let badgeLabel = 'Menunggu Konfirmasi';
+      let badgeClass = 'bg-sky-100 text-sky-800';
+      let dotColor = 'bg-sky-600';
+
+      const s = status.toLowerCase();
+
+      if (s === 'dipesan' || s === 'menunggu') {
+        currentStep = 1;
+        badgeLabel = 'Menunggu Konfirmasi';
+        badgeClass = 'bg-sky-100 text-sky-800';
+        dotColor = 'bg-sky-600';
+      } else if (s === 'diterima' || s === 'disiapkan' || s === 'dimasak') {
+        currentStep = 2;
+        badgeLabel = 'Sedang Dimasak / Disiapkan';
+        badgeClass = 'bg-amber-100 text-amber-800';
+        dotColor = 'bg-amber-600';
+      } else if (s === 'siap diambil' || s === 'siap') {
+        currentStep = 3;
+        badgeLabel = 'Siap Diambil!';
+        badgeClass = 'bg-emerald-100 text-emerald-800 ';
+        dotColor = 'bg-emerald-600';
+      } else if (s === 'selesai') {
+        currentStep = 4;
+        badgeLabel = 'Pesanan Selesai';
+        badgeClass = 'bg-gray-100 text-gray-700';
+        dotColor = 'bg-gray-600';
+      }
+
+      // Update Pill
+      const pill = document.getElementById('live-status-pill');
+      pill.className = `inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-black shadow-xs ${badgeClass}`;
+      pill.innerHTML = `<span class="w-2 h-2 rounded-full ${dotColor}"></span><span>${badgeLabel}</span>`;
+
+      // Pickup Alert Notice
+      const alertBox = document.getElementById('ready-pickup-alert');
+      if (currentStep === 3) {
+        alertBox.classList.remove('hidden');
+      } else {
+        alertBox.classList.add('hidden');
+      }
+
+      // Update 4 Stepper circles & labels
+      for (let i = 1; i <= 4; i++) {
+        const stepCol = document.getElementById(`step-${i}`);
+        const circle = stepCol.querySelector('.step-circle');
+        const title = stepCol.querySelector('p:first-of-type');
+
+        if (i < currentStep) {
+          // Completed step
+          circle.className = 'w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition border-2 border-emerald-500 bg-emerald-500 text-white step-circle shadow-xs';
+          circle.innerHTML = '✓';
+          title.className = 'font-bold text-[11px] sm:text-xs text-emerald-800 mt-2 leading-tight';
+        } else if (i === currentStep) {
+          // Active step
+          circle.className = 'w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition border-2 border-sky-500 bg-sky-500 text-white step-circle shadow-md pulse-ring-active';
+          circle.innerHTML = i;
+          title.className = 'font-black text-[11px] sm:text-xs text-[#0369A1] mt-2 leading-tight';
+        } else {
+          // Upcoming step
+          circle.className = 'w-10 h-10 rounded-full flex items-center justify-center font-black text-xs transition border-2 border-gray-200 bg-gray-50 text-slate-300 step-circle';
+          circle.innerHTML = i;
+          title.className = 'font-bold text-[11px] sm:text-xs text-slate-300 mt-2 leading-tight';
+        }
+      }
+    }
+
+    // Startup
+    document.addEventListener('DOMContentLoaded', () => {
+      activeOrderId = getOrderIdFromUrlOrStorage();
+      pollOrderStatus();
+
+      // Poll every 2 seconds
+      pollingTimer = setInterval(() => {
+        pollOrderStatus();
+      }, 2000);
+    });
+
+    // Cleanup on pagehide
+    window.addEventListener('pagehide', () => {
+      if (pollingTimer) clearInterval(pollingTimer);
+    });
+  </script>
+</body>
+</html>

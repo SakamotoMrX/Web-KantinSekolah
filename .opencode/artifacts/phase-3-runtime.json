@@ -2,9 +2,27 @@
   "server_url": "http://localhost:3000",
   "status_code": 200,
   "hydration_verified": true,
-  "dom_element_count": 476,
-  "visible_text_length": 1534,
+  "dom_element_count": 247,
+  "visible_text_length": 2567,
   "runtime_errors": [],
   "live_screenshot": "screenshots/verification-live.png",
-  "verified_at": "2026-09-19T10:00:00.000Z"
+  "routes_verified": [
+    {
+      "path": "/index.html",
+      "status": 200
+    },
+    {
+      "path": "/menu.html",
+      "status": 200
+    },
+    {
+      "path": "/status.html",
+      "status": 200
+    },
+    {
+      "path": "/penjual.html",
+      "status": 200
+    }
+  ],
+  "verified_at": "2026-09-18T23:51:04.422Z"
 }

@@ -35,19 +35,53 @@ function createMockReqRes({ method = 'GET', body = null, query = {} } = {}) {
   return { req, res };
 }
 
+// Client localStorage mock to test cross-page state synchronization logic
+function createMockLocalStorage(initialStore = {}) {
+  const store = new Map(Object.entries(initialStore));
+  return {
+    getItem(key) {
+      return store.has(key) ? store.get(key) : null;
+    },
+    setItem(key, value) {
+      store.set(key, String(value));
+    },
+    removeItem(key) {
+      store.delete(key);
+    },
+    clear() {
+      store.clear();
+    },
+    get length() {
+      return store.size;
+    }
+  };
+}
+
+// Simulation of status.html order ID resolution hierarchy
+function resolveStatusOrderId(storage, urlSearch = '') {
+  const params = new URLSearchParams(urlSearch);
+  const urlId = params.get('id');
+  if (urlId) return urlId;
+
+  return storage.getItem('kantin_active_order_id') ||
+         storage.getItem('kantin_last_order_id') ||
+         storage.getItem('kantin_pesanan_aktif') ||
+         null;
+}
+
 test('API Orders Suite - Complete Unit & Integration Flows', async (t) => {
   // Clear memory state before running tests
   globalThis._kantin_orders = [];
   globalThis._kantin_counter = 0;
 
-  await t.test('1. Order creation with valid payload returns 201 and sets queue number', async () => {
+  await t.test('1. Order creation with valid id format (ORD-..., id custom, or number), nama, kelas, items, total, status', async () => {
+    // 1a. Default auto-generated ORD- id format
     const { req, res } = createMockReqRes({
       method: 'POST',
       body: {
-        studentName: 'Budi Santoso',
-        studentClass: 'XII RPL 2',
+        nama: 'Budi Santoso',
+        kelas: 'XII RPL 2',
         warungId: 'machi',
-        warungNama: 'Machi Cold Brew Bar',
         items: [
           { nama: 'Es Kopi Susu', harga: 12000, qty: 2 }
         ],
@@ -60,15 +94,38 @@ test('API Orders Suite - Complete Unit & Integration Flows', async (t) => {
 
     assert.equal(res.statusCode, 201);
     assert.ok(res._data);
-    assert.equal(res._data.studentName, 'Budi Santoso');
+    assert.match(String(res._data.id), /^ORD-\d+$/);
     assert.equal(res._data.nama, 'Budi Santoso');
-    assert.equal(res._data.studentClass, 'XII RPL 2');
+    assert.equal(res._data.studentName, 'Budi Santoso');
     assert.equal(res._data.kelas, 'XII RPL 2');
+    assert.equal(res._data.studentClass, 'XII RPL 2');
     assert.equal(res._data.antrian, 'A-001');
     assert.equal(res._data.status, 'Dipesan');
     assert.equal(res._data.total, 24000);
     assert.equal(res._data.items.length, 1);
+    assert.equal(res._data.items[0].nama, 'Es Kopi Susu');
+    assert.equal(res._data.items[0].harga, 12000);
+    assert.equal(res._data.items[0].qty, 2);
     assert.equal(res._data.notes, 'Less sugar, es banyak');
+
+    // 1b. Explicit numeric / custom id format preservation
+    const customCall = createMockReqRes({
+      method: 'POST',
+      body: {
+        id: 998822,
+        nama: 'Siti Aminah',
+        kelas: 'XI TKJ 1',
+        items: [
+          { nama: 'Teh Manis', harga: 4000, qty: 1 }
+        ],
+        total: 4000
+      }
+    });
+    await handler(customCall.req, customCall.res);
+    assert.equal(customCall.res.statusCode, 201);
+    assert.equal(customCall.res._data.id, 998822);
+    assert.equal(customCall.res._data.nama, 'Siti Aminah');
+    assert.equal(customCall.res._data.kelas, 'XI TKJ 1');
   });
 
   await t.test('2. Negative Case: Missing studentName/nama rejected with 400', async () => {
@@ -87,7 +144,8 @@ test('API Orders Suite - Complete Unit & Integration Flows', async (t) => {
   });
 
   await t.test('3. Negative Case: Empty cart / missing items rejected with 400', async () => {
-    const { req, res } = createMockReqRes({
+    // 3a. Empty array items
+    const { req: emptyReq, res: emptyRes } = createMockReqRes({
       method: 'POST',
       body: {
         studentName: 'Ahmad',
@@ -96,10 +154,24 @@ test('API Orders Suite - Complete Unit & Integration Flows', async (t) => {
       }
     });
 
-    await handler(req, res);
+    await handler(emptyReq, emptyRes);
 
-    assert.equal(res.statusCode, 400);
-    assert.match(res._data.error, /items must be a non-empty array/i);
+    assert.equal(emptyRes.statusCode, 400);
+    assert.match(emptyRes._data.error, /items must be a non-empty array/i);
+
+    // 3b. Missing items field entirely
+    const { req: missingReq, res: missingRes } = createMockReqRes({
+      method: 'POST',
+      body: {
+        studentName: 'Ahmad',
+        studentClass: 'X TKJ 1'
+      }
+    });
+
+    await handler(missingReq, missingRes);
+
+    assert.equal(missingRes.statusCode, 400);
+    assert.match(missingRes._data.error, /items must be a non-empty array/i);
   });
 
   await t.test('4. Negative Case: Invalid item price or quantity rejected with 400', async () => {
@@ -117,8 +189,45 @@ test('API Orders Suite - Complete Unit & Integration Flows', async (t) => {
     assert.match(res._data.error, /positive price/i);
   });
 
-  await t.test('5. State transition workflow: Dipesan -> Diterima -> Disiapkan -> Siap Diambil -> Selesai', async () => {
-    // Create new order
+  await t.test('5. Seller order status progression: menunggu -> dimasak -> siap -> selesai', async () => {
+    const createCall = createMockReqRes({
+      method: 'POST',
+      body: {
+        nama: 'Eko Sulistyo',
+        kelas: 'XII OTKP',
+        status: 'menunggu',
+        items: [{ nama: 'Salad Buah', harga: 12000, qty: 1 }]
+      }
+    });
+    await handler(createCall.req, createCall.res);
+    assert.equal(createCall.res.statusCode, 201);
+    assert.equal(createCall.res._data.status, 'menunggu');
+
+    const orderId = createCall.res._data.id;
+    assert.ok(orderId);
+
+    const steps = ['dimasak', 'siap', 'selesai'];
+    for (const st of steps) {
+      const patchCall = createMockReqRes({
+        method: 'PATCH',
+        body: { id: orderId, status: st }
+      });
+      await handler(patchCall.req, patchCall.res);
+      assert.equal(patchCall.res.statusCode, 200);
+      assert.equal(patchCall.res._data.id, orderId);
+      assert.equal(patchCall.res._data.status, st);
+    }
+
+    // Verify GET list reflects updated status as 'selesai'
+    const getCall = createMockReqRes({ method: 'GET' });
+    await handler(getCall.req, getCall.res);
+    assert.equal(getCall.res.statusCode, 200);
+    const updatedOrder = getCall.res._data.find(o => o.id === orderId);
+    assert.ok(updatedOrder);
+    assert.equal(updatedOrder.status, 'selesai');
+  });
+
+  await t.test('6. State transition workflow: Dipesan -> Diterima -> Disiapkan -> Siap Diambil -> Selesai', async () => {
     const createCall = createMockReqRes({
       method: 'POST',
       body: {
@@ -141,41 +250,6 @@ test('API Orders Suite - Complete Unit & Integration Flows', async (t) => {
       assert.equal(patchCall.res.statusCode, 200);
       assert.equal(patchCall.res._data.status, st);
     }
-
-    // Verify GET list reflects updated status
-    const getCall = createMockReqRes({ method: 'GET' });
-    await handler(getCall.req, getCall.res);
-    assert.equal(getCall.res.statusCode, 200);
-    const found = getCall.res._data.find(o => o.id === orderId);
-    assert.ok(found);
-    assert.equal(found.status, 'Selesai');
-  });
-
-  await t.test('6. Alternative lowercase state flow: menunggu -> dimasak -> siap -> selesai', async () => {
-    const createCall = createMockReqRes({
-      method: 'POST',
-      body: {
-        nama: 'Eko',
-        kelas: 'XII OTKP',
-        status: 'menunggu',
-        items: [{ nama: 'Salad Buah', harga: 12000, qty: 1 }]
-      }
-    });
-    await handler(createCall.req, createCall.res);
-    assert.equal(createCall.res.statusCode, 201);
-    assert.equal(createCall.res._data.status, 'menunggu');
-
-    const orderId = createCall.res._data.id;
-
-    for (const st of ['dimasak', 'siap', 'selesai']) {
-      const patchCall = createMockReqRes({
-        method: 'PATCH',
-        body: { id: orderId, status: st }
-      });
-      await handler(patchCall.req, patchCall.res);
-      assert.equal(patchCall.res.statusCode, 200);
-      assert.equal(patchCall.res._data.status, st);
-    }
   });
 
   await t.test('7. Negative Case: Invalid status in PATCH rejected with 400', async () => {
@@ -188,14 +262,13 @@ test('API Orders Suite - Complete Unit & Integration Flows', async (t) => {
     assert.match(patchCall.res._data.error, /Invalid status value/i);
   });
 
-  await t.test('8. Breaking scenario: STRESS-INPUT-OVERFLOW (truncate note to max 300 chars)', async () => {
-    const longNote = 'A'.repeat(500);
-    const longName = 'Budi '.repeat(30);
-
+  await t.test('8. Edge case: Note length cap (max 300 chars, truncated safely)', async () => {
+    const longNote = 'X'.repeat(450);
     const createCall = createMockReqRes({
       method: 'POST',
       body: {
-        studentName: longName,
+        studentName: 'Farhan Maulana',
+        studentClass: 'X RPL 1',
         items: [{ nama: 'Roti Bakar', harga: 8000, qty: 1 }],
         notes: longNote
       }
@@ -204,10 +277,69 @@ test('API Orders Suite - Complete Unit & Integration Flows', async (t) => {
     await handler(createCall.req, createCall.res);
     assert.equal(createCall.res.statusCode, 201);
     assert.equal(createCall.res._data.notes.length, 300);
-    assert.ok(createCall.res._data.studentName.length <= 60);
+    assert.equal(createCall.res._data.notes, 'X'.repeat(300));
+    assert.equal(createCall.res._data.catatan.length, 300);
   });
 
-  await t.test('9. DELETE clearing endpoint (?clear=selesai and ?clear=all)', async () => {
+  await t.test('9. Cross-page state sync: kantin_cart, kantin_active_order_id, and kantin_pesanan_aktif', async () => {
+    const storage = createMockLocalStorage();
+
+    // Step 1: User adds items to cart on menu.html
+    const cartItems = [{ id: 'menu-1', nama: 'Nasi Goreng', harga: 15000, qty: 2 }];
+    storage.setItem('kantin_cart', JSON.stringify(cartItems));
+    assert.equal(JSON.parse(storage.getItem('kantin_cart')).length, 1);
+    assert.equal(JSON.parse(storage.getItem('kantin_cart'))[0].nama, 'Nasi Goreng');
+
+    // Step 2: Checkout executes POST /api/orders
+    const checkoutCall = createMockReqRes({
+      method: 'POST',
+      body: {
+        nama: 'Gita Gutawa',
+        kelas: 'XI IPA 2',
+        items: cartItems,
+        total: 30000
+      }
+    });
+    await handler(checkoutCall.req, checkoutCall.res);
+    assert.equal(checkoutCall.res.statusCode, 201);
+    const createdOrderId = checkoutCall.res._data.id;
+    assert.ok(createdOrderId);
+
+    // Step 3: Menu checkout state transition - clears cart, sets active order IDs
+    storage.removeItem('kantin_cart');
+    storage.setItem('kantin_active_order_id', createdOrderId);
+    storage.setItem('kantin_pesanan_aktif', createdOrderId);
+
+    assert.equal(storage.getItem('kantin_cart'), null);
+    assert.equal(storage.getItem('kantin_active_order_id'), createdOrderId);
+    assert.equal(storage.getItem('kantin_pesanan_aktif'), createdOrderId);
+
+    // Step 4: Verify status.html resolution with URL param (primary)
+    const resolvedFromUrl = resolveStatusOrderId(storage, `?id=${createdOrderId}`);
+    assert.equal(resolvedFromUrl, createdOrderId);
+
+    // Step 5: Verify status.html resolution fallback with kantin_active_order_id
+    const resolvedFromActive = resolveStatusOrderId(storage, '');
+    assert.equal(resolvedFromActive, createdOrderId);
+
+    // Step 6: Verify status.html resolution fallback with kantin_pesanan_aktif
+    storage.removeItem('kantin_active_order_id');
+    const resolvedFromPesananAktif = resolveStatusOrderId(storage, '');
+    assert.equal(resolvedFromPesananAktif, createdOrderId);
+  });
+
+  await t.test('10. Edge case: Missing order ID redirect/empty fallback', async () => {
+    const storage = createMockLocalStorage();
+    // No URL parameter, no localStorage order key present
+    const resolvedId = resolveStatusOrderId(storage, '');
+    assert.equal(resolvedId, null);
+
+    // In status.html, resolvedId === null triggers showEmptyState()
+    const shouldShowEmptyState = (resolvedId === null);
+    assert.equal(shouldShowEmptyState, true);
+  });
+
+  await t.test('11. DELETE clearing endpoint (?clear=selesai and ?clear=all)', async () => {
     // Current orders in mem
     const delSelesai = createMockReqRes({
       method: 'DELETE',

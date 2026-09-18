@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kantin Sekolah — Cold Brew & Kudapan Segar</title>
+  <title>Kantin Boash — Kopi & Kudapan Sekolah</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -85,10 +84,18 @@
       }
     }
 
-    /* Custom scrollbar styling */
+    :focus-visible {
+      outline: 2px solid #1A1A1A !important;
+      outline-offset: 2px !important;
+    }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 2px solid #1A1A1A !important;
+      outline-offset: 2px !important;
+    }
+
+    /* Custom scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
-      height: 8px;
     }
     ::-webkit-scrollbar-track {
       background: #F0F9FF;
@@ -100,1303 +107,549 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #94A3B8;
     }
-  
-    :focus-visible {
-      outline: 2px solid #1A1A1A !important;
-      outline-offset: 2px !important;
-    }
-    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-      outline: 2px solid #1A1A1A !important;
-      outline-offset: 2px !important;
-    }
-  
-    *:focus-visible {
-      outline: 2px solid #1A1A1A !important;
-      outline-offset: 2px !important;
-    }
   </style>
 </head>
-<body class="bg-white text-espresso font-sans antialiased selection:bg-sky-200 selection:text-espresso overflow-x-hidden">
+<body class="bg-white text-espresso font-sans antialiased selection:bg-sky-200 selection:text-espresso overflow-x-hidden w-full max-w-full">
 
   <!-- ========================================================================= -->
   <!-- TOP FLOATING NAVIGATION BAR                                                -->
   <!-- ========================================================================= -->
-  <header class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-sky-100/60 transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-3">
+  <header class="fixed top-0 left-0 right-0 z-40 bg-white/85 backdrop-blur-md border-b border-sky-100/70 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <!-- Brand Logo -->
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-lg tracking-tighter shadow-md group-hover:scale-105 transition">
-          k
+      <a href="index.html" class="flex items-center gap-3 group" aria-label="Kantin Boash Beranda">
+        <div class="w-11 h-11 rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-xl tracking-tighter shadow-md group-hover:scale-105 transition">
+          b
         </div>
         <div class="flex flex-col">
-          <span class="font-display font-black text-xl tracking-tight text-espresso leading-none">kantin</span>
-          <span class="text-xs font-semibold text-[#0369A1] mt-0.5">Cold Brew &amp; Eats</span>
+          <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boash</span>
+          <span class="text-xs font-bold text-[#0369A1] tracking-wide mt-0.5">Kantin Sekolah</span>
         </div>
       </a>
 
       <!-- Navigation Links -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-700">
-        <a href="#favorit" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Menu Favorit</a>
-        <a href="#semua-menu" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Daftar Warung</a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-700" aria-label="Navigasi Utama">
+        <a href="menu.html" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Menu Lengkap</a>
+        <a href="status.html" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Cek Pesanan</a>
         <a href="#cerita" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Cerita Kami</a>
-        <a href="#status-pesanan" onclick="checkActiveOrderStatus()" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Cek Pesanan</a>
       </nav>
 
-      <!-- Right Actions: Seller Portal & Cart Trigger -->
+      <!-- Right Actions: Seller Portal & Cart Pill -->
       <div class="flex items-center gap-3">
-        <a href="penjual.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-100 transition shadow-sm">
+        <a href="penjual.html" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-100 transition shadow-xs min-h-[44px]">
           <span>🏪</span> Portal Penjual
         </a>
-        <button onclick="openCartDrawer()" class="relative flex items-center gap-2 bg-espresso text-white px-4 py-2.5 rounded-full text-xs font-bold shadow-md hover:bg-black transition active:scale-95">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href="menu.html" class="relative inline-flex items-center gap-2 bg-espresso text-white px-5 py-2.5 rounded-full text-xs font-bold shadow-md hover:bg-black transition active:scale-95 min-h-[44px]">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
           </svg>
           <span class="hidden sm:inline">Keranjang</span>
           <span id="nav-cart-badge" class="bg-sky-400 text-espresso text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center">0</span>
-        </button>
+        </a>
       </div>
     </div>
   </header>
 
-  <main id="main-content" class="overflow-x-hidden w-full max-w-full">
+  <main id="main-content" class="overflow-x-hidden w-full max-w-full w-full max-w-full">
 
-  <!-- ========================================================================= -->
-  <!-- 1. SKY ATMOSPHERE HERO SECTION (MACHI COLD BREW REFERENCE)                -->
-  <!-- ========================================================================= -->
-  <section class="relative min-h-screen pt-28 pb-20 md:pt-36 md:pb-28 bg-gradient-to-b from-[#64B5F6] via-[#B0E0E6] to-[#F0F9FF] overflow-hidden flex items-center">
-    
-    <!-- Floating Cloud Silhouettes -->
-    <div class="absolute inset-0 pointer-events-none select-none overflow-hidden">
-      <!-- Cloud Top Left -->
-      <div class="absolute -top-10 -left-16 w-80 h-40 bg-white/40 rounded-full blur-2xl animate-cloud"></div>
-      <!-- Cloud Middle Center -->
-      <div class="absolute top-1/4 left-1/3 w-96 h-48 bg-white/50 rounded-full blur-3xl opacity-70"></div>
-      <!-- Cloud Bottom Right -->
-      <div class="absolute -bottom-12 right-0 w-[34rem] h-60 bg-white/70 rounded-full blur-2xl"></div>
+    <!-- ========================================================================= -->
+    <!-- 1. SKY ATMOSPHERE HERO SECTION (MACHI COLD BREW REFERENCE)                -->
+    <!-- ========================================================================= -->
+    <section class="relative min-h-screen pt-32 pb-20 md:pt-40 md:pb-28 bg-gradient-to-b from-[#64B5F6] via-[#B0E0E6] to-[#F0F9FF] overflow-hidden flex items-center">
+      
+      <!-- Floating Cloud Silhouettes -->
+      <div class="absolute inset-0 pointer-events-none select-none overflow-hidden" aria-hidden="true">
+        <div class="absolute -top-10 -left-16 w-80 h-40 bg-white/40 rounded-full blur-2xl animate-cloud"></div>
+        <div class="absolute top-1/4 left-1/3 w-96 h-48 bg-white/50 rounded-full blur-3xl opacity-70"></div>
+        <div class="absolute -bottom-12 right-0 w-[34rem] h-60 bg-white/70 rounded-full blur-2xl"></div>
 
-      <!-- Crisp Stylized SVG Clouds -->
-      <svg class="absolute top-20 right-10 w-44 opacity-80" viewBox="0 0 160 80" fill="none">
-        <path d="M40 70C20 70 5 55 5 35C5 18 18 5 35 5C45 5 54 10 60 18C68 8 82 2 95 2C118 2 138 20 138 42C148 44 155 52 155 62C155 72 146 80 135 80H40C40 80 40 70 40 70Z" fill="white" fill-opacity="0.85"/>
-      </svg>
-      <svg class="absolute bottom-28 left-8 w-56 opacity-60" viewBox="0 0 160 80" fill="none">
-        <path d="M30 65C15 65 3 52 3 35C3 20 14 8 28 8C36 8 44 12 48 18C55 10 66 5 78 5C98 5 115 20 115 38C123 40 130 47 130 55C130 65 122 70 112 70H30Z" fill="white" fill-opacity="0.9"/>
-      </svg>
-    </div>
+        <svg class="absolute top-24 right-12 w-44 opacity-80" viewBox="0 0 160 80" fill="none">
+          <path d="M40 70C20 70 5 55 5 35C5 18 18 5 35 5C45 5 54 10 60 18C68 8 82 2 95 2C118 2 138 20 138 42C148 44 155 52 155 62C155 72 146 80 135 80H40C40 80 40 70 40 70Z" fill="white" fill-opacity="0.85"/>
+        </svg>
+        <svg class="absolute bottom-28 left-8 w-56 opacity-60" viewBox="0 0 160 80" fill="none">
+          <path d="M30 65C15 65 3 52 3 35C3 20 14 8 28 8C36 8 44 12 48 18C55 10 66 5 78 5C98 5 115 20 115 38C123 40 130 47 130 55C130 65 122 70 112 70H30Z" fill="white" fill-opacity="0.9"/>
+        </svg>
+      </div>
 
-    <!-- Hero Content Container -->
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-        
-        <!-- Left Column: Editorial Headline & Actions (7 Cols) -->
-        <div class="lg:col-span-7 text-left">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-white/60 text-sky-800 text-xs font-bold tracking-wide mb-6 shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-sky-500 "></span>
-            Cold Brew &amp; Kantin Sekolah Modern
-          </div>
-
-          <h1 class="font-display font-black text-4xl sm:text-6xl lg:text-7xl text-espresso tracking-tight leading-[1.08] mb-6">
-            Kopi &amp; Kudapan Kantin.<br>
-            <span class="text-espresso/90">Momen Terbaik Sekolah.</span>
-          </h1>
-
-          <p class="text-base sm:text-lg text-gray-700 max-w-xl font-normal leading-relaxed mb-8">
-            Cold brew segar, matcha lembut, dan aneka snack kantin favorit. Pesan duluan dari ponselmu, ambil di Jalur Khusus tanpa antre saat bel istirahat.
-          </p>
-
-          <div class="flex flex-wrap items-center gap-4">
-            <a href="#favorit" class="px-8 py-4 rounded-full bg-espresso hover:bg-black text-white font-display font-bold text-sm tracking-wide shadow-xl hover:shadow-2xl transition transform active:scale-95">
-              Pesan Sekarang
-            </a>
-            <a href="#semua-menu" class="px-7 py-4 rounded-full bg-white/90 hover:bg-white text-espresso font-display font-bold text-sm tracking-wide border border-white shadow-md hover:shadow-lg transition">
-              Jelajahi Menu
-            </a>
-          </div>
-
-          <!-- Trust / Quick Micro Info -->
-          <div class="mt-12 pt-8 border-t border-sky-200/50 flex flex-wrap items-center gap-6 sm:gap-10 text-xs font-medium text-gray-600">
-            <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center font-bold text-[#0369A1]">✓</span>
-              <span>Bebas Antre di Kantin</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center font-bold text-[#0369A1]">⚡</span>
-              <span>QR Pick-up 1 Detik</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-white/80 flex items-center justify-center font-bold text-[#0369A1]">❄️</span>
-              <span>100% Segar &amp; Dingin</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Orchestrated Floating Cups Showcase (5 Cols) -->
-        <div class="lg:col-span-5 relative flex items-center justify-center min-h-[380px] sm:min-h-[460px]">
+      <!-- Hero Content Container -->
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
-          <!-- Ambient Glow Disc Behind Cups -->
-          <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-white/40 filter blur-3xl"></div>
-
-          <!-- FLOATING CUP 1: PEACH COLD BREW (Primary Left) -->
-          <div class="absolute left-4 sm:left-8 top-6 z-20 animate-cup-primary cursor-pointer hover:scale-105 transition" onclick="quickAddFeatured('Es Kopi Susu', 12000, 'minuman')">
-            <div class="relative group">
-              <!-- SVG Cup Artwork -->
-              <svg class="w-36 sm:w-44 drop-shadow-[0_25px_30px_rgba(0,0,0,0.15)]" viewBox="0 0 160 240" fill="none">
-                <!-- Cup Lid -->
-                <rect x="35" y="18" width="90" height="12" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#E2E8F0" stroke-width="2"/>
-                <rect x="55" y="10" width="50" height="10" rx="3" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
-                <!-- Straw -->
-                <rect x="74" y="-15" width="10" height="40" rx="3" fill="#1A1A1A" transform="rotate(8 74 -15)"/>
-                <!-- Cup Body -->
-                <path d="M40 30L52 215C52.5 220 57 224 62 224H98C103 224 107.5 220 108 215L120 30H40Z" fill="url(#peachLiquidGrad)" stroke="#FFFFFF" stroke-width="3"/>
-                <!-- Ice Cubes inside -->
-                <rect x="60" y="55" width="24" height="24" rx="4" fill="#FFFFFF" fill-opacity="0.4" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(12 60 55)"/>
-                <rect x="76" y="95" width="22" height="22" rx="4" fill="#FFFFFF" fill-opacity="0.35" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(-8 76 95)"/>
-                <rect x="58" y="135" width="26" height="26" rx="4" fill="#FFFFFF" fill-opacity="0.4" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(16 58 135)"/>
-                <!-- Coffee Milk Foam Layer Gradient -->
-                <path d="M42 32L46 80C65 74 95 85 118 78L118 32H42Z" fill="#FCE4D6" fill-opacity="0.9"/>
-                <!-- Condensation Droplets -->
-                <circle cx="48" cy="110" r="2" fill="#FFFFFF" fill-opacity="0.8"/>
-                <circle cx="51" cy="120" r="1.5" fill="#FFFFFF" fill-opacity="0.8"/>
-                <circle cx="110" cy="140" r="2.5" fill="#FFFFFF" fill-opacity="0.8"/>
-                <!-- Minimalist Label Tag -->
-                <rect x="52" y="112" width="56" height="34" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#FCE4D6" stroke-width="1"/>
-                <text x="80" y="126" font-family="'Plus Jakarta Sans', sans-serif" font-size="7" font-weight="900" fill="#1A1A1A" text-anchor="middle" letter-spacing="1">ES KOPI</text>
-                <text x="80" y="137" font-family="'Inter', sans-serif" font-size="6" font-weight="700" fill="#E65100" text-anchor="middle">SUSU · DINGIN</text>
-                
-                <defs>
-                  <linearGradient id="peachLiquidGrad" x1="80" y1="30" x2="80" y2="224" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#FCE4D6"/>
-                    <stop offset="0.35" stop-color="#E8B282"/>
-                    <stop offset="0.75" stop-color="#9C5A2A"/>
-                    <stop offset="1" stop-color="#542B10"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-              <!-- Floating Tag -->
-              <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white/95 px-3 py-1 rounded-full text-[11px] font-extrabold text-espresso shadow-lg border border-sky-100 whitespace-nowrap">
-                Es Kopi Susu
-              </span>
+          <!-- Left Column: Editorial Headline & Actions (7 Cols) -->
+          <div class="lg:col-span-7 text-left">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-white/60 text-sky-900 text-xs font-bold tracking-wide mb-6 shadow-xs">
+              <span class="w-2 h-2 rounded-full bg-sky-600 "></span>
+              Cold Brew &amp; Kantin Sekolah Modern
             </div>
-          </div>
 
-          <!-- FLOATING CUP 2: MATCHA LATTE (Primary Right) -->
-          <div class="absolute right-4 sm:right-6 top-16 z-30 animate-cup-secondary cursor-pointer hover:scale-105 transition" onclick="quickAddFeatured('Iced Matcha Latte', 15000, 'minuman')">
-            <div class="relative group">
-              <!-- SVG Cup Artwork -->
-              <svg class="w-36 sm:w-44 drop-shadow-[0_25px_30px_rgba(0,0,0,0.15)]" viewBox="0 0 160 240" fill="none">
-                <!-- Cup Lid -->
-                <rect x="35" y="18" width="90" height="12" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#E2E8F0" stroke-width="2"/>
-                <rect x="55" y="10" width="50" height="10" rx="3" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
-                <!-- Straw -->
-                <rect x="74" y="-15" width="10" height="40" rx="3" fill="#2E7D32" transform="rotate(-6 74 -15)"/>
-                <!-- Cup Body -->
-                <path d="M40 30L52 215C52.5 220 57 224 62 224H98C103 224 107.5 220 108 215L120 30H40Z" fill="url(#matchaLiquidGrad)" stroke="#FFFFFF" stroke-width="3"/>
-                <!-- Ice Cubes inside -->
-                <rect x="62" y="60" width="25" height="25" rx="4" fill="#FFFFFF" fill-opacity="0.45" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(-10 62 60)"/>
-                <rect x="78" y="105" width="22" height="22" rx="4" fill="#FFFFFF" fill-opacity="0.38" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(14 78 105)"/>
-                <!-- Cold Cream Milk Layer -->
-                <path d="M42 32L45 75C70 82 90 70 118 76L118 32H42Z" fill="#FFFFFF" fill-opacity="0.92"/>
-                <!-- Minimalist Label Tag -->
-                <rect x="52" y="115" width="56" height="34" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#C8DFC0" stroke-width="1"/>
-                <text x="80" y="129" font-family="'Plus Jakarta Sans', sans-serif" font-size="7" font-weight="900" fill="#1A1A1A" text-anchor="middle" letter-spacing="1">MATCHA</text>
-                <text x="80" y="140" font-family="'Inter', sans-serif" font-size="6" font-weight="700" fill="#2E7D32" text-anchor="middle">CREAMY · ICED</text>
-                
-                <defs>
-                  <linearGradient id="matchaLiquidGrad" x1="80" y1="30" x2="80" y2="224" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#E2EFDA"/>
-                    <stop offset="0.4" stop-color="#A9DF9C"/>
-                    <stop offset="0.8" stop-color="#4E9346"/>
-                    <stop offset="1" stop-color="#2D5A27"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-              <!-- Floating Tag -->
-              <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white/95 px-3 py-1 rounded-full text-[11px] font-extrabold text-espresso shadow-lg border border-sky-100 whitespace-nowrap">
-                Matcha Latte
-              </span>
-            </div>
-          </div>
+            <h1 class="font-display font-black text-4xl sm:text-6xl lg:text-7xl text-espresso tracking-tight leading-[1.08] mb-6">
+              Kopi &amp; Kudapan Kantin Boash.<br>
+              <span class="text-espresso/90">Momen Terbaik Sekolah.</span>
+            </h1>
 
-          <!-- FLOATING MINI ACCENT 1: MANGO TEA (Background Left) -->
-          <div class="hidden sm:block absolute left-2 bottom-6 z-10 animate-cup-accent1 opacity-90 cursor-pointer hover:opacity-100 transition" onclick="quickAddFeatured('Iced Mango Tea', 10000, 'minuman')">
-            <div class="bg-pastel-mango/90 backdrop-blur-sm p-3 rounded-2xl shadow-md border border-amber-200/60 text-center w-28">
-              <span class="text-xl">🥭</span>
-              <p class="text-[10px] font-bold text-amber-900 mt-1">Mango Tea</p>
-              <p class="text-[9px] font-semibold text-amber-700">Rp 10.000</p>
-            </div>
-          </div>
-
-          <!-- FLOATING MINI ACCENT 2: BERRY LATTE (Background Right) -->
-          <div class="hidden sm:block absolute right-2 bottom-4 z-10 animate-cup-accent2 opacity-90 cursor-pointer hover:opacity-100 transition" onclick="quickAddFeatured('Iced Berry Latte', 14000, 'minuman')">
-            <div class="bg-pastel-berry/90 backdrop-blur-sm p-3 rounded-2xl shadow-md border border-rose-200/60 text-center w-28">
-              <span class="text-xl">🍓</span>
-              <p class="text-[10px] font-bold text-rose-900 mt-1">Berry Latte</p>
-              <p class="text-[9px] font-semibold text-rose-700">Rp 14.000</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Soft Cloud Bottom Border Curve -->
-    <div class="absolute bottom-0 left-0 right-0 h-12 bg-white rounded-t-[40px] z-20"></div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- 2. PRODUCT SHOWCASE: 4 PASTEL-TINTED CARDS (MACHI IDENTITY)              -->
-  <!-- ========================================================================= -->
-  <section id="favorit" class="py-16 md:py-24 bg-white relative z-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
-        <div>
-          <div class="inline-flex items-center gap-2 text-sm font-bold text-[#0369A1] mb-2">
-            <span>❄️</span> Pilihan Terpopuler
-          </div>
-          <h2 class="font-display font-black text-3xl sm:text-4xl lg:text-5xl text-espresso tracking-tight">
-            Menu Favorit Siswa, Dingin &amp; Segar
-          </h2>
-        </div>
-        <p class="mt-3 md:mt-0 text-sm sm:text-base text-gray-500 max-w-md">
-          Diseduh dingin setiap pagi untuk kesegaran maksimal saat jam istirahat sekolah.
-        </p>
-      </div>
-
-      <!-- 4 Pastel Product Cards Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-        
-        <!-- CARD 1: PEACH TINT (#FCE4D6) - ES KOPI SUSU -->
-        <div class="group bg-[#FCE4D6] rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl relative overflow-hidden">
-          <div class="absolute top-4 right-4 bg-white/70 backdrop-blur-sm px-3 py-1 rounded-full text-[11px] font-extrabold text-amber-900">
-            Best Seller
-          </div>
-          <div>
-            <!-- Illustration / Cup Badge -->
-            <div class="w-16 h-16 rounded-2xl bg-white/80 shadow-sm flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">
-              ☕
-            </div>
-            <h3 class="font-display font-extrabold text-2xl text-espresso mb-2">
-              Es Kopi Susu
-            </h3>
-            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed mb-6 font-normal">
-              Espresso house blend dan susu kental manis dingin dengan es batu segar yang seimbang.
+            <p class="text-base sm:text-lg text-gray-700 max-w-xl font-normal leading-relaxed mb-8">
+              Cold brew segar, matcha lembut, dan aneka menu kantin favorit. Pesan duluan dari ponselmu, ambil langsung di loket kantin tanpa antre berdesakan saat bel istirahat.
             </p>
-          </div>
-          <div class="pt-4 border-t border-amber-900/10 flex items-center justify-between">
-            <span class="font-display font-black text-lg text-espresso">Rp 12.000</span>
-            <button onclick="quickAddFeatured('Es Kopi Susu', 12000, 'minuman')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow transition active:scale-95 flex items-center gap-1">
-              Tambahkan <span class="text-sky-300">+</span>
-            </button>
-          </div>
-        </div>
 
-        <!-- CARD 2: SOFT MATCHA (#E2EFDA) - ICED MATCHA LATTE -->
-        <div class="group bg-[#E2EFDA] rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl relative overflow-hidden">
-          <div class="absolute top-4 right-4 bg-white/70 backdrop-blur-sm px-3 py-1 rounded-full text-[11px] font-extrabold text-emerald-900">
-            Premium
-          </div>
-          <div>
-            <div class="w-16 h-16 rounded-2xl bg-white/80 shadow-sm flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">
-              🍵
+            <div class="flex flex-wrap items-center gap-4">
+              <button onclick="window.location.href='menu.html'" class="px-8 py-4 rounded-full bg-espresso hover:bg-black text-white font-display font-bold text-sm tracking-wide shadow-xl hover:shadow-2xl transition transform active:scale-95 min-h-[44px]">
+                Pesan Sekarang
+              </button>
+              <button onclick="window.location.href='menu.html'" class="px-8 py-4 rounded-full bg-white/90 hover:bg-white text-espresso font-display font-bold text-sm tracking-wide border border-white shadow-md hover:shadow-lg transition min-h-[44px]">
+                Jelajahi Menu
+              </button>
             </div>
-            <h3 class="font-display font-extrabold text-2xl text-espresso mb-2">
-              Iced Matcha Latte
-            </h3>
-            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed mb-6 font-normal">
-              Matcha premium Jepang diseduh dengan susu dingin creamy dan foam lembut di atasnya.
-            </p>
-          </div>
-          <div class="pt-4 border-t border-emerald-900/10 flex items-center justify-between">
-            <span class="font-display font-black text-lg text-espresso">Rp 15.000</span>
-            <button onclick="quickAddFeatured('Iced Matcha Latte', 15000, 'minuman')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow transition active:scale-95 flex items-center gap-1">
-              Tambahkan <span class="text-sky-300">+</span>
-            </button>
-          </div>
-        </div>
 
-        <!-- CARD 3: MANGO CREAM (#FFF2CC) - ICED MANGO TEA -->
-        <div class="group bg-[#FFF2CC] rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl relative overflow-hidden">
-          <div class="absolute top-4 right-4 bg-white/70 backdrop-blur-sm px-3 py-1 rounded-full text-[11px] font-extrabold text-yellow-900">
-            Favorit
-          </div>
-          <div>
-            <div class="w-16 h-16 rounded-2xl bg-white/80 shadow-sm flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">
-              🥭
+            <!-- Micro Info Highlights -->
+            <div class="mt-12 pt-8 border-t border-sky-200/50 flex flex-wrap items-center gap-6 sm:gap-10 text-xs font-semibold text-gray-700">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center font-black text-[#0369A1]">✓</span>
+                <span>Bebas Antre di Kantin</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center font-black text-[#0369A1]">⚡</span>
+                <span>QR Pick-up Otomatis</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center font-black text-[#0369A1]">❄️</span>
+                <span>100% Segar &amp; Dingin</span>
+              </div>
             </div>
-            <h3 class="font-display font-extrabold text-2xl text-espresso mb-2">
-              Iced Mango Tea
-            </h3>
-            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed mb-6 font-normal">
-              Sari buah mangga manis alami berpadu harmonis dengan seduhan teh melati wangi dingin.
-            </p>
-          </div>
-          <div class="pt-4 border-t border-yellow-900/10 flex items-center justify-between">
-            <span class="font-display font-black text-lg text-espresso">Rp 10.000</span>
-            <button onclick="quickAddFeatured('Iced Mango Tea', 10000, 'minuman')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow transition active:scale-95 flex items-center gap-1">
-              Tambahkan <span class="text-sky-300">+</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- CARD 4: BERRY PINK (#F8CECC) - ICED BERRY LATTE -->
-        <div class="group bg-[#F8CECC] rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl relative overflow-hidden">
-          <div class="absolute top-4 right-4 bg-white/70 backdrop-blur-sm px-3 py-1 rounded-full text-[11px] font-extrabold text-rose-900">
-            Segar
-          </div>
-          <div>
-            <div class="w-16 h-16 rounded-2xl bg-white/80 shadow-sm flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">
-              🍓
-            </div>
-            <h3 class="font-display font-extrabold text-2xl text-espresso mb-2">
-              Iced Berry Latte
-            </h3>
-            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed mb-6 font-normal">
-              Bulir stroberi asli dengan susu murni dingin lembut, manis alami menyegarkan hari.
-            </p>
-          </div>
-          <div class="pt-4 border-t border-rose-900/10 flex items-center justify-between">
-            <span class="font-display font-black text-lg text-espresso">Rp 14.000</span>
-            <button onclick="quickAddFeatured('Iced Berry Latte', 14000, 'minuman')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow transition active:scale-95 flex items-center gap-1">
-              Tambahkan <span class="text-sky-300">+</span>
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- 3. FULL MENU TABS & WARUNG SELECTOR                                       -->
-  <!-- ========================================================================= -->
-  <section id="semua-menu" class="py-16 md:py-20 bg-slate-50/70 border-y border-slate-200/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Section Header -->
-      <div class="text-center max-w-2xl mx-auto mb-10">
-        <span class="text-sm font-bold text-[#0369A1]">Lengkap &amp; Bervariasi</span>
-        <h2 class="font-display font-black text-3xl sm:text-4xl text-espresso tracking-tight mt-1">
-          Jelajahi Semua Warung &amp; Menu
-        </h2>
-        <p class="text-sm text-gray-500 mt-2">
-          Pilih warung kantin langgananmu atau gunakan kategori untuk menemukan menu dengan cepat.
-        </p>
-      </div>
-
-      <!-- Filter Tabs / Warung Switcher -->
-      <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10" id="warung-tabs">
-        <!-- Dynamically filled with warung pills -->
-      </div>
-
-      <!-- Menu Items Grid -->
-      <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Menu cards injected by JavaScript -->
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- 4. STORY & STATS SECTION (Diseduh Lambat, Hari Cerah Menanti)              -->
-  <!-- ========================================================================= -->
-  <section id="cerita" class="py-20 md:py-28 bg-white relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Cloudy Card Container -->
-      <div class="bg-gradient-to-br from-sky-50 via-[#E8F4F8] to-[#FFF8F0] rounded-[36px] p-8 sm:p-12 lg:p-16 border border-sky-100 shadow-sm relative overflow-hidden">
-        
-        <!-- Cloud Background Decors -->
-        <div class="absolute -top-12 -right-12 w-64 h-64 bg-white/60 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute -bottom-16 -left-16 w-72 h-72 bg-white/70 rounded-full blur-2xl pointer-events-none"></div>
-
-        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          <!-- Story Text (7 Cols) -->
-          <div class="lg:col-span-7">
-            <span class="inline-flex items-center gap-2 text-sm font-bold text-sky-700 bg-white/80 px-3 py-1 rounded-full mb-4 shadow-xs">
-              Filosofi Kantin Kami
-            </span>
-            <h2 class="font-display font-black text-3xl sm:text-5xl text-espresso tracking-tight leading-tight mb-6">
-              Diseduh Lambat,<br>Hari Cerah Menanti.
-            </h2>
-            <p class="text-base text-gray-700 leading-relaxed font-normal mb-6">
-              Kantin sekolah bukan sekadar tempat menyantap makan siang, melainkan titik temu untuk beristirahat, bertukar cerita, dan mengisi kembali energi positif sebelum sesi belajar berikutnya.
-            </p>
-            <p class="text-sm text-gray-600 leading-relaxed font-normal">
-              Kami menyeduh minuman dingin secara perlahan selama semalam suntuk, menjaga cita rasa alami biji kopi lokal dan dedaunan teh tanpa perlu mengandalkan pemanis berlebih. Higienis, terjangkau, dan ramah kantong siswa.
-            </p>
           </div>
 
-          <!-- 3 Stats Cards (5 Cols) -->
-          <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
+          <!-- Right Column: Orchestrated Floating Cups Showcase (5 Cols) -->
+          <div class="lg:col-span-5 relative flex items-center justify-center min-h-[380px] sm:min-h-[460px]">
             
-            <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white shadow-sm flex items-center sm:flex-col lg:flex-row gap-4">
-              <div class="w-14 h-14 rounded-2xl bg-amber-100/70 text-amber-700 font-display font-black text-2xl flex items-center justify-center shrink-0">
-                12h
-              </div>
-              <div>
-                <p class="font-display font-black text-xl text-espresso">12 Jam</p>
-                <p class="text-xs text-gray-500 font-medium">Cold steep lambat untuk rasa lembut tanpa asam berlebih.</p>
+            <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-white/40 filter blur-3xl" aria-hidden="true"></div>
+
+            <!-- FLOATING CUP 1: PEACH COLD BREW (Primary Left) -->
+            <div class="absolute left-4 sm:left-8 top-6 z-20 animate-cup-primary cursor-pointer hover:scale-105 transition" onclick="quickAddFromHero('Es Kopi Susu', 12000, 'machi', 'Machi Cold Brew Bar', '☕')">
+              <div class="relative group">
+                <svg class="w-36 sm:w-44 drop-shadow-[0_25px_30px_rgba(0,0,0,0.15)]" viewBox="0 0 160 240" fill="none">
+                  <rect x="35" y="18" width="90" height="12" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#E2E8F0" stroke-width="2"/>
+                  <rect x="55" y="10" width="50" height="10" rx="3" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+                  <rect x="74" y="-15" width="10" height="40" rx="3" fill="#1A1A1A" transform="rotate(8 74 -15)"/>
+                  <path d="M40 30L52 215C52.5 220 57 224 62 224H98C103 224 107.5 220 108 215L120 30H40Z" fill="url(#peachLiquidGrad)" stroke="#FFFFFF" stroke-width="3"/>
+                  <rect x="60" y="55" width="24" height="24" rx="4" fill="#FFFFFF" fill-opacity="0.4" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(12 60 55)"/>
+                  <rect x="76" y="95" width="22" height="22" rx="4" fill="#FFFFFF" fill-opacity="0.35" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(-8 76 95)"/>
+                  <rect x="58" y="135" width="26" height="26" rx="4" fill="#FFFFFF" fill-opacity="0.4" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(16 58 135)"/>
+                  <path d="M42 32L46 80C65 74 95 85 118 78L118 32H42Z" fill="#FCE4D6" fill-opacity="0.9"/>
+                  <rect x="52" y="112" width="56" height="34" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#FCE4D6" stroke-width="1"/>
+                  <text x="80" y="126" font-family="'Plus Jakarta Sans', sans-serif" font-size="7" font-weight="900" fill="#1A1A1A" text-anchor="middle" letter-spacing="1">ES KOPI</text>
+                  <text x="80" y="137" font-family="'Inter', sans-serif" font-size="6" font-weight="700" fill="#E65100" text-anchor="middle">SUSU - DINGIN</text>
+                  <defs>
+                    <linearGradient id="peachLiquidGrad" x1="80" y1="30" x2="80" y2="224" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#FCE4D6"/>
+                      <stop offset="0.35" stop-color="#E8B282"/>
+                      <stop offset="0.75" stop-color="#9C5A2A"/>
+                      <stop offset="1" stop-color="#542B10"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white/95 px-3.5 py-1 rounded-full text-[11px] font-extrabold text-espresso shadow-lg border border-sky-100 whitespace-nowrap">
+                  Es Kopi Susu +
+                </span>
               </div>
             </div>
 
-            <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white shadow-sm flex items-center sm:flex-col lg:flex-row gap-4">
-              <div class="w-14 h-14 rounded-2xl bg-emerald-100/70 text-emerald-700 font-display font-black text-2xl flex items-center justify-center shrink-0">
-                100%
-              </div>
-              <div>
-                <p class="font-display font-black text-xl text-espresso">100% Bahan Higienis</p>
-                <p class="text-xs text-gray-500 font-medium">Biji lokal pilihan &amp; sertifikasi kebersihan sekolah.</p>
+            <!-- FLOATING CUP 2: MATCHA LATTE (Primary Right) -->
+            <div class="absolute right-4 sm:right-6 top-16 z-30 animate-cup-secondary cursor-pointer hover:scale-105 transition" onclick="quickAddFromHero('Iced Matcha Latte', 15000, 'machi', 'Machi Cold Brew Bar', '🍵')">
+              <div class="relative group">
+                <svg class="w-36 sm:w-44 drop-shadow-[0_25px_30px_rgba(0,0,0,0.15)]" viewBox="0 0 160 240" fill="none">
+                  <rect x="35" y="18" width="90" height="12" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#E2E8F0" stroke-width="2"/>
+                  <rect x="55" y="10" width="50" height="10" rx="3" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+                  <rect x="74" y="-15" width="10" height="40" rx="3" fill="#2E7D32" transform="rotate(-6 74 -15)"/>
+                  <path d="M40 30L52 215C52.5 220 57 224 62 224H98C103 224 107.5 220 108 215L120 30H40Z" fill="url(#matchaLiquidGrad)" stroke="#FFFFFF" stroke-width="3"/>
+                  <rect x="62" y="60" width="25" height="25" rx="4" fill="#FFFFFF" fill-opacity="0.45" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(-10 62 60)"/>
+                  <rect x="78" y="105" width="22" height="22" rx="4" fill="#FFFFFF" fill-opacity="0.38" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(14 78 105)"/>
+                  <path d="M42 32L45 75C70 82 90 70 118 76L118 32H42Z" fill="#FFFFFF" fill-opacity="0.92"/>
+                  <rect x="52" y="115" width="56" height="34" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#C8DFC0" stroke-width="1"/>
+                  <text x="80" y="129" font-family="'Plus Jakarta Sans', sans-serif" font-size="7" font-weight="900" fill="#1A1A1A" text-anchor="middle" letter-spacing="1">MATCHA</text>
+                  <text x="80" y="140" font-family="'Inter', sans-serif" font-size="6" font-weight="700" fill="#2E7D32" text-anchor="middle">CREAMY - ICED</text>
+                  <defs>
+                    <linearGradient id="matchaLiquidGrad" x1="80" y1="30" x2="80" y2="224" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#E2EFDA"/>
+                      <stop offset="0.4" stop-color="#A9DF9C"/>
+                      <stop offset="0.8" stop-color="#4E9346"/>
+                      <stop offset="1" stop-color="#2D5A27"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white/95 px-3.5 py-1 rounded-full text-[11px] font-extrabold text-espresso shadow-lg border border-sky-100 whitespace-nowrap">
+                  Matcha Latte +
+                </span>
               </div>
             </div>
 
-            <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white shadow-sm flex items-center sm:flex-col lg:flex-row gap-4">
-              <div class="w-14 h-14 rounded-2xl bg-sky-100/70 text-sky-700 font-display font-black text-2xl flex items-center justify-center shrink-0">
-                0g
+            <!-- FLOATING MINI ACCENT 1: MANGO TEA -->
+            <div class="hidden sm:block absolute left-2 bottom-6 z-10 animate-cup-accent1 opacity-90 cursor-pointer hover:opacity-100 transition" onclick="quickAddFromHero('Iced Mango Tea', 10000, 'machi', 'Machi Cold Brew Bar', '🥭')">
+              <div class="bg-white/90 backdrop-blur-sm px-4 py-2.5 rounded-2xl shadow-lg border border-white flex items-center gap-2.5">
+                <span class="text-xl">🥭</span>
+                <div class="text-left">
+                  <p class="text-xs font-extrabold text-espresso leading-tight">Mango Tea</p>
+                  <p class="text-[10px] text-amber-700 font-bold">Rp 10.000</p>
+                </div>
               </div>
-              <div>
-                <p class="font-display font-black text-xl text-espresso">Rendah Gula</p>
-                <p class="text-xs text-gray-500 font-medium">Tanpa pemanis buatan berlebih, tetap segar dan aman dikonsumsi harian.</p>
+            </div>
+
+            <!-- FLOATING MINI ACCENT 2: BERRY LATTE -->
+            <div class="hidden sm:block absolute right-2 bottom-12 z-10 animate-cup-accent2 opacity-90 cursor-pointer hover:opacity-100 transition" onclick="quickAddFromHero('Iced Berry Latte', 14000, 'machi', 'Machi Cold Brew Bar', '🍓')">
+              <div class="bg-white/90 backdrop-blur-sm px-4 py-2.5 rounded-2xl shadow-lg border border-white flex items-center gap-2.5">
+                <span class="text-xl">🍓</span>
+                <div class="text-left">
+                  <p class="text-xs font-extrabold text-espresso leading-tight">Berry Latte</p>
+                  <p class="text-[10px] text-rose-700 font-bold">Rp 14.000</p>
+                </div>
               </div>
             </div>
 
           </div>
 
         </div>
-
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- ========================================================================= -->
-  <!-- 5. LIFESTYLE / PHILOSOPHY BANNER                                          -->
-  <!-- ========================================================================= -->
-  <section class="py-12 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-espresso text-white rounded-3xl p-8 sm:p-14 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
+    <!-- ========================================================================= -->
+    <!-- 2. FAN FAVORITES PREVIEW SECTION (4 PASTEL CARDS)                          -->
+    <!-- ========================================================================= -->
+    <section id="favorit" class="py-20 md:py-28 bg-white relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <!-- Decorative Ambient Rings -->
-        <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full border border-white/10 pointer-events-none"></div>
-        <div class="absolute -right-10 -top-10 w-60 h-60 rounded-full border border-white/10 pointer-events-none"></div>
-
-        <div class="max-w-2xl relative z-10">
-          <div class="inline-block bg-white/20 backdrop-blur-sm text-sky-300 text-xs font-bold px-3 py-1 rounded-full mb-4">
-            Komitmen Sehat &amp; Cerdas
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-14">
+          <div>
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-sky-800 bg-sky-50 border border-sky-100 px-3.5 py-1.5 rounded-full mb-3">
+              Kudapan &amp; Kopi Favorit
+            </span>
+            <h2 class="font-display font-black text-3xl sm:text-5xl text-espresso tracking-tight">
+              Paling Sering Dipesan Siswa
+            </h2>
           </div>
-          <h2 class="font-display font-black text-2xl sm:text-4xl text-white tracking-tight leading-tight">
-            Bahan Segar Berkualitas.<br>Kantin Sehat, Siswa Semangat.
-          </h2>
-          <p class="text-sm sm:text-base text-gray-300 mt-3 font-normal">
-            Didukung penuh oleh koperasi sekolah dan seluruh mitra kantin terdaftar demi kenyamanan santap siswa.
-          </p>
+          <a href="menu.html" class="mt-4 md:mt-0 inline-flex items-center gap-2 text-sm font-bold text-sky-700 hover:text-sky-900 transition group min-h-[44px]">
+            <span>Lihat Seluruh Menu (20+)</span>
+            <span class="group-hover:translate-x-1 transition-transform"></span>
+          </a>
         </div>
 
-        <div class="relative z-10 shrink-0">
-          <a href="#favorit" class="inline-block px-8 py-4 rounded-full bg-white hover:bg-sky-50 text-espresso font-display font-black text-sm tracking-wide shadow-lg hover:shadow-xl transition active:scale-95">
-            Mulai Pesan Sekarang →
+        <!-- 4 Pastel Color Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          <!-- Card 1: Peach (#FCE4D6) -->
+          <div class="bg-[#FCE4D6] rounded-[24px] p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+            <div>
+              <div class="w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-xs flex items-center justify-center text-3xl mb-4 group-hover:scale-105 transition shadow-xs">
+                ☕
+              </div>
+              <div class="inline-block bg-white/60 text-amber-900 text-[10px] font-extrabold px-2.5 py-1 rounded-full mb-2">
+                Machi Bar
+              </div>
+              <h3 class="font-display font-black text-xl text-espresso mb-1">Es Kopi Susu</h3>
+              <p class="text-xs text-stone-700 leading-relaxed mb-4">Espresso blend lokal berpadu susu segar dingin manis seimbang.</p>
+            </div>
+            <div class="pt-4 border-t border-amber-900/10 flex items-center justify-between">
+              <span class="font-display font-black text-lg text-espresso">Rp 12.000</span>
+              <button onclick="quickAddFromHero('Es Kopi Susu', 12000, 'machi', 'Machi Cold Brew Bar', '☕')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-sm transition active:scale-95 min-h-[44px]">
+                Tambahkan +
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: Matcha (#E2EFDA) -->
+          <div class="bg-[#E2EFDA] rounded-[24px] p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+            <div>
+              <div class="w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-xs flex items-center justify-center text-3xl mb-4 group-hover:scale-105 transition shadow-xs">
+                🍵
+              </div>
+              <div class="inline-block bg-white/60 text-emerald-900 text-[10px] font-extrabold px-2.5 py-1 rounded-full mb-2">
+                Machi Bar
+              </div>
+              <h3 class="font-display font-black text-xl text-espresso mb-1">Iced Matcha Latte</h3>
+              <p class="text-xs text-stone-700 leading-relaxed mb-4">Bubuk matcha murni Jepang bertekstur lembut dan creamy.</p>
+            </div>
+            <div class="pt-4 border-t border-emerald-900/10 flex items-center justify-between">
+              <span class="font-display font-black text-lg text-espresso">Rp 15.000</span>
+              <button onclick="quickAddFromHero('Iced Matcha Latte', 15000, 'machi', 'Machi Cold Brew Bar', '🍵')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-sm transition active:scale-95 min-h-[44px]">
+                Tambahkan +
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 3: Mango (#FFF2CC) -->
+          <div class="bg-[#FFF2CC] rounded-[24px] p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+            <div>
+              <div class="w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-xs flex items-center justify-center text-3xl mb-4 group-hover:scale-105 transition shadow-xs">
+                🥭
+              </div>
+              <div class="inline-block bg-white/60 text-yellow-900 text-[10px] font-extrabold px-2.5 py-1 rounded-full mb-2">
+                Machi Bar
+              </div>
+              <h3 class="font-display font-black text-xl text-espresso mb-1">Iced Mango Tea</h3>
+              <p class="text-xs text-stone-700 leading-relaxed mb-4">Sari buah mangga manis tropis dengan seduhan teh melati dingin.</p>
+            </div>
+            <div class="pt-4 border-t border-yellow-900/10 flex items-center justify-between">
+              <span class="font-display font-black text-lg text-espresso">Rp 10.000</span>
+              <button onclick="quickAddFromHero('Iced Mango Tea', 10000, 'machi', 'Machi Cold Brew Bar', '🥭')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-sm transition active:scale-95 min-h-[44px]">
+                Tambahkan +
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 4: Berry (#F8CECC) -->
+          <div class="bg-[#F8CECC] rounded-[24px] p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+            <div>
+              <div class="w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-xs flex items-center justify-center text-3xl mb-4 group-hover:scale-105 transition shadow-xs">
+                🍓
+              </div>
+              <div class="inline-block bg-white/60 text-rose-900 text-[10px] font-extrabold px-2.5 py-1 rounded-full mb-2">
+                Machi Bar
+              </div>
+              <h3 class="font-display font-black text-xl text-espresso mb-1">Iced Berry Latte</h3>
+              <p class="text-xs text-stone-700 leading-relaxed mb-4">Bulir stroberi manis asam alami berpadu lembut dengan susu segar.</p>
+            </div>
+            <div class="pt-4 border-t border-rose-900/10 flex items-center justify-between">
+              <span class="font-display font-black text-lg text-espresso">Rp 14.000</span>
+              <button onclick="quickAddFromHero('Iced Berry Latte', 14000, 'machi', 'Machi Cold Brew Bar', '🍓')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-sm transition active:scale-95 min-h-[44px]">
+                Tambahkan +
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-12 text-center">
+          <a href="menu.html" class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-sky-100 hover:bg-sky-200 text-sky-900 font-display font-black text-sm tracking-wide transition min-h-[44px]">
+            <span>Buka Katalog Lengkap dengan Nasi &amp; Snack</span>
+            <span></span>
           </a>
         </div>
 
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 3. STORY BANNER (SEDUH LAMBAT, MOMEN HANGAT)                              -->
+    <!-- ========================================================================= -->
+    <section id="cerita" class="py-20 md:py-28 bg-slate-50 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="bg-gradient-to-br from-sky-50 via-[#E8F4F8] to-[#FFF8F0] rounded-[36px] p-8 sm:p-12 lg:p-16 border border-sky-100 shadow-sm relative overflow-hidden">
+          
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7">
+              <span class="inline-flex items-center gap-2 text-xs font-bold text-sky-800 bg-white/80 px-3.5 py-1.5 rounded-full mb-4 shadow-xs">
+                Filosofi Kantin Boash
+              </span>
+              <h2 class="font-display font-black text-3xl sm:text-5xl text-espresso tracking-tight leading-tight mb-6">
+                Seduh Lambat,<br>Momen Hangat.
+              </h2>
+              <p class="text-base text-gray-700 leading-relaxed font-normal mb-6">
+                Kantin sekolah bukan sekadar tempat menyantap makan siang kilat, melainkan ruang beristirahat bersama teman, bertukar cerita, dan mengisi kembali energi positif sebelum sesi belajar berikutnya.
+              </p>
+              <p class="text-sm text-gray-600 leading-relaxed font-normal">
+                Kami menyeduh minuman dingin secara perlahan selama semalam suntuk, menjaga cita rasa alami biji kopi lokal dan dedaunan teh tanpa perlu mengandalkan pemanis berlebih. Higienis, terjangkau, dan ramah kantong siswa.
+              </p>
+            </div>
+
+            <!-- Stats Column (5 Cols) -->
+            <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
+              
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white shadow-xs flex items-center sm:flex-col lg:flex-row gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-800 font-display font-black text-2xl flex items-center justify-center shrink-0">
+                  12h
+                </div>
+                <div>
+                  <p class="font-display font-black text-xl text-espresso">12 Jam</p>
+                  <p class="text-xs text-slate-400 font-medium">Cold steep perlahan untuk kelembutan rasa tanpa asam berlebih.</p>
+                </div>
+              </div>
+
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white shadow-xs flex items-center sm:flex-col lg:flex-row gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 font-display font-black text-2xl flex items-center justify-center shrink-0">
+                  100%
+                </div>
+                <div>
+                  <p class="font-display font-black text-xl text-espresso">100% Bahan Higienis</p>
+                  <p class="text-xs text-slate-400 font-medium">Biji lokal pilihan &amp; standar higienitas kantin sekolah teruji.</p>
+                </div>
+              </div>
+
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white shadow-xs flex items-center sm:flex-col lg:flex-row gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-800 font-display font-black text-2xl flex items-center justify-center shrink-0">
+                  0g
+                </div>
+                <div>
+                  <p class="font-display font-black text-xl text-espresso">Rendah Gula</p>
+                  <p class="text-xs text-slate-400 font-medium">Tanpa pemanis buatan berlebih, tetap segar dan aman dikonsumsi harian.</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 4. LIFESTYLE BANNER                                                       -->
+    <!-- ========================================================================= -->
+    <section class="py-14 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-espresso text-white rounded-3xl p-8 sm:p-14 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
+          
+          <div class="max-w-2xl relative z-10">
+            <div class="inline-block bg-white/20 backdrop-blur-sm text-sky-300 text-xs font-bold px-3.5 py-1.5 rounded-full mb-4">
+              Standar Bersih &amp; Cerdas
+            </div>
+            <h2 class="font-display font-black text-2xl sm:text-4xl text-white tracking-tight leading-tight">
+              Bahan Segar Berkualitas.<br>Kantin Sehat, Siswa Semangat.
+            </h2>
+            <p class="text-sm sm:text-base text-gray-300 mt-3 font-normal">
+              Didukung penuh oleh koperasi sekolah dan seluruh mitra kantin terdaftar demi kenyamanan santap siswa setiap hari.
+            </p>
+          </div>
+
+          <div class="relative z-10 shrink-0">
+            <a href="menu.html" class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white hover:bg-sky-50 text-espresso font-display font-black text-sm tracking-wide shadow-lg hover:shadow-xl transition active:scale-95 min-h-[44px]">
+              <span>Mulai Pesan di Menu</span>
+              <span></span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
 
   </main>
 
   <!-- ========================================================================= -->
-  <!-- 7. GIANT WORDMARK FOOTER (MACHI REFERENCE IDENTITY)                       -->
+  <!-- 5. FOOTER WITH GIANT "BOASH" WORDMARK                                     -->
   <!-- ========================================================================= -->
   <footer class="bg-espresso text-white pt-20 pb-12 overflow-hidden relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <!-- Top Columns Navigation -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-16 border-b border-white/10">
-        <div>
-          <h4 class="font-display font-bold text-sm tracking-wider uppercase text-sky-400 mb-4">Produk</h4>
-          <ul class="space-y-2.5 text-xs sm:text-sm text-gray-400">
-            <li><a href="#favorit" class="hover:text-white transition">Cold Brew Kopi</a></li>
-            <li><a href="#favorit" class="hover:text-white transition">Matcha &amp; Susu</a></li>
-            <li><a href="#semua-menu" class="hover:text-white transition">Makanan Utama</a></li>
-            <li><a href="#semua-menu" class="hover:text-white transition">Aneka Snack &amp; Roti</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-display font-bold text-sm tracking-wider uppercase text-sky-400 mb-4">Cerita Kami</h4>
-          <ul class="space-y-2.5 text-xs sm:text-sm text-gray-400">
-            <li><a href="#cerita" class="hover:text-white transition">Tentang Machi Kantin</a></li>
-            <li><a href="#cerita" class="hover:text-white transition">Biji Kopi Lokal</a></li>
-            <li><a href="#cerita" class="hover:text-white transition">Standar Higienitas</a></li>
-            <li><a href="#cerita" class="hover:text-white transition">Dukungan Siswa</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-display font-bold text-sm tracking-wider uppercase text-sky-400 mb-4">Layanan</h4>
-          <ul class="space-y-2.5 text-xs sm:text-sm text-gray-400">
-            <li><a href="#semua-menu" class="hover:text-white transition">Jalur Khusus Pick-Up</a></li>
-            <li><a href="penjual.html" class="hover:text-white transition">Portal Warung Penjual</a></li>
-            <li><a href="javascript:void(0)" onclick="checkActiveOrderStatus()" class="hover:text-white transition">Lacak Pesanan Aktif</a></li>
-            <li><a href="#" class="hover:text-white transition">Panduan Aplikasi</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-display font-bold text-sm tracking-wider uppercase text-sky-400 mb-4">Jam Operasional</h4>
-          <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
-            Senin – Jumat<br>
-            07.00 – 15.00 WIB<br>
-            <span class="text-xs text-sky-400 mt-2 inline-block font-semibold">Istirahat 1: 09.30 · Istirahat 2: 12.00</span>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-16 border-b border-white/10 text-sm">
+        
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-white text-espresso flex items-center justify-center font-display font-black text-lg">
+              b
+            </div>
+            <span class="font-display font-black text-2xl tracking-tight text-white">Kantin Boash</span>
+          </div>
+          <p class="text-xs text-slate-300 max-w-sm leading-relaxed">
+            Platform pemesanan kantin sekolah modern. Menghilangkan antrian berdesakan saat jam istirahat sekolah melalui pemesanan terintegrasi.
           </p>
         </div>
-      </div>
 
-      <!-- Giant Wordmark Display -->
-      <div class="py-12 md:py-16 text-center select-none overflow-hidden">
-        <span class="font-display font-black text-[7.5rem] sm:text-[12rem] lg:text-[15rem] leading-none tracking-tighter text-white/90 inline-block">
-          kantin
-        </span>
-      </div>
-
-      <!-- Copyright & System Status -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10 text-xs text-gray-500">
-        <p>© 2026 Kantin Sekolah Digital. Semua hak cipta dilindungi.</p>
-        <div class="flex items-center gap-4">
-          <span class="inline-flex items-center gap-1.5 text-emerald-400">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Sistem Online &amp; Terhubung
-          </span>
-          <a href="penjual.html" class="hover:text-gray-300 underline">Dashboard Penjual</a>
+        <div>
+          <p class="font-bold text-white text-xs tracking-normal mb-4">Halaman Siswa</p>
+          <ul class="space-y-2.5 text-xs text-slate-300">
+            <li><a href="index.html" class="hover:text-white transition">Beranda</a></li>
+            <li><a href="menu.html" class="hover:text-white transition">Katalog Menu</a></li>
+            <li><a href="status.html" class="hover:text-white transition">Cek Status Pesanan</a></li>
+            <li><a href="#cerita" class="hover:text-white transition">Tentang Kantin</a></li>
+          </ul>
         </div>
+
+        <div>
+          <p class="font-bold text-white text-xs tracking-normal mb-4">Pengelola &amp; Mitra</p>
+          <ul class="space-y-2.5 text-xs text-slate-300">
+            <li><a href="penjual.html" class="hover:text-white transition">Portal Penjual (POS)</a></li>
+            <li><span class="text-slate-400">Koperasi Sekolah</span></li>
+            <li><span class="text-slate-400">Jam Operasional: 07.00 - 15.00 WIB</span></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Giant Wordmark boash -->
+      <div class="py-12 select-none pointer-events-none overflow-hidden text-center">
+        <p class="text-[12rem] md:text-[16rem] font-black tracking-tight leading-none text-center select-none text-white/90 font-display">
+          boash
+        </p>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        <p>© 2026 Kantin Boash. Momen Terbaik Sekolah.</p>
+        <p>Dibuat untuk kenyamanan seluruh siswa &amp; mitra kantin.</p>
       </div>
 
     </div>
   </footer>
 
-  <!-- ========================================================================= -->
-  <!-- 6. CART DRAWER & CHECKOUT SLIDE-OVER MODAL                                -->
-  <!-- ========================================================================= -->
-  <div id="cart-drawer-backdrop" class="fixed inset-0 bg-espresso/50 backdrop-blur-xs z-50 transition-opacity duration-300 opacity-0 pointer-events-none" onclick="closeCartDrawer()"></div>
-  
-  <div id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white z-50 shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 ease-out">
-    
-    <!-- Drawer Header -->
-    <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-sky-50/50">
-      <div>
-        <h3 class="font-display font-black text-xl text-espresso">Keranjang Pesanan</h3>
-        <p class="text-xs text-gray-500" id="drawer-item-count">0 item dipilih</p>
+  <!-- Quick Toast Notification Container -->
+  <div id="quick-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-espresso text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-white/10 pointer-events-auto">
+      <span class="text-emerald-400 text-lg">✓</span>
+      <div class="text-xs">
+        <p id="toast-title" class="font-bold">Item ditambahkan ke keranjang</p>
+        <a href="menu.html" class="text-sky-300 hover:text-sky-200 underline font-semibold mt-0.5 inline-block">Lihat di Menu / Keranjang </a>
       </div>
-      <button onclick="closeCartDrawer()" class="w-9 h-9 rounded-full bg-white border border-gray-200 text-gray-600 hover:bg-gray-100 transition flex items-center justify-center font-bold">
-        ✕
-      </button>
-    </div>
-
-    <!-- Drawer Content / Items List -->
-    <div class="flex-1 overflow-y-auto p-6 space-y-4" id="cart-items-container">
-      <!-- Injected when cart has items or empty state -->
-    </div>
-
-    <!-- Drawer Footer / Checkout Form & Button -->
-    <div class="p-6 border-t border-gray-100 bg-white space-y-4">
-      
-      <!-- Student Name & Class Input -->
-      <div class="grid grid-cols-2 gap-3" id="student-info-form">
-        <div>
-          <label for="input-nama" class="block text-[11px] font-bold text-gray-600 uppercase mb-1">Nama Siswa</label>
-          <input type="text" id="input-nama" placeholder="Contoh: Budi" class="w-full text-xs font-semibold px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-400">
-        </div>
-        <div>
-          <label for="input-kelas" class="block text-[11px] font-bold text-gray-600 uppercase mb-1">Kelas</label>
-          <input type="text" id="input-kelas" placeholder="Contoh: XI RPL 1" class="w-full text-xs font-semibold px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-400">
-        </div>
-      </div>
-
-      <!-- Notes input -->
-      <div>
-        <div class="flex justify-between items-center mb-1">
-          <label for="input-catatan" class="block text-[11px] font-bold text-gray-600 uppercase">Catatan Tambahan (Opsional)</label>
-          <span id="catatan-counter" class="text-[10px] text-gray-400 font-mono">0/300</span>
-        </div>
-        <input type="text" id="input-catatan" placeholder="Contoh: Es sedikit, pedas sedang" maxlength="300" oninput="updateCatatanCounter()" class="w-full text-xs font-semibold px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-400">
-      </div>
-
-      <!-- Subtotal row -->
-      <div class="flex items-center justify-between pt-2">
-        <span class="text-sm font-semibold text-gray-500">Total Pembayaran</span>
-        <span class="font-display font-black text-2xl text-espresso" id="drawer-total-price">Rp 0</span>
-      </div>
-
-      <!-- Submit Order Button -->
-      <button id="btn-submit-order" onclick="checkout()" class="w-full py-3.5 rounded-full bg-espresso hover:bg-black text-white font-display font-bold text-sm tracking-wide shadow-xl transition active:scale-95 flex items-center justify-center gap-2">
-        <span>Konfirmasi Pesanan</span>
-        <span class="text-sky-300">→</span>
-      </button>
-
-      <p class="text-[10px] text-center text-gray-400">
-        Pembayaran tunai / QRIS saat mengambil pesanan di loket Jalur Khusus.
-      </p>
-    </div>
-
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- FLOATING BOTTOM CART PILL (MOBILE & DESKTOP QUICK TRIGGER)                -->
-  <!-- ========================================================================= -->
-  <div id="sticky-cart-pill" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 hidden transition-all duration-300 ">
-    <button onclick="openCartDrawer()" class="bg-espresso text-white px-6 py-3.5 rounded-full shadow-2xl border-2 border-white/20 flex items-center gap-4 hover:scale-105 transition active:scale-95">
-      <span class="flex items-center gap-2">
-        <span id="pill-count" class="bg-sky-400 text-espresso text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">0</span>
-        <span class="font-display font-bold text-xs sm:text-sm">Keranjang Pesanan</span>
-      </span>
-      <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
-      <span id="pill-total" class="font-display font-black text-xs sm:text-sm text-sky-200">Rp 0</span>
-    </button>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- ORDER SUCCESS / LIVE STATUS MODAL                                         -->
-  <!-- ========================================================================= -->
-  <div id="order-modal-backdrop" class="fixed inset-0 bg-espresso/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative overflow-hidden max-h-[90vh] overflow-y-auto">
-      
-      <!-- Close / Back Button -->
-      <button onclick="closeOrderModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 font-bold flex items-center justify-center">
-        ✕
-      </button>
-
-      <div class="text-center">
-        <div class="w-16 h-16 mx-auto bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl mb-3">
-          🎉
-        </div>
-        <h3 class="font-display font-black text-2xl text-espresso mb-1">Pesanan Terkirim!</h3>
-        <p class="text-xs text-gray-400" id="success-waktu"></p>
-
-        <!-- Ticket / Queue Number Box -->
-        <div class="bg-sky-50 border border-sky-100 rounded-2xl p-5 my-5 text-center">
-          <p class="text-[11px] text-sky-800 font-bold tracking-normal">Nomor Antrian Jalur Khusus</p>
-          <p id="antrian-number" class="font-display font-black text-5xl text-[#0369A1] my-2 tracking-tight">A-001</p>
-          <p class="text-xs text-gray-500">Tunjukkan tiket QR ini di loket kantin</p>
-        </div>
-
-        <!-- QR Code Container -->
-        <div class="flex justify-center mb-5">
-          <div id="qrcode" class="p-3 bg-white border border-gray-100 rounded-2xl shadow-inner"></div>
-        </div>
-
-        <!-- Live Status Badge -->
-        <div class="mb-5">
-          <span id="status-badge" class="inline-block bg-sky-100 text-sky-800 text-xs font-black tracking-normal px-5 py-2 rounded-full shadow-xs">
-            Dipesan
-          </span>
-          <p class="text-[11px] text-gray-400 mt-1.5">Status otomatis diperbarui secara live (1.5 detik)</p>
-        </div>
-
-        <!-- Order Summary Details -->
-        <div class="bg-slate-50 rounded-2xl p-4 text-left mb-5 text-xs text-gray-700 space-y-2">
-          <div class="flex justify-between font-bold border-b border-gray-200/60 pb-2">
-            <span>Lokasi Warung:</span>
-            <span id="success-warung" class="text-espresso"></span>
-          </div>
-          <ul id="success-items" class="space-y-1.5 pt-1 text-gray-600"></ul>
-          <div class="flex justify-between font-extrabold text-sm pt-2 border-t border-gray-200/60 text-espresso">
-            <span>Total Bayar:</span>
-            <span id="success-total" class="text-[#0369A1]"></span>
-          </div>
-        </div>
-
-        <!-- Instructions Box -->
-        <div class="bg-amber-50/80 border border-amber-200/60 rounded-2xl p-4 text-left mb-6">
-          <p class="text-xs font-bold text-amber-900 mb-1">🚶 Panduan Ambil di Jalur Khusus:</p>
-          <ol class="text-[11px] text-amber-800 list-decimal list-inside space-y-1">
-            <li>Saat bel istirahat berbunyi, langsung datang ke loket Jalur Khusus.</li>
-            <li>Tunjukkan nomor antrian atau QR code kepada penjual.</li>
-            <li>Ambil pesanan ketika status berubah menjadi <span class="font-bold">"Siap Diambil"</span>.</li>
-          </ol>
-        </div>
-
-        <button onclick="pesanLagi()" class="w-full py-3.5 rounded-full bg-espresso hover:bg-black text-white font-display font-bold text-sm tracking-wide shadow-md transition">
-          Pesan Menu Lainnya
-        </button>
-      </div>
-
     </div>
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- APPLICATION CORE LOGIC (COMPATIBLE WITH API & PENJUAL.HTML)               -->
-  <!-- ========================================================================= -->
   <script>
-    const API_URL = '/api/orders';
-
-    // Warung catalog data with Machi specialty drinks
-    const warungs = [
-      {
-        id: 'machi',
-        nama: 'Machi Cold Brew Bar',
-        emoji: '☕',
-        kategori: 'minuman',
-        menu: [
-          { nama: 'Es Kopi Susu', harga: 12000, desc: 'Espresso blend & susu manis dingin', emoji: '☕' },
-          { nama: 'Iced Matcha Latte', harga: 15000, desc: 'Matcha Jepang & susu segar creamy', emoji: '🍵' },
-          { nama: 'Iced Mango Tea', harga: 10000, desc: 'Sari mangga manis & teh melati dingin', emoji: '🥭' },
-          { nama: 'Iced Berry Latte', harga: 14000, desc: 'Stroberi segar & susu dingin lembut', emoji: '🍓' },
-        ]
-      },
-      {
-        id: 'siti',
-        nama: 'Warung Bu Siti',
-        emoji: '🍛',
-        kategori: 'makanan',
-        menu: [
-          { nama: 'Nasi Ayam Geprek', harga: 15000, desc: 'Ayam krispi geprek sambal bawang pedas', emoji: '🍗' },
-          { nama: 'Nasi Gudeg', harga: 13000, desc: 'Gudeg nangka khas Jogja gurih manis', emoji: '🍛' },
-          { nama: 'Soto Ayam', harga: 12000, desc: 'Kuah soto kuning segar dengan suwiran ayam', emoji: '🥣' },
-          { nama: 'Es Teh Manis', harga: 4000, desc: 'Teh melati wangi dengan es batu melimpah', emoji: '🥤' }
-        ]
-      },
-      {
-        id: 'joko',
-        nama: 'Warung Pak Joko',
-        emoji: '🍜',
-        kategori: 'makanan',
-        menu: [
-          { nama: 'Mie Ayam Bakso', harga: 14000, desc: 'Mie kenyal dengan potongan ayam & bakso', emoji: '🍜' },
-          { nama: 'Bakso Urat', harga: 16000, desc: 'Bakso daging sapi urat dengan kuah kaldu sapi', emoji: '🍲' },
-          { nama: 'Mie Goreng Jawa', harga: 13000, desc: 'Mie goreng bumbu kecap manis gurih', emoji: '🍝' }
-        ]
-      },
-      {
-        id: 'sehat',
-        nama: 'Kedai Sehat',
-        emoji: '🥗',
-        kategori: 'minuman',
-        menu: [
-          { nama: 'Salad Buah', harga: 12000, desc: 'Campuran apel, melon, semangka & saus keju', emoji: '🥗' },
-          { nama: 'Jus Alpukat', harga: 10000, desc: 'Alpukat mentega kental dengan susu cokelat', emoji: '🥑' },
-          { nama: 'Oat Bowl', harga: 15000, desc: 'Oatmeal hangat dengan potongan pisang & madu', emoji: '🥣' },
-          { nama: 'Air Mineral', harga: 3000, desc: 'Air mineral botol dingin 600ml', emoji: '💧' },
-          { nama: 'Yogurt Drink', harga: 8000, desc: 'Minuman probiotik dingin rasa buah', emoji: '🥛' }
-        ]
-      },
-      {
-        id: 'snack',
-        nama: 'Aneka Snack',
-        emoji: '🍩',
-        kategori: 'snack',
-        menu: [
-          { nama: 'Roti Bakar Coklat', harga: 8000, desc: 'Roti bakar mentega dengan meses melimpah', emoji: '🍞' },
-          { nama: 'Donat Kentang', harga: 6000, desc: 'Donat empuk bertabur gula halus salju', emoji: '🍩' },
-          { nama: 'Risoles Mayo', harga: 5000, desc: 'Risoles isi telur, smoked beef & creamy mayo', emoji: '🥟' }
-        ]
+    // Shared localStorage Cart helper
+    function getCart() {
+      try {
+        const raw = localStorage.getItem('kantin_cart');
+        return raw ? JSON.parse(raw) : {};
+      } catch {
+        return {};
       }
-    ];
-
-    // Reactive Cart State
-    let cart = {}; // { 'Item Name': { item, warungId, warungNama, qty } }
-    let activeFilter = 'all'; // 'all' or warungId or kategori
-
-    function rupiah(n) {
-      return 'Rp ' + Number(n).toLocaleString('id-ID');
     }
 
-    // Initialize UI
-    function init() {
-      renderWarungTabs();
-      renderCatalog();
-      updateCartUI();
-      checkActiveOrderStatus();
+    function saveCart(cart) {
+      localStorage.setItem('kantin_cart', JSON.stringify(cart));
+      updateNavBadge();
     }
 
-    // Render Filter Tabs
-    function renderWarungTabs() {
-      const tabs = document.getElementById('warung-tabs');
-      let html = `
-        <button onclick="setFilter('all')" class="px-5 py-2 rounded-full text-xs font-bold transition shadow-xs ${activeFilter === 'all' ? 'bg-espresso text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}">
-          Semua Menu
-        </button>
-      `;
-      warungs.forEach(w => {
-        const isActive = activeFilter === w.id;
-        html += `
-          <button onclick="setFilter('${w.id}')" class="px-4 py-2 rounded-full text-xs font-bold transition shadow-xs flex items-center gap-1.5 ${isActive ? 'bg-espresso text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}">
-            <span>${w.emoji}</span>
-            <span>${w.nama}</span>
-          </button>
-        `;
-      });
-      tabs.innerHTML = html;
+    function updateNavBadge() {
+      const cart = getCart();
+      const count = Object.values(cart).reduce((sum, item) => sum + (item.qty || 1), 0);
+      const badge = document.getElementById('nav-cart-badge');
+      if (badge) badge.textContent = count;
     }
 
-    function setFilter(filterId) {
-      activeFilter = filterId;
-      renderWarungTabs();
-      renderCatalog();
-    }
-
-    // Render Catalog Items
-    function renderCatalog() {
-      const grid = document.getElementById('catalog-grid');
-      let filteredItems = [];
-
-      // STRESS-EMPTY-MENU defense: provide guaranteed fallback if catalog is corrupted
-      const catalogData = (Array.isArray(warungs) && warungs.length > 0) ? warungs : [
-        {
-          id: 'machi',
-          nama: 'Machi Cold Brew Bar',
-          emoji: '☕',
-          kategori: 'minuman',
-          menu: [
-            { nama: 'Es Kopi Susu', harga: 12000, desc: 'Espresso blend & susu manis dingin', emoji: '☕' },
-            { nama: 'Iced Matcha Latte', harga: 15000, desc: 'Matcha Jepang & susu segar creamy', emoji: '🍵' }
-          ]
-        }
-      ];
-
-      catalogData.forEach(w => {
-        if (activeFilter === 'all' || activeFilter === w.id) {
-          (w.menu || []).forEach(item => {
-            filteredItems.push({ ...item, warungId: w.id, warungNama: w.nama });
-          });
-        }
-      });
-
-      if (filteredItems.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full text-center py-12 bg-sky-50/50 rounded-3xl border border-sky-100">
-            <p class="font-display font-bold text-gray-700">Tidak ada menu yang tersedia</p>
-            <button onclick="setFilter('all')" class="mt-3 px-4 py-2 bg-espresso text-white rounded-full text-xs font-bold">
-              Lihat Semua Menu
-            </button>
-          </div>
-        `;
-        return;
-      }
-
-      grid.innerHTML = filteredItems.map(item => {
-        const qty = cart[item.nama] ? cart[item.nama].qty : 0;
-        return `
-          <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <span class="text-3xl">${item.emoji || '🍴'}</span>
-                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-2.5 py-1 rounded-full tracking-normal">${item.warungNama}</span>
-              </div>
-              <h4 class="font-display font-extrabold text-lg text-espresso mb-1">${item.nama}</h4>
-              <p class="text-xs text-gray-500 line-clamp-2 mb-4 leading-relaxed">${item.desc || ''}</p>
-            </div>
-            
-            <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
-              <span class="font-display font-black text-base text-espresso">${rupiah(item.harga)}</span>
-              
-              ${qty === 0 ? `
-                <button onclick="addItem('${item.nama}', ${item.harga}, '${item.warungId}', '${item.warungNama}')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition active:scale-95 flex items-center gap-1">
-                  Tambah +
-                </button>
-              ` : `
-                <div class="flex items-center gap-2">
-                  <button onclick="changeQty('${item.nama}', -1)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-espresso font-bold text-sm flex items-center justify-center transition active:scale-90">−</button>
-                  <span class="font-display font-black text-xs w-5 text-center">${qty}</span>
-                  <button onclick="changeQty('${item.nama}', 1)" class="w-8 h-8 rounded-full bg-espresso hover:bg-black text-white font-bold text-sm flex items-center justify-center transition active:scale-90">+</button>
-                </div>
-              `}
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // Quick Add from Featured Section
-    function quickAddFeatured(nama, harga, kategori) {
-      const match = warungs[0].menu.find(m => m.nama === nama);
-      addItem(nama, harga, warungs[0].id, warungs[0].nama);
-      openCartDrawer();
-    }
-
-    // Cart Management
-    function addItem(nama, harga, warungId, warungNama) {
+    function quickAddFromHero(nama, harga, warungId, warungNama, emoji) {
+      const cart = getCart();
       if (cart[nama]) {
-        cart[nama].qty++;
+        cart[nama].qty += 1;
       } else {
         cart[nama] = {
-          item: { nama, harga },
-          warungId: warungId || 'machi',
-          warungNama: warungNama || 'Machi Cold Brew Bar',
-          qty: 1
+          nama: nama,
+          harga: harga,
+          qty: 1,
+          warungId: warungId,
+          warungNama: warungNama,
+          emoji: emoji
         };
       }
-      updateCartUI();
-      renderCatalog();
+      saveCart(cart);
+
+      // Show toast
+      showToast(nama);
     }
 
-    function changeQty(nama, delta) {
-      if (!cart[nama]) return;
-      cart[nama].qty += delta;
-      if (cart[nama].qty <= 0) {
-        delete cart[nama];
-      }
-      updateCartUI();
-      renderCatalog();
-    }
-
-    function updateCartUI() {
-      const items = Object.values(cart);
-      const totalCount = items.reduce((s, c) => s + c.qty, 0);
-      const totalPrice = items.reduce((s, c) => s + (c.item.harga * c.qty), 0);
-
-      // Update Nav Badge
-      document.getElementById('nav-cart-badge').textContent = totalCount;
-
-      // Update Floating Pill
-      const stickyPill = document.getElementById('sticky-cart-pill');
-      if (totalCount > 0) {
-        stickyPill.classList.remove('hidden');
-        document.getElementById('pill-count').textContent = totalCount;
-        document.getElementById('pill-total').textContent = rupiah(totalPrice);
-      } else {
-        stickyPill.classList.add('hidden');
-      }
-
-      // Update Drawer
-      document.getElementById('drawer-item-count').textContent = `${totalCount} item`;
-      document.getElementById('drawer-total-price').textContent = rupiah(totalPrice);
-
-      const container = document.getElementById('cart-items-container');
-      if (totalCount === 0) {
-        container.innerHTML = `
-          <div class="text-center py-16">
-            <div class="w-16 h-16 bg-sky-50 text-sky-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-3">
-              🛍️
-            </div>
-            <p class="font-display font-bold text-sm text-espresso">Keranjang Masih Kosong</p>
-            <p class="text-xs text-gray-400 mt-1 max-w-xs mx-auto">Pilih cold brew segar atau makanan favoritmu sebelum bel istirahat berbunyi.</p>
-          </div>
-        `;
-        document.getElementById('btn-submit-order').disabled = true;
-        document.getElementById('btn-submit-order').classList.add('opacity-50', 'cursor-not-allowed');
-      } else {
-        document.getElementById('btn-submit-order').disabled = false;
-        document.getElementById('btn-submit-order').classList.remove('opacity-50', 'cursor-not-allowed');
-        container.innerHTML = items.map(c => `
-          <div class="flex items-center justify-between p-3.5 rounded-2xl bg-gray-50 border border-gray-100">
-            <div>
-              <p class="font-bold text-xs text-espresso">${c.item.nama}</p>
-              <p class="text-[11px] text-gray-500">${rupiah(c.item.harga)} × ${c.qty}</p>
-              <span class="text-[9px] font-semibold text-[#0369A1] bg-sky-50 px-2 py-0.5 rounded-full inline-block mt-1">${c.warungNama}</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <button onclick="changeQty('${c.item.nama}', -1)" class="w-7 h-7 rounded-full bg-white border border-gray-200 text-espresso font-bold text-xs flex items-center justify-center active:scale-90">−</button>
-              <span class="font-bold text-xs w-4 text-center">${c.qty}</span>
-              <button onclick="changeQty('${c.item.nama}', 1)" class="w-7 h-7 rounded-full bg-espresso text-white font-bold text-xs flex items-center justify-center active:scale-90">+</button>
-            </div>
-          </div>
-        `).join('');
+    function showToast(nama) {
+      const toast = document.getElementById('quick-toast');
+      const title = document.getElementById('toast-title');
+      if (toast && title) {
+        title.textContent = `"${nama}" masuk ke keranjang!`;
+        toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+        }, 3000);
       }
     }
 
-    // Drawer Controls
-    function openCartDrawer() {
-      document.getElementById('cart-drawer-backdrop').classList.remove('opacity-0', 'pointer-events-none');
-      document.getElementById('cart-drawer').classList.remove('translate-x-full');
-    }
-
-    function closeCartDrawer() {
-      document.getElementById('cart-drawer-backdrop').classList.add('opacity-0', 'pointer-events-none');
-      document.getElementById('cart-drawer').classList.add('translate-x-full');
-    }
-
-    // Update Catatan counter
-    function updateCatatanCounter() {
-      const el = document.getElementById('input-catatan');
-      const counter = document.getElementById('catatan-counter');
-      if (el && counter) {
-        counter.textContent = `${el.value.length}/300`;
-      }
-    }
-
-    let isSubmitting = false;
-
-    // Order Submission (Compatible with api/orders.js and penjual.html)
-    async function checkout() {
-      if (isSubmitting) return; // Prevent double-clicks / race conditions
-      const items = Object.values(cart);
-      if (items.length === 0) return;
-
-      const rawName = document.getElementById('input-nama').value.trim();
-      const nama = rawName.slice(0, 60) || 'Siswa Kantin';
-      const rawKelas = document.getElementById('input-kelas').value.trim();
-      const kelas = rawKelas.slice(0, 20) || 'Umum';
-      const rawCatatan = document.getElementById('input-catatan').value.trim();
-      const catatan = rawCatatan.slice(0, 300);
-
-      isSubmitting = true;
-      const submitBtn = document.getElementById('btn-submit-order');
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = `<span>Mengirim Pesanan...</span>`;
-
-      // Main warung reference (uses first selected warung or default)
-      const primaryWarungId = items[0].warungId || 'machi';
-      const primaryWarungNama = items[0].warungNama || 'Machi Cold Brew Bar';
-      const total = items.reduce((s, c) => s + (c.item.harga * c.qty), 0);
-
-      const payload = {
-        id: 'ORD-' + Date.now(),
-        warungId: primaryWarungId,
-        warungNama: primaryWarungNama,
-        warung: primaryWarungId,
-        items: items.map(c => ({
-          nama: c.item.nama,
-          name: c.item.nama,
-          harga: c.item.harga,
-          price: c.item.harga,
-          qty: c.qty,
-          quantity: c.qty
-        })),
-        total,
-        totalAmount: total,
-        nama,
-        studentName: nama,
-        kelas,
-        studentClass: kelas,
-        notes: catatan,
-        catatan,
-        waktu: new Date().toLocaleString('id-ID'),
-        status: 'Dipesan'
-      };
-
-      let order = null;
-      let networkFailed = false;
-
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          signal: controller.signal
-        });
-        clearTimeout(timeoutId);
-        if (res.ok) {
-          order = await res.json();
-        } else {
-          networkFailed = true;
-        }
-      } catch (err) {
-        console.warn('Network error or API unavailable, queueing in offline mode', err);
-        networkFailed = true;
-      }
-
-      // STRESS-NET-DROP defense: queue locally with counter and notify
-      if (!order) {
-        const counter = parseInt(localStorage.getItem('kantin_counter') || '0') + 1;
-        localStorage.setItem('kantin_counter', counter);
-        const antrian = 'A-' + String(counter).padStart(3, '0');
-        order = { ...payload, antrian, status: 'Dipesan' };
-
-        // Save in kantin_orders and offline sync queue
-        try {
-          const orders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
-          orders.push(order);
-          localStorage.setItem('kantin_orders', JSON.stringify(orders));
-
-          const queue = JSON.parse(localStorage.getItem('kantin_offline_queue') || '[]');
-          queue.push(order);
-          localStorage.setItem('kantin_offline_queue', JSON.stringify(queue));
-        } catch (e) {
-          console.error('localStorage save error:', e);
-        }
-      } else {
-        // Mirror to local cache for instant reload
-        try {
-          const cached = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
-          if (!cached.find(o => o.id === order.id)) {
-            cached.push(order);
-            localStorage.setItem('kantin_orders', JSON.stringify(cached));
-          }
-        } catch {}
-      }
-
-      localStorage.setItem('kantin_last_order_id', order.id);
-
-      // Reset Form & Close Drawer
-      cart = {};
-      updateCartUI();
-      renderCatalog();
-      closeCartDrawer();
-      isSubmitting = false;
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = `<span>Konfirmasi Pesanan</span> <span class="text-sky-300">→</span>`;
-
-      // Show Confirmation Modal
-      showOrderSuccess(order, networkFailed);
-    }
-
-    // Show Confirmation Modal
-    function showOrderSuccess(order, isOfflineQueued = false) {
-      const modal = document.getElementById('order-modal-backdrop');
-      modal.classList.remove('hidden');
-
-      document.getElementById('antrian-number').textContent = order.antrian || 'A-001';
-      document.getElementById('success-waktu').textContent = order.waktu || new Date().toLocaleString('id-ID');
-      document.getElementById('success-warung').textContent = order.warungNama || order.warung;
-
-      // STRESS-NET-DROP notice banner in modal
-      let offlineNotice = document.getElementById('offline-queue-notice');
-      if (!offlineNotice) {
-        offlineNotice = document.createElement('div');
-        offlineNotice.id = 'offline-queue-notice';
-        offlineNotice.className = 'mb-4 p-3 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-800 flex items-center justify-between gap-2';
-        const modalContent = modal.querySelector('.text-center');
-        if (modalContent) modalContent.insertBefore(offlineNotice, modalContent.children[3]);
-      }
-      if (isOfflineQueued) {
-        offlineNotice.classList.remove('hidden');
-        offlineNotice.innerHTML = `
-          <span>⚠️ Offline: Pesanan tersimpan di antrian lokal.</span>
-          <button onclick="retryOfflineSync('${order.id}')" id="btn-sync-retry" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-bold text-[11px] transition">
-            Kirim Ulang
-          </button>
-        `;
-      } else {
-        offlineNotice.classList.add('hidden');
-      }
-      
-      document.getElementById('success-items').innerHTML = (order.items || []).map(i => `
-        <li class="flex justify-between">
-          <span>${i.nama || i.name} ×${i.qty || i.quantity}</span>
-          <span class="font-bold">${rupiah((i.harga || i.price) * (i.qty || i.quantity))}</span>
-        </li>
-      `).join('');
-      
-      document.getElementById('success-total').textContent = rupiah(order.total || order.totalAmount);
-
-      // Render QR Code
-      const qrDiv = document.getElementById('qrcode');
-      qrDiv.innerHTML = '';
-      new QRCode(qrDiv, {
-        text: order.id,
-        width: 150,
-        height: 150,
-        colorDark: '#1A1A1A',
-        colorLight: '#FFFFFF',
-        correctLevel: QRCode.CorrectLevel.M
-      });
-
-      updateModalStatusBadge(order.status || 'Dipesan');
-    }
-
-    async function retryOfflineSync(orderId) {
-      const btn = document.getElementById('btn-sync-retry');
-      if (btn) { btn.disabled = true; btn.textContent = 'Mencoba...'; }
-      try {
-        const queue = JSON.parse(localStorage.getItem('kantin_offline_queue') || '[]');
-        const target = queue.find(o => o.id === orderId);
-        if (!target) {
-          if (btn) btn.textContent = 'Tersinkron!';
-          return;
-        }
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(target)
-        });
-        if (res.ok) {
-          const updatedQueue = queue.filter(o => o.id !== orderId);
-          localStorage.setItem('kantin_offline_queue', JSON.stringify(updatedQueue));
-          const notice = document.getElementById('offline-queue-notice');
-          if (notice) notice.classList.add('hidden');
-        } else {
-          if (btn) { btn.disabled = false; btn.textContent = 'Coba Lagi'; }
-        }
-      } catch {
-        if (btn) { btn.disabled = false; btn.textContent = 'Coba Lagi'; }
-      }
-    }
-
-    function updateModalStatusBadge(status) {
-      const badge = document.getElementById('status-badge');
-      badge.textContent = status;
-      const styles = {
-        'Dipesan':       ['bg-sky-100', 'text-sky-800'],
-        'Diterima':      ['bg-indigo-100', 'text-indigo-800'],
-        'Disiapkan':     ['bg-amber-100', 'text-amber-800'],
-        'Siap Diambil':  ['bg-emerald-100', 'text-emerald-800'],
-        'Selesai':       ['bg-gray-200', 'text-gray-700'],
-        'menunggu':      ['bg-sky-100', 'text-sky-800'],
-        'dimasak':       ['bg-amber-100', 'text-amber-800'],
-        'siap':          ['bg-emerald-100', 'text-emerald-800'],
-        'selesai':       ['bg-gray-200', 'text-gray-700'],
-        'dibatalkan':    ['bg-red-100', 'text-red-800']
-      };
-      const s = styles[status] || styles['Dipesan'];
-      badge.className = 'inline-block text-xs font-black tracking-normal px-5 py-2 rounded-full shadow-xs ' + s.join(' ');
-    }
-
-    function closeOrderModal() {
-      document.getElementById('order-modal-backdrop').classList.add('hidden');
-    }
-
-    function pesanLagi() {
-      closeOrderModal();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Check Active Order on demand or on load
-    async function checkActiveOrderStatus() {
-      const lastId = localStorage.getItem('kantin_last_order_id');
-      if (!lastId) return;
-
-      let order = null;
-      try {
-        const r = await fetch(API_URL);
-        if (r.ok) {
-          const list = await r.json();
-          if (Array.isArray(list)) order = list.find(o => o.id === lastId);
-        }
-      } catch {}
-
-      if (!order) {
-        try {
-          const list = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
-          order = list.find(o => o.id === lastId);
-        } catch {}
-      }
-
-      if (order) {
-        showOrderSuccess(order);
-      }
-    }
-
-    // Live polling for status updates every 1.5s
-    setInterval(async () => {
-      const modal = document.getElementById('order-modal-backdrop');
-      if (modal.classList.contains('hidden')) return;
-
-      const lastId = localStorage.getItem('kantin_last_order_id');
-      if (!lastId) return;
-
-      let order = null;
-      try {
-        const r = await fetch(API_URL);
-        if (r.ok) {
-          const list = await r.json();
-          if (Array.isArray(list)) order = list.find(o => o.id === lastId);
-        }
-      } catch {}
-
-      if (!order) {
-        try {
-          const list = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
-          order = list.find(o => o.id === lastId);
-        } catch {}
-      }
-
-      if (order && order.status) {
-        updateModalStatusBadge(order.status);
-      }
-    }, 1500);
-
-    // Boot Application
-    window.addEventListener('DOMContentLoaded', init);
+    // Init on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateNavBadge();
+    });
   </script>
 </body>
 </html>

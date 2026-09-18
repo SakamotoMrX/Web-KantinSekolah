@@ -1,73 +1,152 @@
 {
   "architecture": {
-    "components": [
+    "system_overview": "Multi-page static architecture with persistent Machi cold brew aesthetic. Separation of concerns across landing discovery (index.html), order execution (menu.html), live status tracking (status.html), and dedicated seller operations (penjual.html). Shared state via localStorage and API polling (/api/orders).",
+    "pages": {
+      "index.html": {
+        "role": "Brand landing page for Kantin Boash",
+        "sections": [
+          "navbar-brand-nav",
+          "hero-floating-cups",
+          "cloud-parallax-sky",
+          "pastel-product-card-preview",
+          "editorial-stats-banner",
+          "organic-lifestyle-banner",
+          "giant-wordmark-footer"
+        ],
+        "links": ["menu.html", "status.html", "penjual.html"]
+      },
+      "menu.html": {
+        "role": "Full ordering catalog and checkout portal",
+        "sections": [
+          "navbar-with-cart-counter",
+          "warung-filter-tabs",
+          "pastel-product-card-grid",
+          "slideout-cart-drawer",
+          "checkout-modal",
+          "giant-wordmark-footer"
+        ],
+        "state_bindings": ["kantin_cart", "kantin_active_order_id", "kantin_last_order"]
+      },
+      "status.html": {
+        "role": "Dedicated live order tracking and queue visualization",
+        "sections": [
+          "navbar-minimal",
+          "order-status-timeline",
+          "qr-code-display",
+          "order-item-summary-card",
+          "empty-order-fallback-state",
+          "giant-wordmark-footer"
+        ],
+        "state_bindings": ["kantin_active_order_id", "polling:1.5s"]
+      },
+      "penjual.html": {
+        "role": "Dedicated Merchant POS Dashboard with Machi aesthetic",
+        "sections": [
+          "merchant-navbar-sound-toggle",
+          "stat-summary-cards",
+          "merchant-status-filter-tabs",
+          "merchant-dashboard-pos-grid",
+          "quick-action-status-buttons"
+        ],
+        "state_bindings": ["polling:1.5s", "sound_toggle", "PATCH:/api/orders"]
+      }
+    },
+    "covered_patterns": [
       "hero-floating-cups",
       "cloud-parallax-sky",
       "pastel-product-card",
       "editorial-stats-banner",
       "organic-lifestyle-banner",
       "giant-wordmark-footer",
-      "shader-background",
-      "liquid-glass-panel"
+      "merchant-dashboard-pos",
+      "order-status-timeline"
     ],
-    "data_flow": "Student selects items from pastel-product-card grid -> updates local reactive cart state -> dispatches POST to /api/orders with JSON payload -> server persists order (Redis / memory fallback) and issues queue number -> client renders QR code confirmation and polls /api/orders for live status updates",
-    "state_management": "Local reactive cart store synchronized with localStorage (kantin_orders, kantin_counter, kantin_last_order_id) and optimistic UI updates with polling fallback (1.5s)"
+    "data_flow": "1. Student browses index.html or menu.html -> 2. Adds items to cart in menu.html (persisted in localStorage: kantin_cart) -> 3. Fills checkout modal in menu.html and submits POST /api/orders -> 4. Receives order ID + queueNumber, sets localStorage: kantin_active_order_id, redirects to status.html?id={orderId} -> 5. status.html polls /api/orders?id={orderId} every 1.5s and updates timeline -> 6. Seller at penjual.html receives incoming order notification (visual card + sound chime) -> 7. Seller advances status via PATCH /api/orders (Dipesan -> Disiapkan -> Siap Diambil -> Selesai) -> 8. status.html updates automatically in real-time.",
+    "state_management": {
+      "cart_sync": "localStorage key 'kantin_cart' synced across index.html and menu.html via storage events and load hooks",
+      "order_sync": "localStorage key 'kantin_active_order_id' and URL query param 'id' checked on status.html load",
+      "merchant_sync": "1.5s interval polling of /api/orders with local diff detection to trigger sound chime"
+    }
   },
   "motion_lifecycle": {
-    "primary_motion": "hero-floating-cups",
-    "duration_s": 4,
-    "type": "float",
-    "entry": "CSS @keyframes float and float-diagonal with staggered animation-delay",
-    "exit": "opacity: 0, duration: 0.3s ease-out",
-    "unmount_cleanup": "DOM animations bound to CSS; clear active intervals on window unload"
+    "rule": "Strict Motion Cap: Exactly ONE orchestrated moment per page",
+    "page_allocations": {
+      "index.html": {
+        "orchestrated_moment": "hero-floating-cups (subtle CSS floating transform on hero cups, 4s duration, zero layout shift)",
+        "all_other_transitions": "Instant or subtle opacity/color hover transitions (<=150ms)"
+      },
+      "menu.html": {
+        "orchestrated_moment": "slideout-cart-drawer (translate-x reveal on cart toggle)",
+        "all_other_transitions": "Instant or subtle hover transitions (<=150ms)"
+      },
+      "status.html": {
+        "orchestrated_moment": "order-status-timeline (progress bar fill on status advancement)",
+        "all_other_transitions": "Static layout"
+      },
+      "penjual.html": {
+        "orchestrated_moment": "merchant-dashboard-pos (card entry fade on newly incoming orders)",
+        "all_other_transitions": "Instant button click feedback"
+      }
+    },
+    "reduced_motion": "prefers-reduced-motion media query completely halts keyframe animations and drawer transitions."
   },
   "contract_path": ".opencode/artifacts/phase-1-contracts.ts",
   "page_copy": {
-    "headline": "Kopi & Kudapan Kantin. Momen Terbaik Sekolah.",
-    "subheadline": "Cold brew segar, matcha lembut, dan aneka snack kantin favorit. Pesan duluan tanpa antre.",
-    "cta_primary": "Pesan Sekarang",
-    "cta_secondary": "Jelajahi Menu",
-    "section_favorites": "Menu Favorit Siswa, Dingin & Segar",
-    "stats": {
-      "steep_time": "12 Jam",
-      "beans": "100% Biji Lokal",
-      "sugar": "Rendah Gula"
+    "brand_name": "Kantin Boash",
+    "wordmark": "boash",
+    "index": {
+      "headline": "Kopi & Kudapan Kantin. Momen Terbaik Sekolah.",
+      "subheadline": "Cold brew segar, matcha lembut, dan aneka menu kantin favorit. Pesan duluan tanpa antre berdesakan.",
+      "cta_primary": "Pesan Sekarang",
+      "cta_secondary": "Cek Status Pesanan",
+      "story_headline": "Standar Baru Makan Siang di Sekolah",
+      "stats_labels": ["12 Jam", "100% Biji Lokal", "Rendah Gula"]
     },
-    "banner_text": "Bahan Segar Berkualitas. Kantin Sehat, Siswa Semangat.",
-    "footer_brand": "kantin",
-    "footer_sub": "Kantin Sekolah Modern & Digital",
-    "empty_state": {
-      "title": "Keranjang Masih Kosong",
-      "subtitle": "Pilih kopi atau camilan favoritmu sebelum bel istirahat berbunyi.",
-      "action": "Mulai Memilih"
+    "menu": {
+      "headline": "Daftar Menu Kantin Boash",
+      "subheadline": "Pilih makanan dan minuman favoritmu dari warung mitra kantin.",
+      "cart_empty": "Keranjang Masih Kosong. Pilih menu favoritmu sebelum bel istirahat berbunyi.",
+      "checkout_cta": "Lanjut ke Pembayaran"
     },
-    "confirmation_message": "Pesanan Berhasil Dikirim ke Kantin"
+    "status": {
+      "headline": "Status Pesanan Kamu",
+      "subheadline": "Pantau antrean secara langsung dan ambil pesananmu tepat waktu.",
+      "empty_title": "Tidak Ada Pesanan Aktif",
+      "empty_desc": "Kamu belum memiliki pesanan aktif saat ini. Yuk buat pesanan baru dari menu.",
+      "back_to_menu_cta": "Buka Daftar Menu"
+    },
+    "penjual": {
+      "headline": "Portal Pengelola Kantin Boash",
+      "subheadline": "Kelola alur antrean dapur dan pesanan masuk secara langsung.",
+      "sound_toggle": "Suara Notifikasi",
+      "actions": ["Terima Pesanan", "Mulai Siapkan", "Tandai Siap Diambil", "Selesaikan"]
+    }
   },
   "breaking_scenarios": [
     {
-      "id": "STRESS-NET-DROP",
-      "vector": "Network disconnection or HTTP 504 during checkout mutation POST /api/orders",
-      "expected_defense": "Catch fetch failure, persist pending order in localStorage queue, display non-blocking offline banner with retry button, prevent cart wipe until confirmed"
+      "id": "STRESS-CART-CROSS-PAGE-SYNC",
+      "vector": "Student adds items to cart in menu.html, navigates to index.html or reloads, and returns to menu.html",
+      "expected_defense": "Cart state in localStorage ('kantin_cart') automatically hydrates on DOMContentLoaded across both index.html and menu.html. Cart badge counter and items persist without loss or item duplication."
     },
     {
-      "id": "STRESS-EMPTY-MENU",
-      "vector": "Zero menu items returned from server or network unreachable on initial page load",
-      "expected_defense": "Render graceful empty state using fallback catalog with cached items from localStorage, preventing blank screen or JavaScript crash"
+      "id": "STRESS-SELLER-STATUS-BROADCAST",
+      "vector": "Seller clicks 'Mulai Siapkan' or 'Tandai Siap Diambil' in penjual.html while student is actively viewing status.html",
+      "expected_defense": "penjual.html performs PATCH /api/orders?id={id}&status={status}. status.html polling loop (1.5s interval) catches updated status, re-renders timeline active step, changes badge color, and updates instructions within 2.0 seconds."
     },
     {
-      "id": "STRESS-INPUT-OVERFLOW",
-      "vector": "Order note exceeding 300 characters or rapid double-click on order submission",
-      "expected_defense": "Text area enforces maxlength='300' with visual character counter; submission button disables immediately with isPending flag and debounce"
+      "id": "STRESS-INVALID-ORDER-ID",
+      "vector": "Direct navigation to status.html without query param and without existing order in localStorage, or with non-existent order ID",
+      "expected_defense": "status.html detects null/invalid order, hides timeline and QR container, and displays friendly empty state ('Tidak Ada Pesanan Aktif') with actionable button 'Buka Daftar Menu' linking to menu.html. Zero JS uncaught exceptions."
     },
     {
-      "id": "WEBGL_UNSUPPORTED",
-      "vector": "Client browser lacks WebGL support or GPU context crashes",
-      "expected_defense": "Graceful static CSS gradient fallback (.sky-bg linear gradient from #87CEEB to #E3F2FD) without three.js canvas error"
+      "id": "STRESS-OFFLINE-ORDER-CACHE",
+      "vector": "API server (/api/orders) unreachable or returns 500 during order placement or status fetching",
+      "expected_defense": "Fallback to client localStorage mock order store ('kantin_orders'). Generates local order ID, saves order record, and transitions to status page without blocking the student."
     },
     {
       "id": "PREFERS_REDUCED_MOTION",
       "vector": "User has system prefers-reduced-motion enabled",
-      "expected_defense": "CSS media query disables float, drift, and pulse animations, fixing positions statically"
+      "expected_defense": "CSS media query disables all floating animations and translation transitions, rendering static layout immediately."
     }
   ],
   "risk_level": "LOW",

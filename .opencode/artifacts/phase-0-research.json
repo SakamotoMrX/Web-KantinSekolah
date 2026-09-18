@@ -1,131 +1,150 @@
 {
-  "research_id": "research-20260919-054600",
+  "research_id": "research-20260919-kantin-boash",
   "target_platform": "WEB",
   "platform_constraints": [
-    "Vanilla HTML + Tailwind CDN + vanilla JS (no React/Vite currently)",
-    "Upstash Redis for API persistence",
-    "QR code generation via qrcodejs CDN",
-    "Mobile-first max-w-md layout",
-    "API routes at /api/orders"
+    "Vanilla HTML + Tailwind CDN + vanilla JS (no framework)",
+    "Vercel serverless functions (api/orders.js) with Upstash Redis",
+    "Google Fonts: Plus Jakarta Sans (display) + Inter (body)",
+    "Mobile-first responsive (no SSR, pure static HTML)",
+    "Order polling interval: 1.5s (existing pattern in index.html)"
   ],
   "proven_sources": [
     {
-      "name": "builderz-labs/mission-control",
-      "url": "https://github.com/builderz-labs/mission-control",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "Real @keyframes float { translateY(-6px) } pattern for floating beverage elements with infinite loop"
+      "name": "Machi Cold Brew Design Reference",
+      "url": "screenshots/REFERENCE-DESIGN.md",
+      "license": "internal",
+      "why_proven": "Complete design spec: espresso #1A1A1A primary, sky gradient (#64B5F6→#B0E0E6→#F0F9FF), pastel card system (peach #FCE4D6, matcha #E2EFDA, mango #FFF2CC, berry #F8CECC), Plus Jakarta Sans + Inter typography, organic shapes, bento grid layout."
     },
     {
-      "name": "streetmix/streetmix",
-      "url": "https://github.com/streetmix/streetmix",
-      "license": "Unknown",
-      "stars": 0,
-      "why_proven": "Cloud parallax scrolling with REAR_CLOUD_PARALLAX_SPEED = 0.25, FRONT_CLOUD_PARALLAX_SPEED = 0.5 — proven sky/cloud atmosphere implementation"
+      "name": "Dribbble POS/Cafe References",
+      "url": "screenshots/ref-dribbble.png",
+      "license": "visual_reference",
+      "why_proven": "Captured Dribbble references showing warm beige POS dashboard layouts, modern cafe order management interfaces. Validated via Multimodal Vision."
     },
     {
-      "name": "ronisarkarexe/story-spark-ai",
-      "url": "https://github.com/ronisarkarexe/story-spark-ai",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "Float keyframe with translateY(-20px) translateX(10px) — diagonal floating motion for beverage elements"
+      "name": "Current index.html Implementation",
+      "url": "index.html",
+      "license": "internal",
+      "why_proven": "Working reference for all 6 consumer-facing patterns already implemented: sky gradient hero, floating cups, pastel product cards, editorial stats, lifestyle banner, giant wordmark. Battle-tested with 1402 lines of production code."
     },
     {
-      "name": "Uniswap/interface",
-      "url": "https://github.com/Uniswap/interface",
-      "license": "GPL-3.0",
-      "stars": 0,
-      "why_proven": "TokenCloud hero with useScrollParallax — proven floating object cloud pattern for product showcase"
+      "name": "Current penjual.html Baseline",
+      "url": "penjual.html",
+      "license": "internal",
+      "why_proven": "Existing seller dashboard with orange theme, basic order list, status update buttons. Needs full redesign to match Machi cold brew aesthetic. Screenshotted as baseline."
     },
     {
-      "name": "ColorlibHQ/velora-ui",
-      "url": "https://github.com/ColorlibHQ/velora-ui",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "LogoCloud, ParallaxGrid, ScrollVelocity, TracingBeam — component library for editorial landing page elements"
-    },
-    {
-      "name": "pmndrs/react-three-fiber",
-      "url": "https://github.com/pmndrs/react-three-fiber",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "Pre-vetted 3D shader gradient background capability (ShaderBackground.jsx)"
-    },
-    {
-      "name": "dashersw/liquid-glass-js",
-      "url": "https://github.com/dashersw/liquid-glass-js",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "Pre-vetted liquid glass refraction panel (LiquidGlassPanel.jsx) for pastel product cards"
+      "name": "api/orders.js Backend",
+      "url": "api/orders.js",
+      "license": "internal",
+      "why_proven": "REST API: GET (list all), POST (create with antrian counter), PATCH (status update with validation), DELETE (clear finished/all). Status flow: Dipesan→Diterima→Disiapkan→Siap Diambil→Selesai. 32 unit tests in test/orders.test.js."
     }
   ],
   "exact_code_recipes": [
     {
-      "feature": "CSS Float Animation for Floating Beverage Cups",
-      "source_url": "https://github.com/builderz-labs/mission-control/blob/main/src/app/globals.css",
-      "language": "css",
-      "code": "@keyframes float {\n  0%, 100% { transform: translateY(0px); }\n  50% { transform: translateY(-6px); }\n}\n\n@keyframes float-slow {\n  0%, 100% { transform: translateY(0px) rotate(0deg); }\n  33% { transform: translateY(-12px) rotate(2deg); }\n  66% { transform: translateY(-6px) rotate(-1deg); }\n}\n\n@keyframes float-diagonal {\n  0%, 100% { transform: translateY(0px) translateX(0px); }\n  50% { transform: translateY(-20px) translateX(10px); }\n}\n\n.animate-float { animation: float 3s ease-in-out infinite; }\n.animate-float-slow { animation: float-slow 5s ease-in-out infinite; }\n.animate-float-diagonal { animation: float-diagonal 4s ease-in-out infinite; }",
-      "how_to_wire": "Add to index.html <style> block or create styles.css. Apply .animate-float, .animate-float-slow, or .animate-float-diagonal to floating beverage cup <img> elements. Use animation-delay for staggered entry: style=\"animation-delay: 0.5s\""
-    },
-    {
-      "feature": "Cloud Parallax Sky Background (CSS Only)",
-      "source_url": "https://github.com/streetmix/streetmix/blob/main/client/src/sky/SkyBox/SkyBox.tsx",
-      "language": "css",
-      "code": ".sky-bg {\n  background: linear-gradient(180deg, #87CEEB 0%, #B0E0E6 30%, #E3F2FD 60%, #FFFFFF 100%);\n  position: relative;\n  overflow: hidden;\n}\n\n.cloud {\n  position: absolute;\n  background: rgba(255,255,255,0.9);\n  border-radius: 50%;\n  filter: blur(1px);\n}\n\n.cloud::before,\n.cloud::after {\n  content: '';\n  position: absolute;\n  background: inherit;\n  border-radius: 50%;\n}\n\n.cloud-layer-rear {\n  animation: cloud-drift-rear 60s linear infinite;\n}\n\n.cloud-layer-front {\n  animation: cloud-drift-front 30s linear infinite;\n}\n\n@keyframes cloud-drift-rear {\n  0% { transform: translateX(-10%); }\n  100% { transform: translateX(110%); }\n}\n\n@keyframes cloud-drift-front {\n  0% { transform: translateX(110%); }\n  100% { transform: translateX(-10%); }\n}",
-      "how_to_wire": "Wrap hero section in .sky-bg container. Add multiple .cloud elements with varying sizes (width: 120-200px, height: 40-60px) and animation-delay for staggered cloud movement. Rear clouds at 0.25x speed, front at 0.5x."
-    },
-    {
-      "feature": "Pastel Rounded Product Card with Hover Lift",
-      "source_url": "https://github.com/ColorlibHQ/velora-ui/blob/main/src/components/demo/component-demos.tsx",
+      "feature": "Merchant Dashboard POS — Live Order Card Component",
+      "source_url": "index.html (existing cart/order patterns)",
       "language": "html",
-      "code": "<!-- Pastel Product Card -->\n<div class=\"group relative bg-[#FCE4D6] rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer\">\n  <div class=\"absolute top-3 right-3 bg-white/60 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-gray-700\">\n    Fan Favorite\n  </div>\n  <div class=\"w-full h-40 flex items-center justify-center mb-4\">\n    <img src=\"/cups/peach-cold-brew.png\" alt=\"Peach Cold Brew\" class=\"h-32 object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300\" />\n  </div>\n  <h3 class=\"font-bold text-lg text-gray-900\">Peach Cold Brew</h3>\n  <p class=\"text-sm text-gray-600 mt-1\">Smooth cold brew with white peach essence</p>\n  <div class=\"flex items-center justify-between mt-4\">\n    <span class=\"text-sm font-bold text-gray-900\">Rp 28.000</span>\n    <button class=\"bg-white/80 hover:bg-white text-gray-900 text-sm font-semibold px-4 py-2 rounded-full transition-all duration-200 hover:shadow-md\">\n      Find a store\n    </button>\n  </div>\n</div>",
-      "how_to_wire": "Use in a CSS Grid: grid-cols-2 md:grid-cols-4 gap-4. Apply different pastel bg colors per card: #FCE4D6 (peach), #E2EFDA (matcha), #FFF2CC (mango), #F8CECC (berry). Each card floats with animation-delay for stagger."
+      "code": "/* Order card pattern derived from index.html cart items + penjual.html order list */\n/* Each order card shows: order ID, student name, items list, total, status badge, timestamp, quick-action buttons */\n/* Status badge colors (from index.html updateModalStatusBadge): */\n/* Dipesan: bg-sky-100 text-sky-800 */\n/* Diterima: bg-indigo-100 text-indigo-800 */\n/* Disiapkan: bg-amber-100 text-amber-800 */\n/* Siap Diambil: bg-emerald-100 text-emerald-800 */\n/* Selesai: bg-gray-200 text-gray-700 */",
+      "how_to_wire": "Render order cards in a responsive grid (1-col mobile, 2-col tablet, 3-col desktop). Each card fetches from GET /api/orders, filtered by status tab. Quick-action PATCH buttons advance status. Sound notification on new order arrival (Web Audio API or <audio> tag)."
     },
     {
-      "feature": "Editorial Stats Split Banner",
-      "source_url": "https://github.com/Uniswap/interface/blob/main/apps/web/src/pages/Landing/sections/Hero.tsx",
+      "feature": "Status Filter Tabs Pattern",
+      "source_url": "index.html (existing filter pills: Semua, Minuman, Makanan)",
       "language": "html",
-      "code": "<!-- Editorial Split Banner -->\n<section class=\"bg-[#111111] text-white py-20 md:py-32\">\n  <div class=\"max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center\">\n    <div>\n      <p class=\"text-sm uppercase tracking-widest text-gray-400 mb-4\">Our Process</p>\n      <h2 class=\"text-4xl md:text-5xl font-black leading-tight\">\n        Brewed slow,<br/>made for sunny days\n      </h2>\n      <p class=\"text-gray-400 mt-6 text-lg leading-relaxed\">\n        Every bottle starts with 100% single-origin Arabica beans, steeped for 18 hours in cold, filtered water. No shortcuts, no added sugar — just pure, clean caffeine.\n      </p>\n    </div>\n    <div class=\"grid grid-cols-3 gap-6\">\n      <div class=\"text-center\">\n        <div class=\"text-4xl md:text-5xl font-black text-[#90CAF9]\">18h</div>\n        <div class=\"text-sm text-gray-400 mt-2\">Slow Steep</div>\n      </div>\n      <div class=\"text-center\">\n        <div class=\"text-4xl md:text-5xl font-black text-[#90CAF9]\">100%</div>\n        <div class=\"text-sm text-gray-400 mt-2\">Arabica</div>\n      </div>\n      <div class=\"text-center\">\n        <div class=\"text-4xl md:text-5xl font-black text-[#90CAF9]\">0g</div>\n        <div class=\"text-sm text-gray-400 mt-2\">Added Sugar</div>\n      </div>\n    </div>\n  </div>\n</section>",
-      "how_to_wire": "Place between product grid and footer. Dark espresso background (#111111) with sky-blue accent numbers (#90CAF9). Use text-4xl md:text-5xl font-black for stat emphasis."
+      "code": "/* Filter tab pattern from index.html menu filters */\n/* <div class=\"flex gap-2\"> */\n/*   <button onclick=\"setFilter('all')\" class=\"px-4 py-2 rounded-full text-xs font-bold transition-all bg-espresso text-white\">Semua</button> */\n/*   <button onclick=\"setFilter('baru')\" class=\"px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-espresso border border-gray-200\">Baru</button> */\n/*   <button onclick=\"setFilter('disiapkan')\" class=\"px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-espresso border border-gray-200\">Disiapkan</button> */\n/*   <button onclick=\"setFilter('selesai')\" class=\"px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-espresso border border-gray-200\">Selesai</button> */\n/* </div> */",
+      "how_to_wire": "Add filter tabs above order grid. Active filter applies class 'bg-espresso text-white', inactive applies 'bg-white text-espresso border border-gray-200'. Filter logic: check order.status against tab key. Reuses exact same toggle pattern as index.html menu filters."
     },
     {
-      "feature": "Giant Bold Brand Wordmark Footer",
-      "source_url": "https://github.com/TiwariDivya25/DevConnect/blob/main/src/components/Footer.tsx",
-      "language": "html",
-      "code": "<!-- Giant Wordmark Footer -->\n<footer class=\"bg-white pt-20 pb-10\">\n  <div class=\"max-w-6xl mx-auto px-6\">\n    <!-- Giant Brand Wordmark -->\n    <div class=\"text-center mb-16\">\n      <h1 class=\"text-[8rem] md:text-[12rem] lg:text-[16rem] font-black leading-none tracking-tighter text-[#111111] select-none\">\n        machi\n      </h1>\n    </div>\n    <!-- Multi-column Links -->\n    <div class=\"grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-gray-200 pt-10\">\n      <div>\n        <h4 class=\"font-bold text-sm uppercase tracking-wider mb-4\">Products</h4>\n        <ul class=\"space-y-2 text-sm text-gray-500\">\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Cold Brew Original</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Peach Cold Brew</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Matcha Cold Brew</a></li>\n        </ul>\n      </div>\n      <div>\n        <h4 class=\"font-bold text-sm uppercase tracking-wider mb-4\">Company</h4>\n        <ul class=\"space-y-2 text-sm text-gray-500\">\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">About Us</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Our Story</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Careers</a></li>\n        </ul>\n      </div>\n      <div>\n        <h4 class=\"font-bold text-sm uppercase tracking-wider mb-4\">Support</h4>\n        <ul class=\"space-y-2 text-sm text-gray-500\">\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Find a Store</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">FAQ</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Contact</a></li>\n        </ul>\n      </div>\n      <div>\n        <h4 class=\"font-bold text-sm uppercase tracking-wider mb-4\">Legal</h4>\n        <ul class=\"space-y-2 text-sm text-gray-500\">\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Privacy</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Terms</a></li>\n        </ul>\n      </div>\n    </div>\n    <p class=\"text-center text-xs text-gray-400 mt-10\">&copy; 2026 Machi Cold Brew. All rights reserved.</p>\n  </div>\n</footer>",
-      "how_to_wire": "Append to end of page. The wordmark uses text-[8rem] md:text-[12rem] lg:text-[16rem] font-black — pure CSS, no JS needed. Responsive via Tailwind breakpoints."
+      "feature": "Sound Notification for New Orders",
+      "source_url": "N/A (new implementation)",
+      "language": "javascript",
+      "code": "/* Minimal Web Audio API chime — no library needed */\nfunction playOrderChime() {\n  try {\n    const ctx = new (window.AudioContext || window.webkitAudioContext)();\n    const osc = ctx.createOscillator();\n    const gain = ctx.createGain();\n    osc.connect(gain);\n    gain.connect(ctx.destination);\n    osc.type = 'sine';\n    osc.frequency.setValueAtTime(880, ctx.currentTime);\n    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.1);\n    gain.gain.setValueAtTime(0.3, ctx.currentTime);\n    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);\n    osc.start(ctx.currentTime);\n    osc.stop(ctx.currentTime + 0.5);\n  } catch (e) { /* silent fail on restricted contexts */ }\n}",
+      "how_to_wire": "Call playOrderChime() inside the polling interval (every 1.5s) when new order detected (order count increased). Gate with a 'soundEnabled' toggle stored in localStorage. First user interaction required to unlock AudioContext (browser policy)."
     },
     {
-      "feature": "Organic Lifestyle Banner",
-      "source_url": "https://github.com/builderz-labs/mission-control/blob/main/src/app/globals.css",
+      "feature": "Stat Summary Cards Pattern",
+      "source_url": "index.html (existing stat counters: 300+, 30+, 500+)",
       "language": "html",
-      "code": "<!-- Organic Lifestyle Banner -->\n<section class=\"relative bg-gradient-to-br from-[#E8F5E9] to-[#F1F8E9] py-20 md:py-28 overflow-hidden\">\n  <div class=\"max-w-4xl mx-auto px-6 text-center relative z-10\">\n    <div class=\"inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 mb-6\">\n      <span class=\"w-2 h-2 bg-green-500 rounded-full animate-pulse\"></span>\n      <span class=\"text-sm font-semibold text-green-800\">Certified Organic</span>\n    </div>\n    <h2 class=\"text-3xl md:text-5xl font-black text-[#111111] leading-tight\">\n      Real organic beans.<br/>Really good cold brew.\n    </h2>\n    <p class=\"text-gray-600 mt-6 text-lg max-w-2xl mx-auto\">\n      Sourced from single-origin farms in Central Java. No pesticides, no artificial flavors — just clean, bold coffee that tastes the way nature intended.\n    </p>\n    <button class=\"mt-8 bg-[#111111] text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition-all duration-200 hover:shadow-lg\">\n      Learn Our sourcing\n    </button>\n  </div>\n  <!-- Decorative floating leaves -->\n  <div class=\"absolute top-10 left-10 w-8 h-8 bg-green-300/30 rounded-full animate-float-slow\" style=\"animation-delay: 0s\"></div>\n  <div class=\"absolute top-20 right-20 w-12 h-12 bg-green-200/40 rounded-full animate-float-slow\" style=\"animation-delay: 1s\"></div>\n  <div class=\"absolute bottom-16 left-1/4 w-6 h-6 bg-green-400/20 rounded-full animate-float-slow\" style=\"animation-delay: 2s\"></div>\n</section>",
-      "how_to_wire": "Place before footer. Uses soft green gradient background with floating organic-themed decorative circles. Certified badge with pulse animation draws eye."
+      "code": "/* Stat card pattern from index.html editorial stats section */\n/* Grid of 4 stat cards: */\n/* <div class=\"grid grid-cols-2 lg:grid-cols-4 gap-4\"> */\n/*   <div class=\"bg-white rounded-3xl p-5 border border-gray-100 shadow-sm text-center\"> */\n/*     <p class=\"text-3xl font-extrabold text-espresso font-display\">12</p> */\n/*     <p class=\"text-xs text-gray-500 mt-1\">Pesanan Baru</p> */\n/*   </div> */\n/* </div> */",
+      "how_to_wire": "Compute stats from order list: 'Pesanan Baru' (status=Dipesan), 'Sedang Disiapkan' (status=Disiapkan), 'Siap Diambil' (status=Siap Diambil), 'Selesai Hari Ini' (status=Selesai). Update on each poll cycle. Reuse exact same card styling: bg-white rounded-3xl p-5 border border-gray-100 shadow-sm."
     },
     {
-      "feature": "Hero Section with Floating Cups & Splash",
-      "source_url": "https://github.com/ronisarkarexe/story-spark-ai/blob/main/auth.css",
+      "feature": "Quick Action Button Pattern (Status Advance)",
+      "source_url": "penjual.html (existing updateStatus function)",
+      "language": "javascript",
+      "code": "/* Derived from penjual.html existing updateStatus + index.html button patterns */\n/* Each card gets contextual action button: */\n/* Dipesan → 'Terima Pesanan' (bg-sky-500 hover:bg-sky-600 text-white) */\n/* Diterima → 'Mulai Siapkan' (bg-amber-500 hover:bg-amber-600 text-white) */\n/* Disiapkan → 'Tandai Siap' (bg-emerald-500 hover:bg-emerald-600 text-white) */\n/* Siap Diambil → 'Selesai' (bg-gray-200 hover:bg-gray-300 text-espresso) */\n/* async function updateStatus(id, newStatus) { */\n/*   await fetch(API_URL + '?id=' + id + '&status=' + newStatus, { method: 'PATCH' }); */\n/*   loadOrders(); */\n/* } */",
+      "how_to_wire": "Wire PATCH call to existing api/orders.js endpoint. Button appears at bottom-right of each order card. On click: PATCH status → reload order list → play chime if status changed to 'Siap Diambil'. Reuse exact same PATCH pattern from penjual.html."
+    },
+    {
+      "feature": "Merchant Dashboard Layout Structure",
+      "source_url": "penjual.html (existing layout structure)",
       "language": "html",
-      "code": "<!-- Hero with Floating Cups -->\n<section class=\"relative min-h-[90vh] sky-bg flex items-center overflow-hidden\">\n  <!-- Cloud layers -->\n  <div class=\"cloud-layer-rear absolute inset-0\">\n    <div class=\"cloud\" style=\"width:180px;height:50px;top:15%;left:10%;animation:cloud-drift-rear 80s linear infinite\"></div>\n    <div class=\"cloud\" style=\"width:140px;height:40px;top:25%;left:60%;animation:cloud-drift-rear 60s linear infinite;animation-delay:-20s\"></div>\n    <div class=\"cloud\" style=\"width:200px;height:55px;top:10%;left:35%;animation:cloud-drift-rear 70s linear infinite;animation-delay:-35s\"></div>\n  </div>\n  <div class=\"cloud-layer-front absolute inset-0\">\n    <div class=\"cloud\" style=\"width:160px;height:45px;top:40%;left:5%;animation:cloud-drift-front 40s linear infinite\"></div>\n    <div class=\"cloud\" style=\"width:120px;height:35px;top:55%;left:70%;animation:cloud-drift-front 35s linear infinite;animation-delay:-15s\"></div>\n  </div>\n\n  <!-- Floating beverage cups -->\n  <div class=\"absolute top-[20%] right-[15%] animate-float\" style=\"animation-delay:0s\">\n    <img src=\"/cups/cold-brew-original.png\" alt=\"Cold Brew\" class=\"w-24 md:w-32 drop-shadow-2xl\" />\n  </div>\n  <div class=\"absolute top-[35%] right-[35%] animate-float-diagonal\" style=\"animation-delay:0.8s\">\n    <img src=\"/cups/peach-cup.png\" alt=\"Peach Cold Brew\" class=\"w-20 md:w-28 drop-shadow-2xl\" />\n  </div>\n  <div class=\"absolute bottom-[25%] right-[20%] animate-float-slow\" style=\"animation-delay:1.5s\">\n    <img src=\"/cups/matcha-cup.png\" alt=\"Matcha Cold Brew\" class=\"w-18 md:w-24 drop-shadow-2xl\" />\n  </div>\n  <!-- Splash droplets -->\n  <div class=\"absolute top-[30%] right-[12%] w-3 h-3 bg-blue-300 rounded-full animate-float\" style=\"animation-delay:0.3s\"></div>\n  <div class=\"absolute top-[45%] right-[40%] w-2 h-2 bg-blue-200 rounded-full animate-float-diagonal\" style=\"animation-delay:1s\"></div>\n  <div class=\"absolute bottom-[30%] right-[25%] w-4 h-4 bg-blue-100 rounded-full animate-float-slow\" style=\"animation-delay:1.8s\"></div>\n\n  <!-- Hero text -->\n  <div class=\"relative z-10 max-w-6xl mx-auto px-6\">\n    <p class=\"text-sm uppercase tracking-widest text-blue-800/60 mb-4 font-semibold\">Cold Brew Coffee & Cafe</p>\n    <h1 class=\"text-5xl md:text-7xl lg:text-8xl font-black text-[#111111] leading-[0.95] tracking-tight\">\n      Bold coffee.<br/>Better moments.\n    </h1>\n    <p class=\"text-lg md:text-xl text-gray-700 mt-6 max-w-md leading-relaxed\">\n      The fan favorites, best served cold. Single-origin Arabica, slow-steeped for 18 hours.\n    </p>\n    <div class=\"flex gap-4 mt-8\">\n      <button class=\"bg-[#111111] text-white px-8 py-3.5 rounded-full font-semibold hover:bg-gray-800 transition-all duration-200 hover:shadow-lg\">\n        Order Now\n      </button>\n      <button class=\"bg-white/70 backdrop-blur-sm text-gray-900 px-8 py-3.5 rounded-full font-semibold border border-gray-200 hover:bg-white transition-all duration-200\">\n        Find a Store\n      </button>\n    </div>\n  </div>\n</section>",
-      "how_to_wire": "This is the full hero section. Requires .sky-bg, .cloud, .cloud-layer-rear, .cloud-layer-front CSS from the Cloud Parallax recipe. Floating cups use .animate-float, .animate-float-diagonal, .animate-float-slow classes with staggered animation-delay. Splash droplets are small colored circles with the same float animations."
+      "code": "/* Layout structure from penjual.html, redesigned with Machi aesthetic: */\n/* Header: sticky, bg-white/80 backdrop-blur, border-b border-gray-100 */\n/*   Left: logo + 'Kantin Boash' brand text */\n/*   Right: sound toggle, clear buttons */\n/* Stats Row: 4 stat cards in grid-cols-2 lg:grid-cols-4 */\n/* Filter Tabs: horizontal scrollable pill row */\n/* Order Grid: grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 */\n/*   Each card: bg-white rounded-3xl p-5 border border-gray-100 shadow-sm */",
+      "how_to_wire": "Replace entire penjual.html body content. Keep same <head> with Tailwind CDN and Google Fonts. Maintain same API_URL constant and polling interval. Background: bg-[#F0F9FF] (lightest sky from machi palette). All rounded corners: rounded-3xl (Machi standard). All shadows: shadow-sm."
     }
   ],
   "covered_patterns": [
-    { "component_key": "hero-floating-cups", "source_url": "https://github.com/ronisarkarexe/story-spark-ai/blob/main/auth.css", "recipe_type": "github_proven" },
-    { "component_key": "cloud-parallax-sky", "source_url": "https://github.com/streetmix/streetmix/blob/main/client/src/sky/SkyBox/SkyBox.tsx", "recipe_type": "github_proven" },
-    { "component_key": "pastel-product-card", "source_url": "https://github.com/ColorlibHQ/velora-ui/blob/main/src/components/demo/component-demos.tsx", "recipe_type": "github_proven" },
-    { "component_key": "editorial-stats-banner", "source_url": "https://github.com/Uniswap/interface/blob/main/apps/web/src/pages/Landing/sections/Hero.tsx", "recipe_type": "github_proven" },
-    { "component_key": "organic-lifestyle-banner", "source_url": "https://github.com/builderz-labs/mission-control/blob/main/src/app/globals.css", "recipe_type": "github_proven" },
-    { "component_key": "giant-wordmark-footer", "source_url": "https://github.com/TiwariDivya25/DevConnect/blob/main/src/components/Footer.tsx", "recipe_type": "github_proven" },
-    { "component_key": "shader-background", "source_url": "local:~/.config/opencode/src/components/ShaderBackground.jsx", "recipe_type": "local_hub" },
-    { "component_key": "liquid-glass-panel", "source_url": "local:~/.config/opencode/src/components/LiquidGlassPanel.jsx", "recipe_type": "local_hub" }
+    {
+      "component_key": "hero-floating-cups",
+      "source_url": "index.html lines 59-118",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "cloud-parallax-sky",
+      "source_url": "index.html lines 59-76, css lines 30-56",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "pastel-product-card",
+      "source_url": "index.html lines 974-1004",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "editorial-stats-banner",
+      "source_url": "index.html lines 439-510",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "organic-lifestyle-banner",
+      "source_url": "index.html lines 547-602",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "giant-wordmark-footer",
+      "source_url": "index.html lines 605-678",
+      "recipe_type": "implemented",
+      "status": "already_built"
+    },
+    {
+      "component_key": "merchant-dashboard-pos",
+      "source_url": "penjual.html",
+      "recipe_type": "needs_redesign",
+      "status": "in_progress",
+      "notes": "Current penjual.html uses orange theme, basic order list. Needs full redesign to match Machi cold brew aesthetic with live order cards, status filter tabs, sound notification, stat summary, quick actions."
+    },
+    {
+      "component_key": "order-status-timeline",
+      "source_url": "index.html lines 1315-1332 (updateModalStatusBadge)",
+      "recipe_type": "implemented",
+      "status": "already_built",
+      "notes": "Status badge system exists in index.html modal. Merchant portal needs same status colors but as card badges + quick-action buttons."
+    }
   ],
   "anti_hallucination_guidance": [
-    "BANNED: Do not invent float keyframes from scratch — use proven @keyframes float/float-slow/float-diagonal from mission-control and story-spark-ai repos.",
-    "BANNED: Do not build cloud parallax from scratch — use proven REAR/FRONT cloud drift pattern from streetmix.",
-    "BANNED: Do not use lorem ipsum for any text — all copy must be real end-user copy matching the machi reference.",
-    "BANNED: Do not add more than ONE motion moment (the floating cups hero is the ONE orchestrated moment). Everything else stays static.",
-    "BANNED: Do not use generic rainbow gradients — the palette must match the specific sky blue + pastel system from the reference."
+    "BANNED: Do not invent new color values — reuse exact Machi palette from REFERENCE-DESIGN.md",
+    "BANNED: Do not add new npm dependencies — vanilla HTML + Tailwind CDN only",
+    "BANNED: Do not change api/orders.js backend — all changes are frontend only",
+    "BANNED: Do not use lorem/placeholder text — all copy must be real Indonesian school canteen copy",
+    "BANNED: Do not add new fonts — stick to Plus Jakarta Sans + Inter",
+    "BANNED: Do not create separate CSS files — all styles inline via Tailwind classes",
+    "BANNED: Do not add framework dependencies (React, Vue, etc.) — vanilla JS only",
+    "BANNED: Do not change the API contract — GET/POST/PATCH/DELETE must remain compatible"
   ],
   "research_complete": true
 }

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katalog Menu — Kantin Boash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            espresso: '#1A1A1A',
+            sky: {
+              top: '#64B5F6',
+              mid: '#B0E0E6',
+              soft: '#F0F9FF',
+            },
+            pastel: {
+              peach: '#FCE4D6',
+              matcha: '#E2EFDA',
+              mango: '#FFF2CC',
+              berry: '#F8CECC',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Orchestrated Motion Moment: Slideout Cart Drawer */
+    #cart-drawer {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #cart-backdrop {
+      transition: opacity 0.3s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #cart-drawer, #cart-backdrop {
+        transition: none !important;
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid #1A1A1A !important;
+      outline-offset: 2px !important;
+    }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 2px solid #1A1A1A !important;
+      outline-offset: 2px !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F0F9FF;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-espresso font-sans antialiased selection:bg-sky-200 selection:text-espresso overflow-x-hidden w-full max-w-full">
+
+  <!-- ========================================================================= -->
+  <!-- TOP NAVIGATION BAR                                                        -->
+  <!-- ========================================================================= -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-sky-100/70 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group" aria-label="Kembali ke Beranda Kantin Boash">
+        <div class="w-11 h-11 rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-xl tracking-tighter shadow-md group-hover:scale-105 transition">
+          b
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boash</span>
+          <span class="text-xs font-bold text-[#0369A1] tracking-wide mt-0.5">Katalog Menu</span>
+        </div>
+      </a>
+
+      <!-- Center Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-700" aria-label="Navigasi Menu">
+        <a href="index.html" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Beranda</a>
+        <a href="menu.html" class="text-[#0369A1] font-bold py-3 px-3 inline-flex items-center min-h-[44px]">Katalog Menu</a>
+        <a href="status.html" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Cek Pesanan</a>
+      </nav>
+
+      <!-- Cart Button Pill -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleCart(true)" class="relative inline-flex items-center gap-2.5 bg-espresso hover:bg-black text-white px-5 py-2.5 rounded-full text-xs font-bold shadow-md transition active:scale-95 min-h-[44px]" aria-label="Buka Keranjang Pesanan">
+          <svg class="w-4 h-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          <span id="nav-cart-label">Pesan (<span id="nav-cart-count">0</span>)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="overflow-x-hidden w-full max-w-full w-full max-w-full pt-24 pb-20">
+
+    <!-- ========================================================================= -->
+    <!-- ATMOSPHERIC TOP BANNER                                                    -->
+    <!-- ========================================================================= -->
+    <section class="bg-gradient-to-b from-[#64B5F6]/25 via-[#B0E0E6]/20 to-transparent pt-10 pb-8 border-b border-sky-100/40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-sky-100 text-sky-800 text-xs font-bold mb-3 shadow-xs">
+            <span>✨</span> Makanan &amp; Minuman Higienis Sekolah
+          </div>
+          <h1 class="font-display font-black text-3xl sm:text-5xl text-espresso tracking-tight">
+            Katalog Menu Kantin Boash
+          </h1>
+          <p class="text-sm sm:text-base text-gray-600 mt-2 max-w-xl font-normal">
+            Pilih dan pesan langsung menu favoritmu dari mitra kantin sekolah terpercaya.
+          </p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="w-full sm:w-80">
+          <label for="search-input" class="sr-only">Cari Menu</label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="search-input" 
+              oninput="handleSearch(this.value)"
+              placeholder="Cari makanan atau minuman..." 
+              class="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-full text-sm font-medium text-espresso placeholder-gray-400 shadow-xs focus:ring-2 focus:ring-sky-400 focus:border-transparent transition"
+            >
+            <svg class="w-5 h-5 text-slate-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- FILTER TABS                                                               -->
+    <!-- ========================================================================= -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
+      <!-- Category Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" aria-label="Filter Kategori" id="category-tabs">
+        <button onclick="setCategoryFilter('semua')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[44px] bg-espresso text-white shadow-xs" data-cat="semua">
+          Semua Menu
+        </button>
+        <button onclick="setCategoryFilter('minuman')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[44px] bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 shadow-xs" data-cat="minuman">
+          ❄️ Minuman Dingin
+        </button>
+        <button onclick="setCategoryFilter('makanan')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[44px] bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 shadow-xs" data-cat="makanan">
+          🍛 Makanan Utama
+        </button>
+        <button onclick="setCategoryFilter('kudapan')" class="cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[44px] bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 shadow-xs" data-cat="kudapan">
+          🍩 Kudapan &amp; Snack
+        </button>
+      </div>
+
+      <!-- Warung Mitra Tabs -->
+      <div class="mt-4 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" aria-label="Filter Warung" id="warung-tabs">
+        <span class="text-xs font-bold text-slate-400 mr-2 shrink-0">Warung:</span>
+        <button onclick="setWarungFilter('semua')" class="warung-btn px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[38px] bg-sky-100 text-sky-900 border border-sky-200" data-warung="semua">
+          Semua Warung
+        </button>
+        <button onclick="setWarungFilter('machi')" class="warung-btn px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[38px] bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-warung="machi">
+          ☕ Machi Bar
+        </button>
+        <button onclick="setWarungFilter('siti')" class="warung-btn px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[38px] bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-warung="siti">
+          🍛 Warung Bu Siti
+        </button>
+        <button onclick="setWarungFilter('joko')" class="warung-btn px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[38px] bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-warung="joko">
+          🍜 Warung Pak Joko
+        </button>
+        <button onclick="setWarungFilter('sehat')" class="warung-btn px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[38px] bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-warung="sehat">
+          🥗 Kedai Sehat
+        </button>
+        <button onclick="setWarungFilter('snack')" class="warung-btn px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[38px] bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-warung="snack">
+          🍩 Aneka Snack
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- PRODUCT GRID (PASTEL CARDS)                                               -->
+    <!-- ========================================================================= -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Empty Filter State -->
+      <div id="empty-results" class="hidden text-center py-20 bg-white rounded-3xl border border-gray-200 p-8">
+        <div class="w-16 h-16 mx-auto bg-sky-50 text-sky-600 rounded-full flex items-center justify-center text-3xl mb-4">
+          🔍
+        </div>
+        <h3 class="font-display font-black text-xl text-espresso mb-1">Menu Tidak Ditemukan</h3>
+        <p class="text-xs text-slate-400 max-w-sm mx-auto mb-6">
+          Tidak ada makanan atau minuman yang cocok dengan kata kunci atau filter yang kamu pilih.
+        </p>
+        <button onclick="resetFilters()" class="px-6 py-3 rounded-full bg-espresso text-white text-xs font-bold hover:bg-black transition min-h-[44px]">
+          Reset Pencarian
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- FLOATING CHECKOUT TRIGGER (MOBILE)                                        -->
+    <!-- ========================================================================= -->
+    <div id="floating-cart-bar" class="fixed bottom-6 left-4 right-4 sm:left-auto sm:right-6 sm:w-96 z-30 transform translate-y-32 transition-transform duration-300">
+      <button onclick="toggleCart(true)" class="w-full bg-espresso text-white rounded-2xl p-4 shadow-2xl flex items-center justify-between border border-white/10 hover:bg-black transition min-h-[52px]">
+        <div class="flex items-center gap-3">
+          <span class="w-7 h-7 rounded-full bg-sky-400 text-espresso font-black text-xs flex items-center justify-center" id="float-cart-count">0</span>
+          <span class="font-bold text-sm">Lihat Keranjang</span>
+        </div>
+        <span class="font-display font-black text-sm text-sky-200" id="float-cart-total">Rp 0</span>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE-OUT CART DRAWER                                                     -->
+  <!-- ========================================================================= -->
+  <div id="cart-backdrop" class="fixed inset-0 bg-espresso/60 backdrop-blur-xs z-50 opacity-0 pointer-events-none transition-opacity" onclick="toggleCart(false)" aria-hidden="true"></div>
+
+  <aside id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full flex flex-col justify-between" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+    
+    <!-- Drawer Header -->
+    <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-full bg-espresso text-white flex items-center justify-center font-display font-black text-sm">
+          b
+        </div>
+        <h2 id="cart-title" class="font-display font-black text-xl text-espresso">Keranjang Pesanan</h2>
+      </div>
+      <button onclick="toggleCart(false)" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold flex items-center justify-center transition min-h-[36px]" aria-label="Tutup Keranjang">
+        ✕
+      </button>
+    </div>
+
+    <!-- Drawer Content / Items List -->
+    <div class="flex-1 overflow-y-auto p-6 space-y-4" id="cart-items-container">
+      <!-- Items dynamically populated -->
+    </div>
+
+    <!-- Drawer Footer: Form & Checkout Button -->
+    <div class="p-6 bg-slate-50 border-t border-gray-100">
+      
+      <!-- Checkout Form -->
+      <form id="checkout-form" onsubmit="handleCheckout(event)" class="space-y-3 mb-4">
+        <div>
+          <label for="student-name" class="block text-xs font-bold text-gray-700 mb-1">Nama Siswa *</label>
+          <input 
+            type="text" 
+            id="student-name" 
+            required 
+            placeholder="Contoh: Budi Santoso"
+            class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium text-espresso focus:ring-2 focus:ring-sky-400 focus:outline-none transition"
+          >
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="student-class" class="block text-xs font-bold text-gray-700 mb-1">Kelas *</label>
+            <input 
+              type="text" 
+              id="student-class" 
+              required 
+              placeholder="Contoh: XII RPL 1"
+              class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium text-espresso focus:ring-2 focus:ring-sky-400 focus:outline-none transition"
+            >
+          </div>
+          <div>
+            <label for="order-notes" class="block text-xs font-bold text-gray-700 mb-1">Catatan (Opsional)</label>
+            <input 
+              type="text" 
+              id="order-notes" 
+              placeholder="Kurang gula, es dikit..."
+              class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-medium text-espresso focus:ring-2 focus:ring-sky-400 focus:outline-none transition"
+            >
+          </div>
+        </div>
+
+        <!-- Total Price Breakdown -->
+        <div class="pt-3 border-t border-gray-200/70 flex items-center justify-between text-sm">
+          <span class="font-bold text-gray-600">Total Pembayaran:</span>
+          <span class="font-display font-black text-xl text-espresso" id="drawer-total-price">Rp 0</span>
+        </div>
+
+        <button 
+          type="submit" 
+          id="btn-submit-order"
+          class="w-full py-3.5 rounded-full bg-espresso hover:bg-black text-white font-display font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition active:scale-95 flex items-center justify-center gap-2 min-h-[48px]"
+        >
+          <span>Kirim Pesanan Sekarang</span>
+          <span></span>
+        </button>
+      </form>
+
+      <p class="text-[11px] text-slate-300 text-center">
+        Bayar langsung di loket kantin saat mengambil pesanan.
+      </p>
+    </div>
+
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER WITH GIANT WORDMARK BOASH                                          -->
+  <!-- ========================================================================= -->
+  <footer class="bg-espresso text-white pt-20 pb-12 overflow-hidden relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-16 border-b border-white/10 text-sm">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-full bg-white text-espresso flex items-center justify-center font-display font-black text-lg">
+              b
+            </div>
+            <span class="font-display font-black text-2xl tracking-tight text-white">Kantin Boash</span>
+          </div>
+          <p class="text-xs text-slate-300 max-w-sm leading-relaxed">
+            Katalog makanan dan minuman sehat sekolah. Pesan duluan tanpa antre di jam istirahat.
+          </p>
+        </div>
+
+        <div>
+          <p class="font-bold text-white text-xs tracking-normal mb-4">Navigasi</p>
+          <ul class="space-y-2.5 text-xs text-slate-300">
+            <li><a href="index.html" class="hover:text-white transition">Beranda</a></li>
+            <li><a href="menu.html" class="hover:text-white transition">Katalog Menu</a></li>
+            <li><a href="status.html" class="hover:text-white transition">Cek Status Pesanan</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="font-bold text-white text-xs tracking-normal mb-4">Mitra Kantin</p>
+          <ul class="space-y-2.5 text-xs text-slate-300">
+            <li><a href="penjual.html" class="hover:text-white transition">Portal Penjual</a></li>
+            <li><span class="text-slate-400">Kantin Pusat Sekolah</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Giant Wordmark boash -->
+      <div class="py-12 select-none pointer-events-none overflow-hidden text-center">
+        <p class="text-[12rem] md:text-[16rem] font-black tracking-tight leading-none text-center select-none text-white/90 font-display">
+          boash
+        </p>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        <p>© 2026 Kantin Boash. Momen Terbaik Sekolah.</p>
+        <p>Higienis - Ramah Siswa - Bebas Antre</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT APP LOGIC                                                      -->
+  <!-- ========================================================================= -->
+  <script>
+    const API_URL = '/api/orders';
+
+    // Comprehensive Menu Database
+    const catalog = [
+      // Machi Cold Brew Bar (Pastels)
+      { id: 'machi-1', nama: 'Es Kopi Susu', harga: 12000, kategori: 'minuman', warungId: 'machi', warungNama: 'Machi Bar', emoji: '☕', pastelBg: '#FCE4D6', desc: 'Espresso blend lokal berpadu susu segar dingin manis seimbang.' },
+      { id: 'machi-2', nama: 'Iced Matcha Latte', harga: 15000, kategori: 'minuman', warungId: 'machi', warungNama: 'Machi Bar', emoji: '🍵', pastelBg: '#E2EFDA', desc: 'Bubuk matcha murni Jepang bertekstur lembut dan creamy.' },
+      { id: 'machi-3', nama: 'Iced Mango Tea', harga: 10000, kategori: 'minuman', warungId: 'machi', warungNama: 'Machi Bar', emoji: '🥭', pastelBg: '#FFF2CC', desc: 'Sari buah mangga manis tropis dengan seduhan teh melati dingin.' },
+      { id: 'machi-4', nama: 'Iced Berry Latte', harga: 14000, kategori: 'minuman', warungId: 'machi', warungNama: 'Machi Bar', emoji: '🍓', pastelBg: '#F8CECC', desc: 'Bulir stroberi manis asam alami berpadu lembut dengan susu segar.' },
+      
+      // Warung Bu Siti (Makanan Utama)
+      { id: 'siti-1', nama: 'Nasi Ayam Geprek', harga: 15000, kategori: 'makanan', warungId: 'siti', warungNama: 'Warung Bu Siti', emoji: '🍗', pastelBg: '#FCE4D6', desc: 'Ayam krispi gurih dengan sambal bawang segar pedas mantap.' },
+      { id: 'siti-2', nama: 'Nasi Gudeg Komplit', harga: 13000, kategori: 'makanan', warungId: 'siti', warungNama: 'Warung Bu Siti', emoji: '🍛', pastelBg: '#FFF2CC', desc: 'Nasi hangat dengan gudeg nangka khas Jogja, telur semur & krecek.' },
+      { id: 'siti-3', nama: 'Soto Ayam Lamongan', harga: 12000, kategori: 'makanan', warungId: 'siti', warungNama: 'Warung Bu Siti', emoji: '🥣', pastelBg: '#FFF2CC', desc: 'Kuah kuning rempah gurih segar dengan suwiran ayam & koya.' },
+      { id: 'siti-4', nama: 'Es Teh Manis Jumbo', harga: 4000, kategori: 'minuman', warungId: 'siti', warungNama: 'Warung Bu Siti', emoji: '🥤', pastelBg: '#FCE4D6', desc: 'Teh melati wangi dengan es batu melimpah pelepas dahaga.' },
+
+      // Warung Pak Joko (Mie & Bakso)
+      { id: 'joko-1', nama: 'Mie Ayam Bakso', harga: 14000, kategori: 'makanan', warungId: 'joko', warungNama: 'Warung Pak Joko', emoji: '🍜', pastelBg: '#FFF2CC', desc: 'Mie kenyal gurih dengan cacahan daging ayam empuk dan bakso sapi.' },
+      { id: 'joko-2', nama: 'Bakso Sapi Urat', harga: 16000, kategori: 'makanan', warungId: 'joko', warungNama: 'Warung Pak Joko', emoji: '🍲', pastelBg: '#F8CECC', desc: 'Bakso urat daging sapi asli kenyal dengan kuah kaldu rempah gurih.' },
+      { id: 'joko-3', nama: 'Mie Goreng Spesial', harga: 13000, kategori: 'makanan', warungId: 'joko', warungNama: 'Warung Pak Joko', emoji: '🍝', pastelBg: '#FCE4D6', desc: 'Mie goreng telur kecap manis gurih dengan taburan bawang goreng.' },
+
+      // Kedai Sehat (Salad & Buah)
+      { id: 'sehat-1', nama: 'Salad Buah Keju', harga: 12000, kategori: 'kudapan', warungId: 'sehat', warungNama: 'Kedai Sehat', emoji: '🥗', pastelBg: '#E2EFDA', desc: 'Potongan melon, apel, anggur dan semangka dengan saus keju manis.' },
+      { id: 'sehat-2', nama: 'Jus Alpukat Kental', harga: 10000, kategori: 'minuman', warungId: 'sehat', warungNama: 'Kedai Sehat', emoji: '🥑', pastelBg: '#E2EFDA', desc: 'Alpukat mentega murni dengan susu cokelat manis legit.' },
+      { id: 'sehat-3', nama: 'Oatmeal Banana Bowl', harga: 15000, kategori: 'kudapan', warungId: 'sehat', warungNama: 'Kedai Sehat', emoji: '🥣', pastelBg: '#FFF2CC', desc: 'Bubur oat hangat dengan potongan pisang cavendish dan madu alami.' },
+
+      // Aneka Snack
+      { id: 'snack-1', nama: 'Roti Bakar Coklat Keju', harga: 8000, kategori: 'kudapan', warungId: 'snack', warungNama: 'Aneka Snack', emoji: '🍞', pastelBg: '#FFF2CC', desc: 'Roti tebal bakar mentega dengan lumeran coklat dan parutan keju.' },
+      { id: 'snack-2', nama: 'Donat Kentang Salju', harga: 6000, kategori: 'kudapan', warungId: 'snack', warungNama: 'Aneka Snack', emoji: '🍩', pastelBg: '#FCE4D6', desc: 'Donat kentang lembut bertabur gula salju halus renyah di luar.' },
+      { id: 'snack-3', nama: 'Risoles Smoked Beef Mayo', harga: 5000, kategori: 'kudapan', warungId: 'snack', warungNama: 'Aneka Snack', emoji: '🥟', pastelBg: '#F8CECC', desc: 'Kulit risoles renyah dengan isian telur, smoked beef, dan mayo gurih.' }
+    ];
+
+    // Filter States
+    let currentCategory = 'semua';
+    let currentWarung = 'semua';
+    let searchQuery = '';
+
+    function rupiah(n) {
+      return 'Rp ' + Number(n).toLocaleString('id-ID');
+    }
+
+    // Shared Cart Helper
+    function getCart() {
+      try {
+        const raw = localStorage.getItem('kantin_cart');
+        return raw ? JSON.parse(raw) : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('kantin_cart', JSON.stringify(cart));
+      renderCartUI();
+      renderProductGrid();
+    }
+
+    // Render Product Grid
+    function renderProductGrid() {
+      const grid = document.getElementById('product-grid');
+      const emptyBox = document.getElementById('empty-results');
+      const cart = getCart();
+
+      const filtered = catalog.filter(item => {
+        const matchCategory = (currentCategory === 'semua' || item.kategori === currentCategory);
+        const matchWarung = (currentWarung === 'semua' || item.warungId === currentWarung);
+        const matchSearch = searchQuery === '' || 
+          item.nama.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.warungNama.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchCategory && matchWarung && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyBox.classList.remove('hidden');
+        return;
+      }
+
+      emptyBox.classList.add('hidden');
+      grid.innerHTML = filtered.map(item => {
+        const inCart = cart[item.nama];
+        const qty = inCart ? inCart.qty : 0;
+        const bg = item.pastelBg || '#FFF2CC';
+
+        return `
+          <div class="rounded-[24px] p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between group" style="background-color: ${bg}">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-14 h-14 rounded-2xl bg-white/80 backdrop-blur-xs flex items-center justify-center text-3xl shadow-xs group-hover:scale-105 transition">
+                  ${item.emoji}
+                </div>
+                <span class="text-[10px] font-extrabold text-espresso/70 bg-white/70 px-2.5 py-1 rounded-full">
+                  ${item.warungNama}
+                </span>
+              </div>
+              <h3 class="font-display font-black text-xl text-espresso mb-1">${item.nama}</h3>
+              <p class="text-xs text-stone-700 leading-relaxed mb-4 line-clamp-2">${item.desc}</p>
+            </div>
+
+            <div class="pt-4 border-t border-espresso/10 flex items-center justify-between">
+              <span class="font-display font-black text-lg text-espresso">${rupiah(item.harga)}</span>
+
+              ${qty === 0 ? `
+                <button 
+                  onclick="addToCart('${item.nama}')" 
+                  class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-sm transition active:scale-95 min-h-[44px] flex items-center gap-1"
+                  aria-label="Tambahkan ${item.nama} ke keranjang"
+                >
+                  <span>Tambahkan</span>
+                  <span class="font-black">+</span>
+                </button>
+              ` : `
+                <div class="flex items-center gap-2 bg-white/90 p-1 rounded-full shadow-xs">
+                  <button 
+                    onclick="changeItemQty('${item.nama}', -1)" 
+                    class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-espresso font-bold text-sm flex items-center justify-center transition active:scale-90 min-h-[32px]"
+                    aria-label="Kurangi ${item.nama}"
+                  >−</button>
+                  <span class="font-display font-black text-xs w-6 text-center">${qty}</span>
+                  <button 
+                    onclick="changeItemQty('${item.nama}', 1)" 
+                    class="w-8 h-8 rounded-full bg-espresso hover:bg-black text-white font-bold text-sm flex items-center justify-center transition active:scale-90 min-h-[32px]"
+                    aria-label="Tambah ${item.nama}"
+                  >+</button>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Cart Operations
+    function addToCart(nama) {
+      const item = catalog.find(i => i.nama === nama);
+      if (!item) return;
+
+      const cart = getCart();
+      if (cart[nama]) {
+        cart[nama].qty += 1;
+      } else {
+        cart[nama] = {
+          nama: item.nama,
+          harga: item.harga,
+          qty: 1,
+          warungId: item.warungId,
+          warungNama: item.warungNama,
+          emoji: item.emoji
+        };
+      }
+      saveCart(cart);
+    }
+
+    function changeItemQty(nama, delta) {
+      const cart = getCart();
+      if (!cart[nama]) return;
+
+      cart[nama].qty += delta;
+      if (cart[nama].qty <= 0) {
+        delete cart[nama];
+      }
+      saveCart(cart);
+    }
+
+    function removeCartItem(nama) {
+      const cart = getCart();
+      delete cart[nama];
+      saveCart(cart);
+    }
+
+    // Render Cart Drawer UI
+    function renderCartUI() {
+      const cart = getCart();
+      const items = Object.values(cart);
+      const container = document.getElementById('cart-items-container');
+      const navCount = document.getElementById('nav-cart-count');
+      const floatBar = document.getElementById('floating-cart-bar');
+      const floatCount = document.getElementById('float-cart-count');
+      const floatTotal = document.getElementById('float-cart-total');
+      const drawerTotal = document.getElementById('drawer-total-price');
+      const submitBtn = document.getElementById('btn-submit-order');
+
+      const totalCount = items.reduce((sum, it) => sum + it.qty, 0);
+      const totalPrice = items.reduce((sum, it) => sum + (it.harga * it.qty), 0);
+
+      if (navCount) navCount.textContent = totalCount;
+      if (floatCount) floatCount.textContent = totalCount;
+      if (floatTotal) floatTotal.textContent = rupiah(totalPrice);
+      if (drawerTotal) drawerTotal.textContent = rupiah(totalPrice);
+
+      // Toggle floating cart bar
+      if (totalCount > 0) {
+        floatBar.classList.remove('translate-y-32');
+      } else {
+        floatBar.classList.add('translate-y-32');
+      }
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-16 text-slate-300">
+            <div class="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center text-3xl mb-3">
+              🛒
+            </div>
+            <p class="font-bold text-gray-700">Keranjang Masih Kosong</p>
+            <p class="text-xs text-slate-300 mt-1">Pilih menu favoritmu sebelum jam istirahat berbunyi.</p>
+          </div>
+        `;
+        if (submitBtn) submitBtn.disabled = true;
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = false;
+
+      container.innerHTML = items.map(it => `
+        <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-xs flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-50 flex items-center justify-center text-xl shrink-0">
+              ${it.emoji || '🍴'}
+            </div>
+            <div>
+              <h4 class="font-bold text-xs text-espresso leading-tight">${it.nama}</h4>
+              <p class="text-[11px] text-slate-400">${rupiah(it.harga)}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="changeItemQty('${it.nama}', -1)" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-espresso font-bold text-xs flex items-center justify-center transition min-h-[28px]" aria-label="Kurangi ${it.nama}">−</button>
+            <span class="font-display font-black text-xs w-4 text-center">${it.qty}</span>
+            <button onclick="changeItemQty('${it.nama}', 1)" class="w-7 h-7 rounded-full bg-espresso hover:bg-black text-white font-bold text-xs flex items-center justify-center transition min-h-[28px]" aria-label="Tambah ${it.nama}">+</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleCart(open) {
+      const drawer = document.getElementById('cart-drawer');
+      const backdrop = document.getElementById('cart-backdrop');
+      if (open) {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100');
+        document.body.style.overflow = 'hidden';
+      } else {
+        drawer.classList.add('translate-x-full');
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Filter Buttons Handlers
+    function setCategoryFilter(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        if (btn.dataset.cat === cat) {
+          btn.className = 'cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[44px] bg-espresso text-white shadow-xs';
+        } else {
+          btn.className = 'cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[44px] bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 shadow-xs';
+        }
+      });
+      renderProductGrid();
+    }
+
+    function setWarungFilter(warung) {
+      currentWarung = warung;
+      document.querySelectorAll('.warung-btn').forEach(btn => {
+        if (btn.dataset.warung === warung) {
+          btn.className = 'warung-btn px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[38px] bg-sky-100 text-sky-900 border border-sky-200';
+        } else {
+          btn.className = 'warung-btn px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[38px] bg-white text-gray-600 border border-gray-200 hover:bg-gray-50';
+        }
+      });
+      renderProductGrid();
+    }
+
+    function handleSearch(query) {
+      searchQuery = query;
+      renderProductGrid();
+    }
+
+    function resetFilters() {
+      searchQuery = '';
+      document.getElementById('search-input').value = '';
+      setCategoryFilter('semua');
+      setWarungFilter('semua');
+    }
+
+    // Checkout Form Submission
+    async function handleCheckout(e) {
+      e.preventDefault();
+      const cart = getCart();
+      const items = Object.values(cart);
+      if (items.length === 0) return;
+
+      const studentName = document.getElementById('student-name').value.trim();
+      const studentClass = document.getElementById('student-class').value.trim();
+      const notes = document.getElementById('order-notes').value.trim();
+      const btn = document.getElementById('btn-submit-order');
+
+      btn.disabled = true;
+      btn.innerHTML = '<span>Mengirim Pesanan...</span>';
+
+      const total = items.reduce((sum, it) => sum + (it.harga * it.qty), 0);
+      const warungId = items[0].warungId || 'machi';
+      const warungNama = items[0].warungNama || 'Kantin Boash';
+
+      const payload = {
+        studentName,
+        nama: studentName,
+        studentClass,
+        kelas: studentClass,
+        notes,
+        catatan: notes,
+        warungId,
+        warungNama,
+        items: items.map(it => ({
+          nama: it.nama,
+          name: it.nama,
+          harga: it.harga,
+          price: it.harga,
+          qty: it.qty,
+          quantity: it.qty
+        })),
+        total,
+        status: 'Dipesan'
+      };
+
+      let orderId = null;
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          const result = await res.json();
+          orderId = result.id || (result.order && result.order.id);
+        }
+      } catch (err) {
+        console.warn('API error, saving order to fallback storage:', err);
+      }
+
+      // Offline fallback
+      if (!orderId) {
+        orderId = 'ORD-' + Date.now();
+        payload.id = orderId;
+        payload.antrian = 'B-' + Math.floor(100 + Math.random() * 900);
+        payload.createdAt = new Date().toISOString();
+
+        const localOrders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+        localOrders.unshift(payload);
+        localStorage.setItem('kantin_orders', JSON.stringify(localOrders));
+      }
+
+      // Save active order ID
+      localStorage.setItem('kantin_active_order_id', orderId);
+      localStorage.setItem('kantin_last_order_id', orderId);
+
+      // Clear Cart
+      localStorage.removeItem('kantin_cart');
+
+      // Redirect to Status Page
+      window.location.href = 'status.html?id=' + encodeURIComponent(orderId);
+    }
+
+    // Init on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProductGrid();
+      renderCartUI();
+    });
+  </script>
+</body>
+</html>

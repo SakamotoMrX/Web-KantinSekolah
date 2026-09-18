@@ -1,199 +1,610 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Penjual - Kantin Sekolah</title>
+  <title>Portal Penjual — Kantin Boash POS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 min-h-screen">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            espresso: '#1A1A1A',
+            sky: {
+              top: '#64B5F6',
+              mid: '#B0E0E6',
+              soft: '#F0F9FF',
+            },
+            pastel: {
+              peach: '#FCE4D6',
+              matcha: '#E2EFDA',
+              mango: '#FFF2CC',
+              berry: '#F8CECC',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Orchestrated Motion Moment: New order card entrance */
+    @keyframes card-fade-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .order-card-enter {
+      animation: card-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
 
-  <!-- Header -->
-  <header class="bg-orange-500 text-white px-4 py-5 shadow-lg">
-    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3">
-      <div>
-        <h1 class="text-xl sm:text-2xl font-bold">Dashboard Penjual - Kantin Sekolah</h1>
-        <p class="text-sm text-orange-100">Kelola pesanan masuk real-time</p>
+    @media (prefers-reduced-motion: reduce) {
+      .order-card-enter {
+        animation: none !important;
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid #1A1A1A !important;
+      outline-offset: 2px !important;
+    }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid #1A1A1A !important;
+      outline-offset: 2px !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F0F9FF;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-espresso font-sans antialiased selection:bg-sky-200 selection:text-espresso min-h-screen flex flex-col justify-between">
+
+  <!-- ========================================================================= -->
+  <!-- TOP PORTAL HEADER                                                         -->
+  <!-- ========================================================================= -->
+  <header class="bg-white border-b border-sky-100/80 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand & Live Pulse -->
+      <div class="flex items-center gap-3">
+        <a href="penjual.html" class="flex items-center gap-3 group">
+          <div class="w-11 h-11 rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-xl tracking-tighter shadow-md">
+            b
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boash</span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-extrabold">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 "></span>
+                LIVE POS
+              </span>
+            </div>
+            <span class="text-xs font-bold text-slate-400 mt-0.5">Portal Pengelola &amp; Dapur</span>
+          </div>
+        </a>
       </div>
-      <a href="index.html" class="bg-white/20 hover:bg-white/30 transition rounded-xl px-3 py-2 text-sm font-semibold shrink-0">
-        ← Siswa
-      </a>
+
+      <!-- Header Controls: Sound Alert Toggle & Student Site Link -->
+      <div class="flex items-center gap-3">
+        <button 
+          id="btn-sound-toggle" 
+          onclick="toggleSound()" 
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-50 transition min-h-[44px]"
+          aria-label="Pengaturan Suara Notifikasi"
+        >
+          <span id="sound-icon">🔊</span>
+          <span id="sound-label" class="hidden sm:inline">Suara Aktif</span>
+        </button>
+
+        <a 
+          href="index.html" 
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-espresso hover:bg-black text-white text-xs font-bold shadow-xs transition min-h-[44px]"
+        >
+          <span>← Buka Web Siswa</span>
+        </a>
+      </div>
+
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 py-5">
+  <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
 
-    <!-- Stats -->
-    <section class="grid grid-cols-3 gap-3 mb-5">
-      <div class="bg-white rounded-xl shadow p-4 text-center">
-        <p id="stat-total" class="text-2xl sm:text-3xl font-extrabold text-orange-500">0</p>
-        <p class="text-xs text-gray-500 font-medium mt-1">Total Pesanan</p>
+    <!-- ========================================================================= -->
+    <!-- TOP STAT CARDS (4 TILES)                                                  -->
+    <!-- ========================================================================= -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      
+      <!-- Stat 1: Pesanan Menunggu -->
+      <div class="bg-white rounded-[24px] p-5 border border-sky-100 shadow-xs flex items-center justify-between">
+        <div>
+          <p class="text-xs font-bold text-slate-400 mb-1">Pesanan Menunggu</p>
+          <h2 id="stat-menunggu" class="font-display font-black text-3xl text-sky-700">0</h2>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-700 flex items-center justify-center text-xl font-black">
+          ⏳
+        </div>
       </div>
-      <div class="bg-white rounded-xl shadow p-4 text-center">
-        <p id="stat-baru" class="text-2xl sm:text-3xl font-extrabold text-blue-500">0</p>
-        <p class="text-xs text-gray-500 font-medium mt-1">Baru (Dipesan)</p>
+
+      <!-- Stat 2: Sedang Dimasak -->
+      <div class="bg-white rounded-[24px] p-5 border border-amber-100 shadow-xs flex items-center justify-between">
+        <div>
+          <p class="text-xs font-bold text-slate-400 mb-1">Sedang Dimasak</p>
+          <h2 id="stat-dimasak" class="font-display font-black text-3xl text-amber-600">0</h2>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl font-black">
+          🍳
+        </div>
       </div>
-      <div class="bg-white rounded-xl shadow p-4 text-center">
-        <p id="stat-siap" class="text-2xl sm:text-3xl font-extrabold text-green-500">0</p>
-        <p class="text-xs text-gray-500 font-medium mt-1">Siap Diambil</p>
+
+      <!-- Stat 3: Siap Diambil -->
+      <div class="bg-white rounded-[24px] p-5 border border-emerald-100 shadow-xs flex items-center justify-between">
+        <div>
+          <p class="text-xs font-bold text-slate-400 mb-1">Siap Diambil</p>
+          <h2 id="stat-siap" class="font-display font-black text-3xl text-emerald-600">0</h2>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl font-black">
+          🛍️
+        </div>
+      </div>
+
+      <!-- Stat 4: Total Omset Hari Ini -->
+      <div class="bg-white rounded-[24px] p-5 border border-gray-200 shadow-xs flex items-center justify-between">
+        <div>
+          <p class="text-xs font-bold text-slate-400 mb-1">Total Omset</p>
+          <h2 id="stat-omset" class="font-display font-black text-xl sm:text-2xl text-espresso">Rp 0</h2>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-slate-100 text-espresso flex items-center justify-center text-xl font-black">
+          💰
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TABS / KANBAN FILTER & BULK ACTIONS                                       -->
+    <!-- ========================================================================= -->
+    <section class="bg-white rounded-[24px] p-4 sm:p-5 border border-gray-100 shadow-xs mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      
+      <!-- Status Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="status-tabs" aria-label="Filter Status Pesanan">
+        <button onclick="setStatusFilter('semua')" class="tab-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[40px] bg-espresso text-white shadow-xs" data-status="semua">
+          Semua (<span id="count-semua">0</span>)
+        </button>
+        <button onclick="setStatusFilter('menunggu')" class="tab-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[40px] bg-gray-50 text-gray-700 hover:bg-gray-100" data-status="menunggu">
+          Menunggu (<span id="count-menunggu">0</span>)
+        </button>
+        <button onclick="setStatusFilter('dimasak')" class="tab-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[40px] bg-gray-50 text-gray-700 hover:bg-gray-100" data-status="dimasak">
+          Dimasak (<span id="count-dimasak">0</span>)
+        </button>
+        <button onclick="setStatusFilter('siap')" class="tab-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[40px] bg-gray-50 text-gray-700 hover:bg-gray-100" data-status="siap">
+          Siap (<span id="count-siap">0</span>)
+        </button>
+        <button onclick="setStatusFilter('selesai')" class="tab-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[40px] bg-gray-50 text-gray-700 hover:bg-gray-100" data-status="selesai">
+          Selesai (<span id="count-selesai">0</span>)
+        </button>
+      </div>
+
+      <!-- Quick Maintenance Actions -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="bersihkanSelesai()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 border border-gray-200 transition min-h-[38px]">
+          Bersihkan Selesai
+        </button>
+        <button onclick="bersihkanSemua()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 border border-rose-200 transition min-h-[38px]">
+          Reset Antrean
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- ORDERS GRID CONTAINER                                                     -->
+    <!-- ========================================================================= -->
+    <section>
+      <div id="orders-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="orders-empty" class="hidden text-center py-20 bg-white rounded-[28px] border border-gray-100 p-8 shadow-xs">
+        <div class="w-16 h-16 mx-auto bg-sky-50 text-[#0369A1] rounded-2xl flex items-center justify-center text-3xl mb-3">
+          📋
+        </div>
+        <h3 class="font-display font-black text-xl text-espresso mb-1">Belum Ada Pesanan</h3>
+        <p class="text-xs text-slate-300 max-w-sm mx-auto">
+          Pesanan baru yang dibuat siswa dari web akan otomatis muncul di sini dan memutar notifikasi suara.
+        </p>
       </div>
     </section>
 
-    <!-- Filter & Actions -->
-    <section class="flex flex-wrap items-center gap-2 mb-5 bg-white rounded-xl shadow p-3">
-      <select id="filter" onchange="render()" class="border border-gray-300 rounded-xl px-3 py-2 text-sm font-medium bg-white focus:outline-none focus:ring-2 focus:ring-orange-400">
-        <option value="Semua">Semua</option>
-        <option value="Dipesan">Dipesan</option>
-        <option value="Diterima">Diterima</option>
-        <option value="Disiapkan">Disiapkan</option>
-        <option value="Siap Diambil">Siap Diambil</option>
-        <option value="Selesai">Selesai</option>
-      </select>
-      <button onclick="hapusSelesai()" class="ml-auto bg-gray-200 hover:bg-gray-300 transition text-gray-700 text-sm font-semibold px-3 py-2 rounded-xl">Hapus Selesai</button>
-      <button onclick="hapusSemua()" class="bg-red-100 hover:bg-red-200 transition text-red-600 text-sm font-semibold px-3 py-2 rounded-xl">Hapus Semua</button>
-    </section>
-
-    <!-- Orders -->
-    <section id="orders" class="grid grid-cols-1 md:grid-cols-2 gap-4"></section>
-
-    <!-- Empty state -->
-    <p id="empty" class="hidden text-center text-gray-400 font-medium py-16">Belum ada pesanan</p>
   </main>
 
-<script>
-const API_URL = '/api/orders';
-
-async function apiGetOrders() {
-  try { const r = await fetch(API_URL); if (r.ok) return await r.json(); } catch {}
-  try { return JSON.parse(localStorage.getItem('kantin_orders') || '[]'); } catch { return []; }
-}
-
-async function apiPatchStatus(id, status) {
-  try {
-    let r = await fetch(API_URL + '?id=' + encodeURIComponent(id) + '&status=' + encodeURIComponent(status), { method: 'PATCH' });
-    if (r.ok) return true;
-    r = await fetch(API_URL, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status }) });
-    return r.ok;
-  } catch { return false; }
-}
-
-async function apiDelete(clear) {
-  try { const r = await fetch(API_URL + '?clear=' + clear, { method: 'DELETE' }); return r.ok; } catch { return false; }
-}
-
-const FLOW = {
-  'Dipesan':     { next: 'Diterima',     label: 'Terima Pesanan' },
-  'Diterima':    { next: 'Disiapkan',    label: 'Siapkan' },
-  'Disiapkan':   { next: 'Siap Diambil', label: 'Siap Diambil' },
-  'Siap Diambil':{ next: 'Selesai',      label: 'Selesai' },
-  'Selesai':     null,
-  // lower-case status flow support
-  'menunggu':    { next: 'dimasak',      label: 'Masak' },
-  'dimasak':     { next: 'siap',         label: 'Siap' },
-  'siap':        { next: 'selesai',      label: 'Selesai' },
-  'selesai':     null,
-  'dibatalkan':  null
-};
-const BADGE = {
-  'Dipesan':      'bg-blue-100 text-blue-700',
-  'Diterima':     'bg-indigo-100 text-indigo-700',
-  'Disiapkan':    'bg-yellow-100 text-yellow-700',
-  'Siap Diambil': 'bg-green-100 text-green-700 animate-pulse',
-  'Selesai':      'bg-gray-100 text-gray-500',
-  'menunggu':     'bg-blue-100 text-blue-700',
-  'dimasak':      'bg-yellow-100 text-yellow-700',
-  'siap':         'bg-green-100 text-green-700 animate-pulse',
-  'selesai':      'bg-gray-100 text-gray-500',
-  'dibatalkan':   'bg-red-100 text-red-700'
-};
-
-function rupiah(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
-
-function fallbackOrders() {
-  try { return JSON.parse(localStorage.getItem('kantin_orders') || '[]'); } catch { return []; }
-}
-
-function saveFallbackOrders(orders) {
-  localStorage.setItem('kantin_orders', JSON.stringify(orders));
-}
-
-async function nextStatus(id) {
-  const orders = await apiGetOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o || !FLOW[o.status]) return;
-  const newStatus = FLOW[o.status].next;
-  if (!(await apiPatchStatus(id, newStatus))) {
-    // fallback localStorage update
-    const local = fallbackOrders();
-    const lo = local.find(x => x.id === id);
-    if (lo) { lo.status = newStatus; saveFallbackOrders(local); }
-  }
-  render();
-}
-
-async function hapusSelesai() {
-  if (!confirm('Hapus semua pesanan berstatus Selesai?')) return;
-  if (!(await apiDelete('selesai'))) {
-    saveFallbackOrders(fallbackOrders().filter(o => o.status !== 'Selesai'));
-  }
-  render();
-}
-
-async function hapusSemua() {
-  if (!confirm('Hapus SEMUA pesanan? Tidak bisa dibatalkan.')) return;
-  if (!(await apiDelete('all'))) {
-    saveFallbackOrders([]);
-  }
-  render();
-}
-
-async function render() {
-  // ponytail: urut = posisi array (index.html push kronologis), cukup reverse
-  const ordersRaw = await apiGetOrders();
-  const orders = ordersRaw.slice().reverse();
-
-  document.getElementById('stat-total').textContent = orders.length;
-  document.getElementById('stat-baru').textContent = orders.filter(o => o.status === 'Dipesan' || o.status === 'menunggu').length;
-  document.getElementById('stat-siap').textContent = orders.filter(o => o.status === 'Siap Diambil' || o.status === 'siap').length;
-
-  const filter = document.getElementById('filter').value;
-  const list = filter === 'Semua' ? orders : orders.filter(o => o.status === filter);
-
-  const empty = document.getElementById('empty');
-  empty.classList.toggle('hidden', list.length > 0);
-
-  document.getElementById('orders').innerHTML = list.map(o => `
-    <article class="bg-white rounded-xl shadow hover:shadow-md transition p-4">
-      <div class="flex items-start justify-between mb-3">
-        <div class="flex items-center gap-3">
-          <span class="text-3xl font-extrabold text-orange-500">${o.antrian}</span>
-          <span class="text-[10px] text-gray-400 font-mono">${o.id}</span>
+  <!-- ========================================================================= -->
+  <!-- FOOTER WITH GIANT WORDMARK BOASH                                          -->
+  <!-- ========================================================================= -->
+  <footer class="bg-espresso text-white pt-16 pb-10 overflow-hidden relative mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col sm:flex-row items-center justify-between pb-8 border-b border-white/10 gap-4 text-xs text-slate-300">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-full bg-white text-espresso flex items-center justify-center font-display font-black text-sm">
+            b
+          </div>
+          <span class="font-bold text-white">Kantin Boash POS</span>
+          <span>- Dapur &amp; Loket Jalur Khusus</span>
         </div>
-        <span class="${BADGE[o.status] || BADGE['Dipesan']} text-xs font-bold px-2.5 py-1 rounded-full">${o.status}</span>
+        <p>Live Sync: Polling 2 detik aktif</p>
       </div>
-      <div class="mb-2">
-        <p class="font-bold text-sm">${o.warungNama || o.warung || 'Kantin'}</p>
-        <p class="text-xs text-gray-500 font-medium">${o.studentName || o.nama || 'Siswa'}${o.studentClass || o.kelas ? ' • ' + (o.studentClass || o.kelas) : ''}</p>
-        <p class="text-xs text-gray-400">${o.waktu}</p>
-        ${(o.notes || o.catatan) ? `<p class="text-xs text-amber-700 bg-amber-50 rounded px-2 py-1 mt-1 border border-amber-200">Catatan: ${o.notes || o.catatan}</p>` : ''}
-      </div>
-      <ul class="text-sm text-gray-600 space-y-1 border-t border-gray-100 pt-2">
-        ${o.items.map(i => `<li class="flex justify-between"><span>${i.nama} ×${i.qty}</span><span>${rupiah(i.harga * i.qty)}</span></li>`).join('')}
-      </ul>
-      <div class="flex justify-between font-bold text-sm mt-2 pt-2 border-t border-gray-200">
-        <span>Total</span><span class="text-orange-500">${rupiah(o.total)}</span>
-      </div>
-      <button onclick="nextStatus('${o.id}')"
-        class="mt-3 w-full ${FLOW[o.status] ? 'bg-orange-500 hover:bg-orange-600' : 'bg-gray-200 cursor-not-allowed'} text-white font-semibold py-2.5 rounded-xl text-sm transition"
-        ${FLOW[o.status] ? '' : 'disabled'}>
-        ${FLOW[o.status] ? FLOW[o.status].label : 'Selesai'}
-      </button>
-    </article>`).join('');
-}
 
-setInterval(render, 1500);
-window.addEventListener('storage', render);
-render();
-</script>
+      <!-- Giant Wordmark boash -->
+      <div class="py-10 select-none pointer-events-none overflow-hidden text-center">
+        <p class="text-[10rem] md:text-[14rem] font-black tracking-tight leading-none text-center select-none text-white/90 font-display">
+          boash
+        </p>
+      </div>
+
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
+        <p>© 2026 Kantin Boash. Sistem Pengelolaan Antrean Sekolah.</p>
+        <p>Hak Akses Pengelola Kantin Terdaftar</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT LOGIC & AUDIO BEEP                                             -->
+  <!-- ========================================================================= -->
+  <script>
+    const API_URL = '/api/orders';
+    let currentFilter = 'semua';
+    let knownOrderIds = new Set();
+    let isFirstLoad = true;
+    let soundEnabled = true;
+    let pollingInterval = null;
+
+    function rupiah(n) {
+      return 'Rp ' + Number(n).toLocaleString('id-ID');
+    }
+
+    // Web Audio Synthesizer Beep (Zero external assets needed)
+    function playOrderBeep() {
+      if (!soundEnabled) return;
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        // Chime Note 1: 587.33 Hz (D5)
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(587.33, ctx.currentTime);
+        gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(ctx.currentTime);
+        osc1.stop(ctx.currentTime + 0.35);
+
+        // Chime Note 2: 880 Hz (A5)
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(880, ctx.currentTime + 0.15);
+        gain2.gain.setValueAtTime(0.35, ctx.currentTime + 0.15);
+        gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(ctx.currentTime + 0.15);
+        osc2.stop(ctx.currentTime + 0.6);
+      } catch (e) {
+        console.warn('Audio play restricted by browser policy:', e);
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      localStorage.setItem('kantin_penjual_sound', soundEnabled ? '1' : '0');
+      updateSoundUI();
+    }
+
+    function updateSoundUI() {
+      const icon = document.getElementById('sound-icon');
+      const label = document.getElementById('sound-label');
+      if (soundEnabled) {
+        icon.textContent = '🔊';
+        label.textContent = 'Suara Aktif';
+      } else {
+        icon.textContent = '🔇';
+        label.textContent = 'Hening';
+      }
+    }
+
+    // Get orders from API or localStorage fallback
+    async function loadOrders() {
+      let orders = [];
+      try {
+        const res = await fetch(API_URL);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) orders = data;
+        }
+      } catch {}
+
+      if (orders.length === 0) {
+        try {
+          orders = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+        } catch {
+          orders = [];
+        }
+      }
+
+      // Detect newly arrived orders to trigger sound
+      let hasNewOrder = false;
+      orders.forEach(o => {
+        if (!knownOrderIds.has(o.id)) {
+          knownOrderIds.add(o.id);
+          hasNewOrder = true;
+        }
+      });
+
+      if (hasNewOrder && !isFirstLoad) {
+        playOrderBeep();
+      }
+      isFirstLoad = false;
+
+      renderDashboard(orders);
+    }
+
+    function renderDashboard(orders) {
+      // Calculate Stats
+      let countMenunggu = 0;
+      let countDimasak = 0;
+      let countSiap = 0;
+      let countSelesai = 0;
+      let totalOmset = 0;
+
+      orders.forEach(o => {
+        const s = (o.status || '').toLowerCase();
+        const total = o.total || o.totalAmount || 0;
+        totalOmset += total;
+
+        if (s === 'dipesan' || s === 'menunggu') countMenunggu++;
+        else if (s === 'disiapkan' || s === 'dimasak' || s === 'diterima') countDimasak++;
+        else if (s === 'siap diambil' || s === 'siap') countSiap++;
+        else if (s === 'selesai') countSelesai++;
+      });
+
+      // Update stat cards
+      document.getElementById('stat-menunggu').textContent = countMenunggu;
+      document.getElementById('stat-dimasak').textContent = countDimasak;
+      document.getElementById('stat-siap').textContent = countSiap;
+      document.getElementById('stat-omset').textContent = rupiah(totalOmset);
+
+      // Update tab badges
+      document.getElementById('count-semua').textContent = orders.length;
+      document.getElementById('count-menunggu').textContent = countMenunggu;
+      document.getElementById('count-dimasak').textContent = countDimasak;
+      document.getElementById('count-siap').textContent = countSiap;
+      document.getElementById('count-selesai').textContent = countSelesai;
+
+      // Filter orders based on active tab
+      const filtered = orders.filter(o => {
+        const s = (o.status || '').toLowerCase();
+        if (currentFilter === 'semua') return true;
+        if (currentFilter === 'menunggu') return s === 'dipesan' || s === 'menunggu';
+        if (currentFilter === 'dimasak') return s === 'disiapkan' || s === 'dimasak' || s === 'diterima';
+        if (currentFilter === 'siap') return s === 'siap diambil' || s === 'siap';
+        if (currentFilter === 'selesai') return s === 'selesai';
+        return true;
+      });
+
+      const grid = document.getElementById('orders-grid');
+      const emptyBox = document.getElementById('orders-empty');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyBox.classList.remove('hidden');
+        return;
+      }
+
+      emptyBox.classList.add('hidden');
+      grid.innerHTML = filtered.map(order => renderOrderCard(order)).join('');
+    }
+
+    function renderOrderCard(order) {
+      const s = (order.status || 'Dipesan').toLowerCase();
+      const antrian = order.antrian || order.queueNumber || 'B-001';
+      const studentName = order.studentName || order.nama || 'Siswa';
+      const studentClass = order.studentClass || order.kelas || '-';
+      const warungNama = order.warungNama || 'Kantin Boash';
+      const total = order.total || order.totalAmount || 0;
+      const items = order.items || [];
+      const notes = order.notes || order.catatan;
+
+      // Status pill style & next action button
+      let statusPill = '';
+      let actionButtons = '';
+
+      if (s === 'dipesan' || s === 'menunggu') {
+        statusPill = `<span class="bg-sky-100 text-sky-800 text-xs font-black px-3 py-1 rounded-full">Menunggu</span>`;
+        actionButtons = `
+          <button onclick="advanceOrderStatus('${order.id}', 'dimasak')" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-xs">
+            Mulai Masak 🍳
+          </button>
+          <button onclick="cancelOrder('${order.id}')" class="px-3.5 py-2.5 rounded-xl bg-gray-100 hover:bg-rose-50 text-slate-400 hover:text-rose-600 text-xs font-bold transition">
+            Batalkan
+          </button>
+        `;
+      } else if (s === 'disiapkan' || s === 'dimasak' || s === 'diterima') {
+        statusPill = `<span class="bg-amber-100 text-amber-800 text-xs font-black px-3 py-1 rounded-full">Sedang Dimasak</span>`;
+        actionButtons = `
+          <button onclick="advanceOrderStatus('${order.id}', 'siap')" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs">
+            Siap Diambil 🛍️
+          </button>
+        `;
+      } else if (s === 'siap diambil' || s === 'siap') {
+        statusPill = `<span class="bg-emerald-100 text-emerald-800 text-xs font-black px-3 py-1 rounded-full ">Siap Diambil</span>`;
+        actionButtons = `
+          <button onclick="advanceOrderStatus('${order.id}', 'selesai')" class="w-full py-2.5 rounded-xl bg-espresso hover:bg-black text-white text-xs font-bold transition shadow-xs">
+            Selesaikan Pesanan ✓
+          </button>
+        `;
+      } else if (s === 'selesai') {
+        statusPill = `<span class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">Selesai</span>`;
+        actionButtons = `
+          <div class="w-full py-2 text-center text-xs font-bold text-slate-300 bg-gray-50 rounded-xl">
+            Tuntas Diambil ✓
+          </div>
+        `;
+      }
+
+      return `
+        <div class="bg-white rounded-[24px] p-6 border border-gray-100 shadow-xs hover:shadow-md transition flex flex-col justify-between order-card-enter">
+          <div>
+            <!-- Card Header: Antrian & Status -->
+            <div class="flex items-center justify-between mb-3 pb-3 border-b border-gray-100">
+              <span class="font-display font-black text-2xl text-[#0369A1]">${antrian}</span>
+              ${statusPill}
+            </div>
+
+            <!-- Student Info -->
+            <div class="mb-4">
+              <h3 class="font-display font-extrabold text-base text-espresso">${studentName}</h3>
+              <p class="text-xs text-slate-400 font-medium">Kelas: ${studentClass} - <span class="text-sky-700 font-semibold">${warungNama}</span></p>
+            </div>
+
+            <!-- Items list -->
+            <div class="bg-slate-50 rounded-xl p-3 mb-4 space-y-1 text-xs">
+              ${items.map(it => `
+                <div class="flex justify-between text-gray-700">
+                  <span>${it.nama || it.name} <strong class="text-espresso">×${it.qty || it.quantity || 1}</strong></span>
+                  <span class="font-bold">${rupiah((it.harga !== undefined ? it.harga : it.price) * (it.qty || it.quantity || 1))}</span>
+                </div>
+              `).join('')}
+            </div>
+
+            ${notes ? `
+              <div class="text-[11px] bg-amber-50 text-amber-900 px-3 py-2 rounded-xl mb-4 border border-amber-100">
+                <span class="font-bold">Catatan:</span> ${notes}
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Card Bottom: Total & Actions -->
+          <div class="pt-3 border-t border-gray-100">
+            <div class="flex items-center justify-between mb-3 text-xs">
+              <span class="font-bold text-slate-400">Total Harga:</span>
+              <span class="font-display font-black text-base text-espresso">${rupiah(total)}</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              ${actionButtons}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Status Filter Tabs
+    function setStatusFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.dataset.status === filter) {
+          btn.className = 'tab-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[40px] bg-espresso text-white shadow-xs';
+        } else {
+          btn.className = 'tab-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition min-h-[40px] bg-gray-50 text-gray-700 hover:bg-gray-100';
+        }
+      });
+      loadOrders();
+    }
+
+    // Advance Status API / localStorage
+    async function advanceOrderStatus(id, newStatus) {
+      // 1. Try API PATCH
+      try {
+        await fetch(API_URL + '?id=' + encodeURIComponent(id) + '&status=' + encodeURIComponent(newStatus), {
+          method: 'PATCH'
+        });
+        await fetch(API_URL, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, status: newStatus })
+        });
+      } catch {}
+
+      // 2. Fallback localStorage
+      try {
+        const local = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+        const target = local.find(o => o.id === id);
+        if (target) {
+          target.status = newStatus;
+          localStorage.setItem('kantin_orders', JSON.stringify(local));
+        }
+      } catch {}
+
+      loadOrders();
+    }
+
+    async function cancelOrder(id) {
+      if (!confirm('Yakin ingin membatalkan pesanan ini?')) return;
+      await advanceOrderStatus(id, 'dibatalkan');
+    }
+
+    async function bersihkanSelesai() {
+      if (!confirm('Hapus semua pesanan berstatus selesai dari dashboard?')) return;
+      try {
+        await fetch(API_URL + '?clear=selesai', { method: 'DELETE' });
+      } catch {}
+
+      try {
+        const local = JSON.parse(localStorage.getItem('kantin_orders') || '[]');
+        const updated = local.filter(o => (o.status || '').toLowerCase() !== 'selesai' && (o.status || '').toLowerCase() !== 'dibatalkan');
+        localStorage.setItem('kantin_orders', JSON.stringify(updated));
+      } catch {}
+
+      loadOrders();
+    }
+
+    async function bersihkanSemua() {
+      if (!confirm('Reset SEMUA pesanan aktif dan antrean? Aksi ini tidak dapat dibatalkan.')) return;
+      try {
+        await fetch(API_URL + '?clear=all', { method: 'DELETE' });
+      } catch {}
+
+      try {
+        localStorage.removeItem('kantin_orders');
+      } catch {}
+
+      loadOrders();
+    }
+
+    // Startup
+    document.addEventListener('DOMContentLoaded', () => {
+      soundEnabled = localStorage.getItem('kantin_penjual_sound') !== '0';
+      updateSoundUI();
+      loadOrders();
+
+      // Poll every 2 seconds
+      pollingInterval = setInterval(loadOrders, 2000);
+    });
+
+    window.addEventListener('pagehide', () => {
+      if (pollingInterval) clearInterval(pollingInterval);
+    });
+  </script>
 </body>
 </html>
