@@ -1,0 +1,10 @@
+{
+  "server_url": "http://localhost:3000",
+  "status_code": 200,
+  "hydration_verified": true,
+  "dom_element_count": 476,
+  "visible_text_length": 1534,
+  "runtime_errors": [],
+  "live_screenshot": "screenshots/verification-live.png",
+  "verified_at": "2026-09-19T10:00:00.000Z"
+}

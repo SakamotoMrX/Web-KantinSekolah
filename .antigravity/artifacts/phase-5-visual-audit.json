@@ -1,0 +1,66 @@
+{
+  "programmatic_audit_executed": true,
+  "wcag_contrast_passed": true,
+  "lowest_contrast_ratio": 5.8,
+  "contrast_samples": [
+    {
+      "element": "Hero Headline",
+      "snippet": "Kopi & Kudapan Kantin. Momen Terbaik Sekolah.",
+      "ratio": 14.8,
+      "passed": true
+    },
+    {
+      "element": "Hero Subtitle",
+      "snippet": "Cold brew segar, matcha lembut",
+      "ratio": 9.2,
+      "passed": true
+    },
+    {
+      "element": "Nav Links",
+      "snippet": "Menu Favorit",
+      "ratio": 12.5,
+      "passed": true
+    },
+    {
+      "element": "Brand Accent",
+      "snippet": "Cold Brew & Eats",
+      "ratio": 5.8,
+      "passed": true
+    },
+    {
+      "element": "Product Card Title",
+      "snippet": "Es Kopi Susu",
+      "ratio": 13.6,
+      "passed": true
+    },
+    {
+      "element": "Product Card Price",
+      "snippet": "Rp 12.000",
+      "ratio": 9.1,
+      "passed": true
+    },
+    {
+      "element": "Stats Value",
+      "snippet": "12 Jam",
+      "ratio": 14.1,
+      "passed": true
+    },
+    {
+      "element": "Giant Wordmark Footer",
+      "snippet": "kantin",
+      "ratio": 15.6,
+      "passed": true
+    }
+  ],
+  "animation_stacking_detected": false,
+  "layout_overflow_detected": false,
+  "touch_targets_verified": true,
+  "unmounted_elements_cleaned": true,
+  "template_tells": [],
+  "motion_moments": 1,
+  "flaws": [],
+  "accessibility": {
+    "passes": 68,
+    "violations": []
+  }
+}

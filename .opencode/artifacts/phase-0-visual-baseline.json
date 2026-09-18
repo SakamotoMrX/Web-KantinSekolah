@@ -1,0 +1,136 @@
+{
+  "baseline_id": "baseline-20260919-000000",
+  "baseline_available": true,
+  "is_greenfield": false,
+  "target_url": "http://localhost:8080",
+  "screenshot_path": "screenshots/baseline-current.png",
+  "current_design_state": {
+    "color_palette_observed": [
+      "#F97316",
+      "#FFFFFF",
+      "#F9FAFB",
+      "#16A34A",
+      "#16A34A",
+      "#EF4444",
+      "#F43F5E",
+      "#6B7280"
+    ],
+    "typography_observed": [
+      "Inter",
+      "sans-serif"
+    ],
+    "layout_type": "mobile-first_centered_container",
+    "visual_density": "medium",
+    "identified_tells_or_flaws": [
+      "Generic orange-500 shadcn default — no unique brand identity",
+      "Emoji icons instead of real photography or custom icons",
+      "Flat color blocks with no texture or depth",
+      "Default Tailwind font (Inter) — no custom typography",
+      "Uniform card styling across all warung tiles",
+      "Success modal uses pink (#EC4899) stock preset color",
+      "WCAG contrast failure: 'Penjual' link white on semi-transparent white (1.0:1)",
+      "Touch target violation: 'Penjual' link 91×36px (below 44×44px minimum)",
+      "No loading/empty states implemented",
+      "No visual hierarchy beyond basic card list"
+    ]
+  },
+  "existing_features": [
+    {
+      "name": "Warung List",
+      "route": "/index.html",
+      "status": "WORKING",
+      "notes": "4 warung cards with emoji icons, menu count"
+    },
+    {
+      "name": "Warung Detail / Menu",
+      "route": "/index.html (click warung)",
+      "status": "WORKING",
+      "notes": "Click warung → show menu items → add to cart"
+    },
+    {
+      "name": "Shopping Cart",
+      "route": "/index.html (cart drawer)",
+      "status": "WORKING",
+      "notes": "Cart drawer with item list, total, checkout button"
+    },
+    {
+      "name": "Order Placement",
+      "route": "/index.html (checkout)",
+      "status": "WORKING",
+      "notes": "Name input → POST /api/orders → success modal with queue number"
+    },
+    {
+      "name": "Seller Dashboard",
+      "route": "/penjual.html",
+      "status": "WORKING",
+      "notes": "Lists all orders, accept/reject, status filters"
+    },
+    {
+      "name": "Backend API",
+      "route": "/api/orders.js",
+      "status": "WORKING",
+      "notes": "Upstash Redis + in-memory fallback, CRUD operations"
+    }
+  ],
+  "redesign_recommendations": [
+    "Replace emoji icons with real food photography or custom SVG illustrations",
+    "Introduce warm earth-tone palette (browns, creams, terracotta) matching cafe/machi aesthetic",
+    "Add custom typography: display font for headings, clean sans-serif for body",
+    "Implement hero section with large food imagery and editorial typography",
+    "Add subtle texture or grain overlay for premium tactile feel",
+    "Redesign warung cards with photography-first layout, not emoji-first",
+    "Fix WCAG contrast: replace semi-transparent backgrounds with solid, darker tones",
+    "Increase touch targets to minimum 44×44px across all interactive elements",
+    "Add loading skeleton states and empty cart state",
+    "Implement micro-interactions: card hover, cart add, order status transitions",
+    "Add brand logo and consistent color identity throughout",
+    "Consider warm shadows and border treatments instead of default Tailwind shadow-sm"
+  ],
+  "programmatic_audit": {
+    "wcag_contrast_passed": false,
+    "lowest_contrast_ratio": 1.0,
+    "contrast_samples": [
+      {
+        "element": "h1",
+        "snippet": "Kantin Sekolah",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(249, 115, 22)",
+        "ratio": 2.8,
+        "passed": false
+      },
+      {
+        "element": "p",
+        "snippet": "Pre-order tanpa antre",
+        "color": "rgb(255, 237, 213)",
+        "background": "rgb(249, 115, 22)",
+        "ratio": 2.45,
+        "passed": false
+      },
+      {
+        "element": "a",
+        "snippet": "🏪 Penjual",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgba(255, 255, 255, 0.2)",
+        "ratio": 1.0,
+        "passed": false
+      }
+    ],
+    "layout_overflow_detected": false,
+    "touch_targets_verified": false,
+    "touch_target_violations": [
+      {
+        "tag": "a",
+        "text": "🏪 Penjual",
+        "width": 91,
+        "height": 36
+      }
+    ],
+    "animation_stacking_detected": false,
+    "template_tells": [
+      "template_tell:shader_stock_preset:#EC4899"
+    ],
+    "motion_moments": 1,
+    "card_count": 20,
+    "animated_elements_count": 71
+  }
+}

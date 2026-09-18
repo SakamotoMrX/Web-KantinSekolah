@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-09-18T23:09:39.883Z",
+  "version": "1.0.0",
+  "color_system": {
+    "sky_blue": "#64B5F6",
+    "cloud_white": "#FFFFFF",
+    "espresso_dark": "#1A1A1A",
+    "matcha_pastel": "#E2EFDA",
+    "peach_tint": "#FCE4D6",
+    "mango_cream": "#FFF2CC"
+  },
+  "typography": {
+    "typefaces": [
+      {
+        "name": "Plus Jakarta Sans",
+        "role": "display",
+        "weights": [
+          "700",
+          "800",
+          "900"
+        ]
+      },
+      {
+        "name": "Inter",
+        "role": "body",
+        "weights": [
+          "400",
+          "500",
+          "600"
+        ]
+      }
+    ],
+    "line_length_target": 65
+  },
+  "token_overrides": {
+    "border_radius": "rounded-3xl (24px) for cards, rounded-full for pills and action badges",
+    "shadows": "shadow-[0_20px_50px_rgba(100,181,246,0.15)] soft atmosphere glow, 0 4px 12px rgba(0,0,0,0.04)",
+    "spacing": "Generous py-20 to py-28 section gutters, 4/8dp spatial grid inside cards",
+    "palette": "Custom sky atmosphere (#64B5F6 to #FFFFFF) overriding default dark/gray slate primitives"
+  },
+  "principles": "The canteen interface departs from utilitarian gray table layouts by adopting the breezy, sunny aesthetic of modern Japanese-Italian boutique beverage brands (machi). High-contrast dark espresso typography anchors joyful sky-blue atmospheric gradients and delicious soft pastel cards, making school lunch pre-ordering feel delightfully premium and refreshing."
+}

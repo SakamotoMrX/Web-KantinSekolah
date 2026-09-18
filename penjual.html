@@ -82,18 +82,29 @@ async function apiDelete(clear) {
 }
 
 const FLOW = {
-  'Dipesan':     { next: 'Diterima',   label: 'Terima Pesanan' },
-  'Diterima':    { next: 'Disiapkan',  label: 'Siapkan' },
+  'Dipesan':     { next: 'Diterima',     label: 'Terima Pesanan' },
+  'Diterima':    { next: 'Disiapkan',    label: 'Siapkan' },
   'Disiapkan':   { next: 'Siap Diambil', label: 'Siap Diambil' },
-  'Siap Diambil':{ next: 'Selesai',    label: 'Selesai' },
-  'Selesai':     null
+  'Siap Diambil':{ next: 'Selesai',      label: 'Selesai' },
+  'Selesai':     null,
+  // lower-case status flow support
+  'menunggu':    { next: 'dimasak',      label: 'Masak' },
+  'dimasak':     { next: 'siap',         label: 'Siap' },
+  'siap':        { next: 'selesai',      label: 'Selesai' },
+  'selesai':     null,
+  'dibatalkan':  null
 };
 const BADGE = {
   'Dipesan':      'bg-blue-100 text-blue-700',
   'Diterima':     'bg-indigo-100 text-indigo-700',
   'Disiapkan':    'bg-yellow-100 text-yellow-700',
   'Siap Diambil': 'bg-green-100 text-green-700 animate-pulse',
-  'Selesai':      'bg-gray-100 text-gray-500'
+  'Selesai':      'bg-gray-100 text-gray-500',
+  'menunggu':     'bg-blue-100 text-blue-700',
+  'dimasak':      'bg-yellow-100 text-yellow-700',
+  'siap':         'bg-green-100 text-green-700 animate-pulse',
+  'selesai':      'bg-gray-100 text-gray-500',
+  'dibatalkan':   'bg-red-100 text-red-700'
 };
 
 function rupiah(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
@@ -142,8 +153,8 @@ async function render() {
   const orders = ordersRaw.slice().reverse();
 
   document.getElementById('stat-total').textContent = orders.length;
-  document.getElementById('stat-baru').textContent = orders.filter(o => o.status === 'Dipesan').length;
-  document.getElementById('stat-siap').textContent = orders.filter(o => o.status === 'Siap Diambil').length;
+  document.getElementById('stat-baru').textContent = orders.filter(o => o.status === 'Dipesan' || o.status === 'menunggu').length;
+  document.getElementById('stat-siap').textContent = orders.filter(o => o.status === 'Siap Diambil' || o.status === 'siap').length;
 
   const filter = document.getElementById('filter').value;
   const list = filter === 'Semua' ? orders : orders.filter(o => o.status === filter);
@@ -161,8 +172,10 @@ async function render() {
         <span class="${BADGE[o.status] || BADGE['Dipesan']} text-xs font-bold px-2.5 py-1 rounded-full">${o.status}</span>
       </div>
       <div class="mb-2">
-        <p class="font-bold text-sm">${o.warungNama}</p>
+        <p class="font-bold text-sm">${o.warungNama || o.warung || 'Kantin'}</p>
+        <p class="text-xs text-gray-500 font-medium">${o.studentName || o.nama || 'Siswa'}${o.studentClass || o.kelas ? ' • ' + (o.studentClass || o.kelas) : ''}</p>
         <p class="text-xs text-gray-400">${o.waktu}</p>
+        ${(o.notes || o.catatan) ? `<p class="text-xs text-amber-700 bg-amber-50 rounded px-2 py-1 mt-1 border border-amber-200">Catatan: ${o.notes || o.catatan}</p>` : ''}
       </div>
       <ul class="text-sm text-gray-600 space-y-1 border-t border-gray-100 pt-2">
         ${o.items.map(i => `<li class="flex justify-between"><span>${i.nama} ×${i.qty}</span><span>${rupiah(i.harga * i.qty)}</span></li>`).join('')}

@@ -1,0 +1,66 @@
+{
+  "touch_targets_verified": false,
+  "violation_count": 53,
+  "violations": [
+    {
+      "tag": "a",
+      "text": "k\nkantin\nCOLD BREW &",
+      "width": 157,
+      "height": 40
+    },
+    {
+      "tag": "a",
+      "text": "Menu Favorit",
+      "width": 88,
+      "height": 20
+    },
+    {
+      "tag": "a",
+      "text": "Daftar Warung",
+      "width": 98,
+      "height": 20
+    },
+    {
+      "tag": "a",
+      "text": "Cerita Kami",
+      "width": 79,
+      "height": 20
+    },
+    {
+      "tag": "a",
+      "text": "Cek Pesanan",
+      "width": 88,
+      "height": 20
+    },
+    {
+      "tag": "a",
+      "text": "🏪\nPortal Penjual",
+      "width": 129,
+      "height": 34
+    },
+    {
+      "tag": "button",
+      "text": "Keranjang\n0",
+      "width": 144,
+      "height": 40
+    },
+    {
+      "tag": "button",
+      "text": "Tambahkan\n+",
+      "width": 113,
+      "height": 36
+    },
+    {
+      "tag": "button",
+      "text": "Tambahkan\n+",
+      "width": 113,
+      "height": 36
+    },
+    {
+      "tag": "button",
+      "text": "Tambahkan\n+",
+      "width": 113,
+      "height": 36
+    }
+  ]
+}

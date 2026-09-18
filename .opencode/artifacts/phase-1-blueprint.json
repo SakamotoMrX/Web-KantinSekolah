@@ -1,0 +1,75 @@
+{
+  "architecture": {
+    "components": [
+      "hero-floating-cups",
+      "cloud-parallax-sky",
+      "pastel-product-card",
+      "editorial-stats-banner",
+      "organic-lifestyle-banner",
+      "giant-wordmark-footer",
+      "shader-background",
+      "liquid-glass-panel"
+    ],
+    "data_flow": "Student selects items from pastel-product-card grid -> updates local reactive cart state -> dispatches POST to /api/orders with JSON payload -> server persists order (Redis / memory fallback) and issues queue number -> client renders QR code confirmation and polls /api/orders for live status updates",
+    "state_management": "Local reactive cart store synchronized with localStorage (kantin_orders, kantin_counter, kantin_last_order_id) and optimistic UI updates with polling fallback (1.5s)"
+  },
+  "motion_lifecycle": {
+    "primary_motion": "hero-floating-cups",
+    "duration_s": 4,
+    "type": "float",
+    "entry": "CSS @keyframes float and float-diagonal with staggered animation-delay",
+    "exit": "opacity: 0, duration: 0.3s ease-out",
+    "unmount_cleanup": "DOM animations bound to CSS; clear active intervals on window unload"
+  },
+  "contract_path": ".opencode/artifacts/phase-1-contracts.ts",
+  "page_copy": {
+    "headline": "Kopi & Kudapan Kantin. Momen Terbaik Sekolah.",
+    "subheadline": "Cold brew segar, matcha lembut, dan aneka snack kantin favorit. Pesan duluan tanpa antre.",
+    "cta_primary": "Pesan Sekarang",
+    "cta_secondary": "Jelajahi Menu",
+    "section_favorites": "Menu Favorit Siswa, Dingin & Segar",
+    "stats": {
+      "steep_time": "12 Jam",
+      "beans": "100% Biji Lokal",
+      "sugar": "Rendah Gula"
+    },
+    "banner_text": "Bahan Segar Berkualitas. Kantin Sehat, Siswa Semangat.",
+    "footer_brand": "kantin",
+    "footer_sub": "Kantin Sekolah Modern & Digital",
+    "empty_state": {
+      "title": "Keranjang Masih Kosong",
+      "subtitle": "Pilih kopi atau camilan favoritmu sebelum bel istirahat berbunyi.",
+      "action": "Mulai Memilih"
+    },
+    "confirmation_message": "Pesanan Berhasil Dikirim ke Kantin"
+  },
+  "breaking_scenarios": [
+    {
+      "id": "STRESS-NET-DROP",
+      "vector": "Network disconnection or HTTP 504 during checkout mutation POST /api/orders",
+      "expected_defense": "Catch fetch failure, persist pending order in localStorage queue, display non-blocking offline banner with retry button, prevent cart wipe until confirmed"
+    },
+    {
+      "id": "STRESS-EMPTY-MENU",
+      "vector": "Zero menu items returned from server or network unreachable on initial page load",
+      "expected_defense": "Render graceful empty state using fallback catalog with cached items from localStorage, preventing blank screen or JavaScript crash"
+    },
+    {
+      "id": "STRESS-INPUT-OVERFLOW",
+      "vector": "Order note exceeding 300 characters or rapid double-click on order submission",
+      "expected_defense": "Text area enforces maxlength='300' with visual character counter; submission button disables immediately with isPending flag and debounce"
+    },
+    {
+      "id": "WEBGL_UNSUPPORTED",
+      "vector": "Client browser lacks WebGL support or GPU context crashes",
+      "expected_defense": "Graceful static CSS gradient fallback (.sky-bg linear gradient from #87CEEB to #E3F2FD) without three.js canvas error"
+    },
+    {
+      "id": "PREFERS_REDUCED_MOTION",
+      "vector": "User has system prefers-reduced-motion enabled",
+      "expected_defense": "CSS media query disables float, drift, and pulse animations, fixing positions statically"
+    }
+  ],
+  "risk_level": "LOW",
+  "proceed": true
+}

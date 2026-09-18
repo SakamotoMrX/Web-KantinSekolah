@@ -1,0 +1,53 @@
+{
+  "visual_reference": {
+    "source_type": "dribbble",
+    "reference_path": "screenshots/ref-dribbble.png",
+    "reference_title": "machi cold brew cafe landing page",
+    "adapted_components": [
+      "hero-floating-cups",
+      "cloud-parallax-sky",
+      "pastel-product-card",
+      "editorial-stats-banner",
+      "organic-lifestyle-banner",
+      "giant-wordmark-footer"
+    ]
+  },
+  "color_system": {
+    "sky_blue": "#64B5F6",
+    "cloud_white": "#FFFFFF",
+    "espresso_dark": "#1A1A1A",
+    "matcha_pastel": "#E2EFDA",
+    "peach_tint": "#FCE4D6",
+    "mango_cream": "#FFF2CC"
+  },
+  "typography": {
+    "typefaces": [
+      { "name": "Plus Jakarta Sans", "role": "display", "weights": ["700", "800", "900"] },
+      { "name": "Inter", "role": "body", "weights": ["400", "500", "600"] }
+    ],
+    "line_length_target": 65
+  },
+  "layout": {
+    "concept": "Atmospheric sky-blue canvas with high-contrast floating beverage heroes, flowing into pastel-tinted product tiles and an editorial storytelling split banner, grounded by an authoritative ultra-bold wordmark footer.",
+    "ascii_wireframe": "+---------------------------------------------------+\n| [Brand: kantin]   Products  Our Story  [Pesan (0)] |\n+---------------------------------------------------+\n|  Kopi & Kudapan Kantin.       ( Floating Cold Brew)|\n|  Momen Terbaik Sekolah.       (    Matcha Latte   )|\n|  [Pesan Sekarang] [Menu]                          |\n+---------------------------------------------------+\n|       Menu Favorit Siswa, Dingin & Segar          |\n| +---------------+ +---------------+ +-----------+ |\n| | Es Kopi Susu  | | Matcha Latte  | | Mango Ice | |\n| | Pastel Peach  | | Pastel Green  | | Pastel Ylw| |\n| +---------------+ +---------------+ +-----------+ |\n+---------------------------------------------------+\n| 12 Jam Seduh  |  100% Biji Lokal  |  Rendah Gula  |\n+---------------------------------------------------+\n|            k a n t i n   (Giant Wordmark)         |\n+---------------------------------------------------+",
+    "alignment": "Left-aligned editorial typography on wide desktop grid, with centered floating hero focal elements and balanced multi-column product card distribution."
+  },
+  "principles": "The canteen interface departs from utilitarian gray table layouts by adopting the breezy, sunny aesthetic of modern Japanese-Italian boutique beverage brands (machi). High-contrast dark espresso typography anchors joyful sky-blue atmospheric gradients and delicious soft pastel cards, making school lunch pre-ordering feel delightfully premium and refreshing.",
+  "orchestrated_moment": {
+    "trigger": "hero-floating-cups load and gentle continuous vertical-drift parallax",
+    "justification": "Exactly ONE continuous floating motion moment on the hero beverage cups gives an organic, chilled freshness without inducing cognitive motion fatigue across the rest of the application."
+  },
+  "token_overrides": {
+    "border_radius": "rounded-3xl (24px) for cards, rounded-full for pills and action badges",
+    "shadows": "shadow-[0_20px_50px_rgba(100,181,246,0.15)] soft atmosphere glow, 0 4px 12px rgba(0,0,0,0.04)",
+    "spacing": "Generous py-20 to py-28 section gutters, 4/8dp spatial grid inside cards",
+    "palette": "Custom sky atmosphere (#64B5F6 to #FFFFFF) overriding default dark/gray slate primitives"
+  },
+  "tells_checked": [
+    { "tell": "cream background + terracotta", "caught": true, "revision": "Banned. Chosen crisp sky-blue (#64B5F6) and cloud-white (#FFFFFF) with cool pastel accents instead." },
+    { "tell": "near-black + acid-green", "caught": true, "revision": "Banned. Chosen deep rich espresso #1A1A1A for readable text on bright atmospheric background." },
+    { "tell": "SaaS card kit uniform 1px border cards", "caught": true, "revision": "Banned. Cards feature borderless soft pastel tonal fills (#FCE4D6, #E2EFDA, #FFF2CC) with deep 24px radius." },
+    { "tell": "template chrome ALL-CAPS tracked eyebrows", "caught": true, "revision": "Banned. Clean natural sentence-case Indonesian and Latin headings." },
+    { "tell": "multiple stacked animations", "caught": true, "revision": "Capped strictly at ONE motion moment on hero beverage cups." }
+  ]
+}

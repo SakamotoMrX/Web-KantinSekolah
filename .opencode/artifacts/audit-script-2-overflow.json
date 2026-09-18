@@ -1,0 +1,43 @@
+{
+  "has_overflow": true,
+  "scrollWidth": 1122,
+  "innerWidth": 1130,
+  "overflow_count": 33,
+  "offending_elements": [
+    {
+      "tag": "div",
+      "id": null,
+      "className": "absolute -top-12 -right-12 w-64 h-64 bg-white/60 rounded-ful",
+      "rightEdge": 1137,
+      "viewportWidth": 1130
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "className": "absolute -right-20 -top-20 w-80 h-80 rounded-full border bor",
+      "rightEdge": 1170,
+      "viewportWidth": 1130
+    },
+    {
+      "tag": "div",
+      "id": "cart-drawer",
+      "className": "fixed top-0 right-0 bottom-0 w-full max-w-md bg-white z-50 s",
+      "rightEdge": 1570,
+      "viewportWidth": 1130
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "className": "p-6 border-b border-gray-100 flex items-center justify-betwe",
+      "rightEdge": 1570,
+      "viewportWidth": 1130
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "className": null,
+      "rightEdge": 1331,
+      "viewportWidth": 1130
+    }
+  ]
+}
