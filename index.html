@@ -208,7 +208,7 @@
             <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-white/40 filter blur-3xl max-w-full overflow-hidden pointer-events-none" aria-hidden="true"></div>
 
             <!-- FLOATING CUP 1: PEACH COLD BREW (Primary Left) -->
-            <div class="absolute left-4 sm:left-8 top-6 z-20 animate-cup-primary cursor-pointer hover:scale-105 transition" onclick="quickAddFromHero('Es Kopi Susu', 12000, 'machi', 'Machi Cold Brew Bar', '☕')">
+            <div class="absolute left-4 sm:left-8 top-6 z-20 animate-cup-primary cursor-pointer hover:scale-105 transition" onclick="quickAddFromHero('Es Kopi Inyong', 12000, 'machi', 'Machi Cold Brew Bar', '☕')">
               <div class="relative group">
                 <svg class="w-36 sm:w-44 drop-shadow-[0_25px_30px_rgba(0,0,0,0.15)]" viewBox="0 0 160 240" fill="none">
                   <rect x="35" y="18" width="90" height="12" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#E2E8F0" stroke-width="2"/>
@@ -221,7 +221,7 @@
                   <path d="M42 32L46 80C65 74 95 85 118 78L118 32H42Z" fill="#FCE4D6" fill-opacity="0.9"/>
                   <rect x="52" y="112" width="56" height="34" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#FCE4D6" stroke-width="1"/>
                   <text x="80" y="126" font-family="'Plus Jakarta Sans', sans-serif" font-size="7" font-weight="900" fill="#1A1A1A" text-anchor="middle" letter-spacing="1">Es Kopi</text>
-                  <text x="80" y="137" font-family="'Inter', sans-serif" font-size="6" font-weight="700" fill="#E65100" text-anchor="middle">SUSU - DINGIN</text>
+                  <text x="80" y="137" font-family="'Inter', sans-serif" font-size="6" font-weight="700" fill="#E65100" text-anchor="middle">INYONG - DINGIN</text>
                   <defs>
                     <linearGradient id="peachLiquidGrad" x1="80" y1="30" x2="80" y2="224" gradientUnits="userSpaceOnUse">
                       <stop stop-color="#FCE4D6"/>
@@ -232,7 +232,7 @@
                   </defs>
                 </svg>
                 <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white/95 px-3.5 py-1 rounded-full text-[11px] font-extrabold text-espresso shadow-lg border border-sky-100 whitespace-nowrap">
-                  Es Kopi Susu +
+                  Es Kopi Inyong +
                 </span>
               </div>
             </div>
@@ -277,13 +277,13 @@
               </div>
             </div>
 
-            <!-- FLOATING MINI ACCENT 2: BERRY LATTE -->
-            <div class="hidden sm:block absolute right-2 bottom-12 z-10 animate-cup-accent2 opacity-90 cursor-pointer hover:opacity-100 transition" onclick="quickAddFromHero('Iced Berry Latte', 14000, 'machi', 'Machi Cold Brew Bar', '🍓')">
+            <!-- FLOATING MINI ACCENT 2: ES OREO -->
+            <div class="hidden sm:block absolute right-2 bottom-12 z-10 animate-cup-accent2 opacity-90 cursor-pointer hover:opacity-100 transition" onclick="quickAddFromHero('Es Oreo', 12000, 'machi', 'Machi Cold Brew Bar', '🍪')">
               <div class="bg-white/90 backdrop-blur-sm px-4 py-2.5 rounded-2xl shadow-lg border border-white flex items-center gap-2.5">
-                <span class="text-xl">🍓</span>
+                <span class="text-xl">🍪</span>
                 <div class="text-left">
-                  <p class="text-xs font-extrabold text-espresso leading-tight">Berry Latte</p>
-                  <p class="text-[10px] text-rose-700 font-bold">Rp 14.000</p>
+                  <p class="text-xs font-extrabold text-espresso leading-tight">Es Oreo</p>
+                  <p class="text-[10px] text-amber-700 font-bold">Rp 12.000</p>
                 </div>
               </div>
             </div>
@@ -327,12 +327,12 @@
               <div class="inline-block bg-white/60 text-amber-900 text-[10px] font-extrabold px-2.5 py-1 rounded-full mb-2">
                 Machi Bar
               </div>
-              <h3 class="font-display font-black text-xl text-espresso mb-1">Es Kopi Susu</h3>
-              <p class="text-xs text-stone-700 leading-relaxed mb-4">Espresso blend lokal berpadu susu segar dingin manis seimbang.</p>
+              <h3 class="font-display font-black text-xl text-espresso mb-1">Es Kopi Inyong</h3>
+              <p class="text-xs text-stone-700 leading-relaxed mb-4">Espresso blend lokal khas Inyong, susu segar dingin manis pas.</p>
             </div>
             <div class="pt-4 border-t border-amber-900/10 flex items-center justify-between">
               <span class="font-display font-black text-lg text-espresso">Rp 12.000</span>
-              <button onclick="quickAddFromHero('Es Kopi Susu', 12000, 'machi', 'Machi Cold Brew Bar', '☕')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-sm transition active:scale-95 min-h-[44px]">
+              <button onclick="quickAddFromHero('Es Kopi Inyong', 12000, 'machi', 'Machi Cold Brew Bar', '☕')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-sm transition active:scale-95 min-h-[44px]">
                 Tambahkan +
               </button>
             </div>
@@ -378,21 +378,21 @@
             </div>
           </div>
 
-          <!-- Card 4: Berry (#F8CECC) -->
+          <!-- Card 4: Oreo (#F8CECC) -->
           <div class="bg-[#F8CECC] rounded-[24px] p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
             <div>
               <div class="w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-xs flex items-center justify-center text-3xl mb-4 group-hover:scale-105 transition shadow-xs">
-                🍓
+                🍪
               </div>
-              <div class="inline-block bg-white/60 text-rose-900 text-[10px] font-extrabold px-2.5 py-1 rounded-full mb-2">
+              <div class="inline-block bg-white/60 text-amber-900 text-[10px] font-extrabold px-2.5 py-1 rounded-full mb-2">
                 Machi Bar
               </div>
-              <h3 class="font-display font-black text-xl text-espresso mb-1">Iced Berry Latte</h3>
-              <p class="text-xs text-stone-700 leading-relaxed mb-4">Bulir stroberi manis asam alami berpadu lembut dengan susu segar.</p>
+              <h3 class="font-display font-black text-xl text-espresso mb-1">Es Oreo</h3>
+              <p class="text-xs text-stone-700 leading-relaxed mb-4">Oreo hancur renyah berpadu susu segar dingin creamy.</p>
             </div>
-            <div class="pt-4 border-t border-rose-900/10 flex items-center justify-between">
-              <span class="font-display font-black text-lg text-espresso">Rp 14.000</span>
-              <button onclick="quickAddFromHero('Iced Berry Latte', 14000, 'machi', 'Machi Cold Brew Bar', '🍓')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-sm transition active:scale-95 min-h-[44px]">
+            <div class="pt-4 border-t border-amber-900/10 flex items-center justify-between">
+              <span class="font-display font-black text-lg text-espresso">Rp 12.000</span>
+              <button onclick="quickAddFromHero('Es Oreo', 12000, 'machi', 'Machi Cold Brew Bar', '🍪')" class="bg-espresso hover:bg-black text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-sm transition active:scale-95 min-h-[44px]">
                 Tambahkan +
               </button>
             </div>
