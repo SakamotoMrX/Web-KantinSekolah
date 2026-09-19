@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
+  <link rel="icon" type="image/png" href="logo-boash.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Penjual — Kantin Boash POS</title>
+  <title>Portal Penjual POS — Kantin boAsh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -82,12 +83,13 @@
       <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-sky-400 via-[#0369A1] to-sky-600"></div>
 
       <div class="text-center mb-6">
-        <div class="w-14 h-14 mx-auto rounded-2xl bg-sky-50 text-[#0369A1] flex items-center justify-center mb-4 shadow-xs">
+        <img src="logo-boash.png" alt="Logo boAsh Portal" class="w-16 h-16 mx-auto object-contain mb-3 drop-shadow-sm">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-sky-50 text-[#0369A1] flex items-center justify-center mb-4 shadow-xs">
           <svg class="w-7 h-7 text-[#0369A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
           </svg>
         </div>
-        <h2 class="font-display font-black text-2xl text-espresso tracking-tight">Portal Pengelola Kantin Boash</h2>
+        <h2 class="font-display font-black text-2xl text-espresso tracking-tight">Portal Pengelola Kantin boAsh</h2>
         <p class="text-xs text-slate-600 mt-1.5 font-normal">Masukkan kredensial pengelola untuk mengelola antrean</p>
       </div>
 
@@ -163,12 +165,10 @@
       <!-- Brand & Live Pulse -->
       <div class="flex items-center gap-3">
         <a href="penjual.html" class="flex items-center gap-3 group">
-          <div class="w-11 h-11 rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-xl tracking-tighter shadow-md">
-            b
-          </div>
+          <img src="logo-boash.png" alt="Logo SMK boAsh 1" class="w-11 h-11 object-contain rounded-xl shadow-xs shrink-0">
           <div class="flex flex-col">
             <div class="flex items-center gap-2">
-              <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boash</span>
+              <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boAsh</span>
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-extrabold">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 "></span>
                 LIVE POS
@@ -354,21 +354,21 @@
           <div class="w-7 h-7 rounded-full bg-white text-espresso flex items-center justify-center font-display font-black text-sm">
             b
           </div>
-          <span class="font-bold text-white">Kantin Boash POS</span>
+          <span class="font-bold text-white">Kantin boAsh POS</span>
           <span>- Dapur &amp; Loket Jalur Khusus</span>
         </div>
         <p>Live Sync: Polling 2 detik aktif</p>
       </div>
 
-      <!-- Giant Wordmark boash -->
+      <!-- Giant Wordmark boAsh -->
       <div class="py-10 select-none pointer-events-none overflow-hidden text-center">
         <p class="text-[10rem] md:text-[14rem] font-black tracking-tight leading-none text-center select-none text-white/90 font-display">
-          boash
+          boAsh
         </p>
       </div>
 
       <div class="pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-600 gap-2">
-        <p>© 2026 Kantin Boash. Sistem Pengelolaan Antrean Sekolah.</p>
+        <p>© 2026 Kantin boAsh. Sistem Pengelolaan Antrean Sekolah.</p>
         <p>Hak Akses Pengelola Kantin Terdaftar</p>
       </div>
 
@@ -551,7 +551,7 @@
       const antrian = order.antrian || order.queueNumber || 'B-001';
       const studentName = order.studentName || order.nama || 'Siswa';
       const studentClass = order.studentClass || order.kelas || '-';
-      const warungNama = order.warungNama || 'Kantin Boash';
+      const warungNama = order.warungNama || 'Kantin boAsh';
       const total = order.total || order.totalAmount || 0;
       const items = order.items || [];
       const notes = order.notes || order.catatan;

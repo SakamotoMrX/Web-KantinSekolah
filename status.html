@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
+  <link rel="icon" type="image/png" href="logo-boash.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Status Pesanan — Kantin Boash</title>
+  <title>Status Antrean — Kantin boAsh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -84,12 +85,10 @@
   <header class="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-sky-100/70 transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 group" aria-label="Kembali ke Beranda Kantin Boash">
-        <div class="w-11 h-11 rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-xl tracking-tighter shadow-md group-hover:scale-105 transition">
-          b
-        </div>
+      <a href="index.html" class="flex items-center gap-3 group" aria-label="Kembali ke Beranda Kantin boAsh">
+        <img src="logo-boash.png" alt="Logo SMK boAsh 1" class="w-11 h-11 object-contain rounded-xl shadow-xs group-hover:scale-105 transition shrink-0">
         <div class="flex flex-col">
-          <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boash</span>
+          <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boAsh</span>
           <span class="text-xs font-bold text-[#0369A1] tracking-wide mt-0.5">Status Pesanan</span>
         </div>
       </a>
@@ -260,7 +259,7 @@
                   <p class="text-[11px] text-slate-600" id="order-student-class">Kelas: -</p>
                 </div>
                 <span class="text-xs font-extrabold text-sky-800 bg-sky-50 px-3 py-1 rounded-full border border-sky-100" id="order-warung-badge">
-                  Kantin Boash
+                  Kantin boAsh
                 </span>
               </div>
 
@@ -313,10 +312,8 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-16 border-b border-white/10 text-sm">
         <div class="md:col-span-2">
           <div class="flex items-center gap-3 mb-4">
-            <div class="w-9 h-9 rounded-full bg-white text-espresso flex items-center justify-center font-display font-black text-lg">
-              b
-            </div>
-            <span class="font-display font-black text-2xl tracking-tight text-white">Kantin Boash</span>
+            <img src="logo-boash.png" alt="Logo SMK boAsh 1" class="w-9 h-9 object-contain rounded-lg bg-white p-0.5 shrink-0">
+            <span class="font-display font-black text-2xl tracking-tight text-white">Kantin boAsh</span>
           </div>
           <p class="text-xs text-slate-300 max-w-sm leading-relaxed">
             Pantau antrean pesananmu dengan mudah. Hadir saat nomor antrean dipanggil untuk kenyamanan bersama.
@@ -341,14 +338,14 @@
       </div>
 
       <!-- Giant Wordmark boash -->
-      <div class="py-12 select-none pointer-events-none overflow-hidden text-center">
-        <p class="text-[12rem] md:text-[16rem] font-black tracking-tight leading-none text-center select-none text-white/90 font-display">
-          boash
+      <div class="py-6 md:py-10 select-none pointer-events-none overflow-hidden text-center w-full max-w-full flex items-center justify-center">
+        <p class="text-[18vw] sm:text-[16vw] md:text-[13rem] lg:text-[15rem] font-black tracking-tighter leading-none text-center select-none text-white/90 font-display whitespace-nowrap">
+          boAsh
         </p>
       </div>
 
       <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600 gap-4">
-        <p>© 2026 Kantin Boash. Momen Terbaik Sekolah.</p>
+        <p>© 2026 Kantin boAsh. Momen Terbaik Sekolah.</p>
         <p>Pengambilan Cepat - Loket Jalur Khusus</p>
       </div>
     </div>
@@ -438,7 +435,7 @@
       // 3. Student details
       document.getElementById('order-student-name').textContent = 'Nama: ' + (order.studentName || order.nama || 'Siswa');
       document.getElementById('order-student-class').textContent = 'Kelas: ' + (order.studentClass || order.kelas || '-');
-      document.getElementById('order-warung-badge').textContent = order.warungNama || 'Kantin Boash';
+      document.getElementById('order-warung-badge').textContent = order.warungNama || 'Kantin boAsh';
 
       // 4. Time
       if (order.createdAt) {

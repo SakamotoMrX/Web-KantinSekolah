@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
+  <link rel="icon" type="image/png" href="logo-boash.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katalog Menu — Kantin Boash</title>
+  <title>Katalog Menu — Kantin boAsh</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -81,12 +82,10 @@
   <header class="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-sky-100/70 transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 group" aria-label="Kembali ke Beranda Kantin Boash">
-        <div class="w-11 h-11 rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-xl tracking-tighter shadow-md group-hover:scale-105 transition">
-          b
-        </div>
+      <a href="index.html" class="flex items-center gap-3 group" aria-label="Kembali ke Beranda Kantin boAsh">
+        <img src="logo-boash.png" alt="Logo SMK boAsh 1" class="w-11 h-11 object-contain rounded-xl shadow-xs group-hover:scale-105 transition shrink-0">
         <div class="flex flex-col">
-          <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boash</span>
+          <span class="font-display font-black text-2xl tracking-tight text-espresso leading-none">boAsh</span>
           <span class="text-xs font-bold text-[#0369A1] tracking-wide mt-0.5">Katalog Menu</span>
         </div>
       </a>
@@ -125,7 +124,7 @@
             <span>Makanan &amp; Minuman Higienis Sekolah</span>
           </div>
           <h1 class="font-display font-black text-3xl sm:text-5xl text-espresso tracking-tight">
-            Katalog Menu Kantin Boash
+            Katalog Menu Kantin boAsh
           </h1>
           <p class="text-sm sm:text-base text-gray-600 mt-2 max-w-xl font-normal">
             Pilih dan pesan langsung menu favoritmu dari mitra kantin sekolah terpercaya.
@@ -254,9 +253,7 @@
     <!-- Drawer Header -->
     <div class="p-6 border-b border-gray-100 flex items-center justify-between">
       <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-full bg-espresso text-white flex items-center justify-center font-display font-black text-sm">
-          b
-        </div>
+        <img src="logo-boash.png" alt="Logo boAsh" class="w-8 h-8 object-contain rounded-lg shadow-xs shrink-0">
         <h2 id="cart-title" class="font-display font-black text-xl text-espresso">Keranjang Pesanan</h2>
       </div>
       <button onclick="toggleCart(false)" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold flex items-center justify-center transition min-h-[36px]" aria-label="Tutup Keranjang">
@@ -340,10 +337,8 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-16 border-b border-white/10 text-sm">
         <div class="md:col-span-2">
           <div class="flex items-center gap-3 mb-4">
-            <div class="w-9 h-9 rounded-full bg-white text-espresso flex items-center justify-center font-display font-black text-lg">
-              b
-            </div>
-            <span class="font-display font-black text-2xl tracking-tight text-white">Kantin Boash</span>
+            <img src="logo-boash.png" alt="Logo SMK boAsh 1" class="w-9 h-9 object-contain rounded-lg bg-white p-0.5 shrink-0">
+            <span class="font-display font-black text-2xl tracking-tight text-white">Kantin boAsh</span>
           </div>
           <p class="text-xs text-slate-300 max-w-sm leading-relaxed">
             Katalog makanan dan minuman sehat sekolah. Pesan duluan tanpa antre di jam istirahat.
@@ -369,15 +364,15 @@
       </div>
 
       <!-- Giant Wordmark boash -->
-      <div class="py-12 select-none pointer-events-none overflow-hidden text-center">
-        <p class="text-[12rem] md:text-[16rem] font-black tracking-tight leading-none text-center select-none text-white/90 font-display">
-          boash
+      <div class="py-6 md:py-10 select-none pointer-events-none overflow-hidden text-center w-full max-w-full flex items-center justify-center">
+        <p class="text-[18vw] sm:text-[16vw] md:text-[13rem] lg:text-[15rem] font-black tracking-tighter leading-none text-center select-none text-white/90 font-display whitespace-nowrap">
+          boAsh
         </p>
       </div>
 
       <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600 gap-4">
-        <p>© 2026 Kantin Boash. Momen Terbaik Sekolah.</p>
-        <p>Higienis - Ramah Siswa - Bebas Antre</p>
+        <p>© 2026 Kantin boAsh. Momen Terbaik Sekolah.</p>
+        <p>Higienis - Ramah Siswa - Makanan Berkualitas</p>
       </div>
     </div>
   </footer>
@@ -758,7 +753,7 @@
 
       const total = items.reduce((sum, it) => sum + (it.harga * it.qty), 0);
       const warungId = items[0].warungId || 'machi';
-      const warungNama = items[0].warungNama || 'Kantin Boash';
+      const warungNama = items[0].warungNama || 'Kantin boAsh';
 
       const payload = {
         studentName,
