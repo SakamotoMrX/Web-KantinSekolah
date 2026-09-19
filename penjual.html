@@ -66,6 +66,10 @@
     ::-webkit-scrollbar-track {
       background: #F0F9FF;
     }
+    /* Auth gate baseline: dashboard hidden until JS authorizes */
+    #seller-dashboard-view { display: none !important; }
+    #seller-dashboard-view.auth-visible { display: flex !important; }
+
     ::-webkit-scrollbar-thumb {
       background: #CBD5E1;
       border-radius: 9999px;
@@ -154,7 +158,7 @@
   <!-- ========================================================================= -->
   <!-- 2. DASHBOARD VIEW (HANYA MUNCUL JIKA SUDAH AUTHENTICATED)                 -->
   <!-- ========================================================================= -->
-  <div id="seller-dashboard-view" class="hidden min-h-screen flex flex-col justify-between">
+  <div id="seller-dashboard-view" class="hidden min-h-screen flex flex-col justify-between" style="display:none !important">
 
   <!-- ========================================================================= -->
   <!-- TOP PORTAL HEADER                                                         -->
@@ -736,7 +740,7 @@
 
       if (!isAuth) {
         if (loginScreen) loginScreen.classList.remove('hidden');
-        if (dashboardView) dashboardView.classList.add('hidden');
+        if (dashboardView) { dashboardView.classList.add('hidden'); dashboardView.classList.remove('auth-visible'); }
         if (pollingInterval) {
           clearInterval(pollingInterval);
           pollingInterval = null;
@@ -744,7 +748,7 @@
         return false;
       } else {
         if (loginScreen) loginScreen.classList.add('hidden');
-        if (dashboardView) dashboardView.classList.remove('hidden');
+        if (dashboardView) { dashboardView.classList.remove('hidden'); dashboardView.classList.add('auth-visible'); }
         if (!pollingInterval) {
           loadOrders();
           pollingInterval = setInterval(loadOrders, 2000);
