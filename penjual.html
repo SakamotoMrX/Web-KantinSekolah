@@ -75,22 +75,17 @@
 <body class="bg-[#F8FAFC] text-espresso font-sans antialiased selection:bg-sky-200 selection:text-espresso min-h-screen flex flex-col justify-between relative">
 
   <!-- ========================================================================= -->
-  <!-- AUTH GATE MODAL OVERLAY                                                   -->
+  <!-- 1. MANDATORY AUTHENTICATION LOGIN SCREEN                                  -->
   <!-- ========================================================================= -->
-  <div id="seller-auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-espresso/80 backdrop-blur-md transition-all duration-300">
-    <div class="bg-white w-full max-w-md rounded-[32px] p-8 sm:p-10 shadow-2xl border border-sky-100 relative overflow-hidden">
+  <div id="seller-login-screen" class="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-b from-[#64B5F6] via-[#B0E0E6] to-[#F0F9FF] fixed inset-0 z-50 overflow-y-auto">
+    <div id="seller-auth-modal" class="bg-white w-full max-w-md rounded-[32px] p-8 sm:p-10 shadow-2xl border border-sky-100 relative overflow-hidden my-auto">
       <!-- Decorative top bar -->
       <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-sky-400 via-[#0369A1] to-sky-600"></div>
 
       <div class="text-center mb-6">
-        <img src="logo-boash.png" alt="Logo boAsh Portal" class="w-16 h-16 mx-auto object-contain mb-3 drop-shadow-sm">
-        <div class="w-12 h-12 mx-auto rounded-xl bg-sky-50 text-[#0369A1] flex items-center justify-center mb-4 shadow-xs">
-          <svg class="w-7 h-7 text-[#0369A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-          </svg>
-        </div>
-        <h2 class="font-display font-black text-2xl text-espresso tracking-tight">Portal Pengelola Kantin boAsh</h2>
-        <p class="text-xs text-slate-600 mt-1.5 font-normal">Masukkan kredensial pengelola untuk mengelola antrean</p>
+        <img src="logo-boash.png" alt="Logo SMK boAsh 1" class="w-20 h-20 mx-auto object-contain mb-3 drop-shadow-sm">
+        <h1 class="font-display font-black text-2xl text-espresso tracking-tight">Portal Pengelola boAsh</h1>
+        <p class="text-xs text-slate-600 mt-1.5 font-medium">Wajib login untuk mengakses pesanan dan POS kasir</p>
       </div>
 
       <!-- Error Alert -->
@@ -98,7 +93,7 @@
         <svg class="w-4 h-4 shrink-0 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
-        <span id="auth-error-text">Username atau password pengelola salah!</span>
+        <span id="auth-error-text">Username atau password salah!</span>
       </div>
 
       <!-- Auth Form -->
@@ -111,7 +106,7 @@
               id="seller-username" 
               required 
               autocomplete="username"
-              placeholder="admin" 
+              placeholder="Masukkan username (admin)" 
               class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-gray-200 rounded-xl text-xs font-medium text-espresso placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-sky-400 focus:outline-none transition"
             >
             <svg class="w-4 h-4 text-slate-600 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -128,7 +123,7 @@
               id="seller-password" 
               required 
               autocomplete="current-password"
-              placeholder="••••••••" 
+              placeholder="Masukkan password (boash123)" 
               class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-gray-200 rounded-xl text-xs font-medium text-espresso placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-sky-400 focus:outline-none transition"
             >
             <svg class="w-4 h-4 text-slate-600 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -145,16 +140,21 @@
           <svg class="w-4 h-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
           </svg>
-          <span>Masuk ke Portal POS</span>
+          <span>Masuk ke Dashboard POS</span>
         </button>
       </form>
 
       <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-[11px] text-slate-600">
-        <span>Default: admin / boash123</span>
-        <a href="index.html" class="text-sky-700 hover:text-sky-800 font-semibold underline">← Ke Web Siswa</a>
+        <span>Kredensial: <b>admin</b> / <b>boash123</b></span>
+        <a href="index.html" class="text-sky-700 hover:text-sky-800 font-semibold underline">← Kembali ke Web Siswa</a>
       </div>
     </div>
   </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. DASHBOARD VIEW (HANYA MUNCUL JIKA SUDAH AUTHENTICATED)                 -->
+  <!-- ========================================================================= -->
+  <div id="seller-dashboard-view" class="hidden min-h-screen flex flex-col justify-between">
 
   <!-- ========================================================================= -->
   <!-- TOP PORTAL HEADER                                                         -->
@@ -728,23 +728,23 @@
       loadOrders();
     }
 
-    // Authentication Gate Logic
+    // Authentication Gate Logic (MANDATORY LOGIN)
     function checkSellerAuth() {
       const isAuth = sessionStorage.getItem('boash_seller_auth') === 'true';
-      const modal = document.getElementById('seller-auth-modal');
-      const logoutBtn = document.getElementById('btn-seller-logout');
+      const loginScreen = document.getElementById('seller-login-screen');
+      const dashboardView = document.getElementById('seller-dashboard-view');
 
       if (!isAuth) {
-        if (modal) modal.classList.remove('hidden');
-        if (logoutBtn) logoutBtn.classList.add('opacity-50', 'pointer-events-none');
+        if (loginScreen) loginScreen.classList.remove('hidden');
+        if (dashboardView) dashboardView.classList.add('hidden');
         if (pollingInterval) {
           clearInterval(pollingInterval);
           pollingInterval = null;
         }
         return false;
       } else {
-        if (modal) modal.classList.add('hidden');
-        if (logoutBtn) logoutBtn.classList.remove('opacity-50', 'pointer-events-none');
+        if (loginScreen) loginScreen.classList.add('hidden');
+        if (dashboardView) dashboardView.classList.remove('hidden');
         if (!pollingInterval) {
           loadOrders();
           pollingInterval = setInterval(loadOrders, 2000);
