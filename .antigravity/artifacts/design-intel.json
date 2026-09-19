@@ -1,130 +1,134 @@
 {
   "research_metadata": {
-    "executed_at": "2026-09-19T05:46:00Z",
-    "task_context": "Machi cold brew coffee landing page redesign",
+    "executed_at": "2026-09-19T08:00:00.000Z",
+    "task_context": "Market redesign: Meat/Market clean white card style, emoji→SVG migration, seller portal auth, philosophy section removal",
     "confidence": "HIGH"
   },
   "design_signals": {
     "recommended_color_system": {
-      "sky_gradient_start": "#87CEEB",
-      "sky_gradient_mid": "#B0E0E6",
-      "sky_gradient_end": "#E3F2FD",
-      "cream_white": "#FFFFFF",
+      "background": "#FFFFFF",
+      "surface": "#F8FAFC",
+      "primary": "#1A1A1A",
+      "accent": "#0369A1",
+      "text_primary": "#1A1A1A",
+      "text_secondary": "#64748B",
+      "border": "#F1F5F9",
       "pastel_peach": "#FCE4D6",
       "pastel_matcha": "#E2EFDA",
       "pastel_mango": "#FFF2CC",
       "pastel_berry": "#F8CECC",
-      "typography_primary": "#111111",
-      "typography_secondary": "#374151",
-      "typography_muted": "#6B7280",
-      "accent_blue": "#64B5F6",
-      "accent_blue_light": "#90CAF9",
-      "accent_green": "#4CAF50",
-      "dark_section_bg": "#111111",
-      "rationale": "Extracted from machi reference: sky blue atmosphere, white surfaces, pastel product tints, dark espresso typography"
+      "rationale": "Meat/Market reference uses pure white cards (#FFFFFF) with subtle 1px borders (#F1F5F9), high-contrast espresso typography (#1A1A1A), and pastel accent backgrounds for food category differentiation. Sky blue (#0369A1) retained as brand accent from existing design system."
     },
     "recommended_typography": {
-      "heading_font": "Inter",
+      "heading_font": "Plus Jakarta Sans",
       "body_font": "Inter",
-      "display_font": "Inter Black 900 for hero and wordmark",
-      "rationale": "Bold grotesque sans-serif matches machi heavy display typography. Free via Google Fonts, has Black 900 weight"
+      "mono_font": "JetBrains Mono",
+      "rationale": "Existing font pairing is strong. Plus Jakarta Sans (700-900) for display headings and price callouts. Inter (400-600) for body text. Add JetBrains Mono for any numeric readouts (queue numbers, prices). Keep current Google Fonts import."
     },
-    "recommended_animation_approach": "Pure CSS @keyframes float/float-slow/float-diagonal. Zero JS animation deps. One orchestrated moment: hero floating cups. Everything static.",
+    "recommended_animation_approach": "Minimal — single orchestrated moment on page load (hero fade-in). No per-card animations. Status pulse ring on active order stage. All animations respect prefers-reduced-motion.",
     "trending_components": [
-      "Floating beverage hero with parallax clouds",
-      "Pastel rounded product cards with hover lift",
-      "Editorial dark split banner with stat grid",
-      "Giant brand wordmark footer",
-      "Organic lifestyle banner with decorative floats"
+      "Clean white cards with rounded-[24px] and 1px border",
+      "Rounded-full pill badges for status/weight/portions",
+      "SVG icon containers with pastel background circles",
+      "Modal auth overlay with centered card layout",
+      "Giant wordmark footer (existing pattern — keep)"
     ],
     "anti_patterns_to_avoid": [
-      "rainbow_gradients: Use specific sky blue palette only",
-      "motion_excess: One motion moment only (floating cups hero)",
-      "lorem ipsum: All copy must be real machi-style branding",
-      "card_jail: Use whitespace not 1px bordered cards",
-      "generic_hero: Immersive floating-object atmosphere, not left-text-right-image"
+      "Emoji in any UI control or widget — replace with inline SVG",
+      "Philosophy/about sections — user explicitly removes",
+      "Duplicate content between hero and favorites sections",
+      "Gradient hero backgrounds — switch to clean white",
+      "Heavy shadows (shadow-2xl) — use shadow-xs for subtlety",
+      "Cloud/float animations — remove for clean static feel"
     ]
   },
   "library_decisions": {
-    "animation": { "library": "Pure CSS @keyframes", "version": "CSS3", "key_apis": ["@keyframes float", "@keyframes float-slow", "@keyframes float-diagonal", "animation-delay"] },
-    "ui_primitives": { "library": "Tailwind CSS CDN", "version": "3.x", "primitives": ["rounded-3xl", "backdrop-blur", "drop-shadow", "grid-cols-2 md:grid-cols-4"] }
+    "animation": { "library": "none", "version": "N/A", "key_apis": ["CSS @keyframes for single pulse moment only"] },
+    "icons": { "library": "Inline SVG (Lucide/Phosphor pattern)", "version": "N/A", "key_apis": ["24x24 viewBox", "stroke-based", "currentColor"] },
+    "ui_primitives": { "library": "None — vanilla HTML + Tailwind CDN", "version": "N/A" },
+    "state": { "library": "sessionStorage (auth) + localStorage (cart)", "version": "N/A" }
   },
   "proven_templates_and_kits": {
+    "brad_traversy_source": "https://github.com/bradtraversy/design-resources-for-developers#html--css-templates",
     "recommended_templates": [
-      { "name": "HTML5 UP", "url": "https://html5up.net/", "archetype": "landing" },
-      { "name": "Cruip", "url": "https://cruip.com/free-templates/", "archetype": "landing" },
-      { "name": "Float UI", "url": "https://floatui.com/", "archetype": "landing" }
+      { "name": "Clean white card patterns from Godly.website SOTD", "url": "https://godly.website/", "archetype": "food-market" },
+      { "name": "Minimal admin portal patterns", "url": "https://land-book.com/websites/7024-admin-dashboards", "archetype": "seller-portal" }
     ],
     "recommended_component_kits": [
-      { "name": "Tail-Kit", "url": "https://www.tailwind-kit.com/" },
-      { "name": "HyperUI", "url": "https://www.hyperui.dev/" },
-      { "name": "uiverse.io", "url": "https://uiverse.io/" }
+      { "name": "Lucide Icons (inline SVG)", "url": "https://lucide.dev/", "primitives": ["search", "bell", "cart", "check", "clock", "tag", "shield", "user", "lock"] },
+      { "name": "Phosphor Icons (duotone variant)", "url": "https://phosphoricons.com/", "primitives": ["cooking-pot", "shopping-bag", "receipt", "coin"] }
     ]
   },
+  "svg_icon_specifications": {
+    "viewbox": "0 0 24 24",
+    "stroke_width": "2",
+    "stroke_linecap": "round",
+    "stroke_linejoin": "round",
+    "fill": "none",
+    "color_inheritance": "currentColor",
+    "sizing": {
+      "inline_text": "width=\"16\" height=\"16\"",
+      "button_icon": "width=\"18\" height=\"18\"",
+      "stat_tile": "width=\"22\" height=\"22\"",
+      "card_header": "width=\"24\" height=\"24\""
+    },
+    "icon_map": {
+      "search": "circle cx=11 cy=11 r=8 + path m21 21-4.35-4.35",
+      "bell": "path M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 + path M13.73 21a2 2 0 0 1-3.46 0",
+      "cart": "circle cx=9 cy=21 r=1 + circle cx=20 cy=21 r=1 + path M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6",
+      "check": "polyline points 20 6 9 17 4 12",
+      "clock": "circle cx=12 cy=12 r=10 + polyline points 12 6 12 12 16 14",
+      "dollar": "line x1=12 y1=1 x2=12 y2=23 + path M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+      "shield": "path M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+      "user": "path M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 + circle cx=12 cy=7 r=4",
+      "lock": "rect x=3 y=11 width=18 height=11 rx=2 ry=2 + path M7 11V7a5 5 0 0 1 10 0v4",
+      "sound_on": "polygon points 11 5 6 9 2 9 2 15 6 15 11 19 11 5 + path M19.07 4.93a10 10 0 0 1 0 14.14",
+      "sound_off": "polygon points 11 5 6 9 2 9 2 15 6 15 11 19 11 5 + line x1=23 y1=9 x2=17 y2=15 + line x1=17 y1=9 x2=23 y2=15",
+      "flame": "path M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z",
+      "bag": "path M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z + line x1=3 y1=6 x2=21 y2=6 + path M16 10a4 4 0 01-8 0",
+      "list": "path M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2 + rect x=8 y=2 width=8 height=4 rx=1 ry=1 + path M9 14l2 2 4-4",
+      "sparkle": "path M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z (filled)"
+    }
+  },
   "component_composition_sources": {
-    "css_animation_recipes": [
-      "float keyframe from builderz-labs/mission-control",
-      "cloud parallax from streetmix/streetmix",
-      "float-diagonal from ronisarkarexe/story-spark-ai"
-    ],
-    "local_components": [
-      { "name": "ShaderBackground", "path": "~/.config/opencode/src/components/ShaderBackground.jsx", "use_case": "Optional 3D fluid mesh gradient behind hero" },
-      { "name": "LiquidGlassPanel", "path": "~/.config/opencode/src/components/LiquidGlassPanel.jsx", "use_case": "Optional liquid glass refraction on pastel product cards" }
-    ],
-    "zero_scratch_mandate": true
+    "shadcn_registry_items": [],
+    "reactbits_components": [],
+    "zero_scratch_mandate": "All components are vanilla HTML + Tailwind CDN. No React/framework. SVG icons are inline, not from a component library."
   },
   "community_verdict": {
-    "sentiment_summary": "CSS @keyframes preferred over JS libraries for float/pulse effects. Lower bundle, GPU-accelerated.",
+    "sentiment_summary": "Clean white card + SVG icon pattern is the dominant 2025-2026 food/market app aesthetic. Emoji in production UI is considered unprofessional. sessionStorage for simple auth gates is standard for client-side POS portals.",
     "key_warnings": [
-      "No Framer Motion for simple float animations — pure CSS lighter",
-      "Build custom sky gradient with exact hex stops, not generic Tailwind classes",
-      "Use animation-delay for staggered entry to avoid robotic synchronous floating"
+      "Do not use emoji in production UI — unprofessional, inconsistent rendering across platforms",
+      "sessionStorage auth is client-side only — no server-side protection. Acceptable for school POS portal.",
+      "Removing philosophy section may break footer anchor links — update all #cerita references"
     ],
     "key_endorsements": [
-      "Tailwind CSS for utility styling — already in project via CDN",
-      "CSS @keyframes for floating elements — proven in 3+ repos",
-      "Pure HTML for giant wordmark — text-[16rem] font-black, no JS needed"
+      "Inline SVG with currentColor is the gold standard for icon systems in vanilla HTML projects",
+      "Rounded-[24px] cards with 1px border is the dominant food delivery app card pattern",
+      "Pastel background circles for food category differentiation is clean and accessible"
     ]
   },
   "github_signals": {
     "reference_repos": [
-      { "name": "builderz-labs/mission-control", "why_relevant": "Float animation keyframes" },
-      { "name": "streetmix/streetmix", "why_relevant": "Cloud parallax sky system" },
-      { "name": "ronisarkarexe/story-spark-ai", "why_relevant": "Float-diagonal keyframe" },
-      { "name": "ColorlibHQ/velora-ui", "why_relevant": "Editorial landing patterns" },
-      { "name": "Uniswap/interface", "why_relevant": "TokenCloud hero parallax" }
+      { "name": "chenlee86/keepurl", "stars": 0, "why_relevant": "sessionStorage auth gate pattern" },
+      { "name": "odysseus-dev/odysseus", "stars": 0, "why_relevant": "Clean standalone login.html" }
     ],
     "pattern_evidence": [
-      "CSS float: translateY(0)->translateY(-6px)->translateY(0) universal across 3+ repos",
-      "Cloud parallax: REAR 0.25, FRONT 0.5 speed proven sky layering",
-      "Float-diagonal: translateY(-20px) translateX(10px) natural drift",
-      "Giant wordmark: text-[8-16rem] font-black pure CSS pattern"
+      "sessionStorage.setItem('auth', 'true') for client-side auth gates",
+      "SVG inline icons with viewBox 0 0 24 24 stroke-based pattern",
+      "Modal overlay with fixed inset-0 z-[100] for auth screens"
     ]
   },
   "ui_precedents": [
-    "Machi cold brew reference: sky gradient hero, floating cups, pastel cards, editorial stats, wordmark footer",
-    "Dribbble cold brew landing: blue sky + floating beverage compositions",
-    "Awwwards coffee brand: bold typography + pastel product showcases"
+    "Meat/Market style: white cards, rounded-3xl, bold price display, weight/portion chips, zero emojis",
+    "Godly.website SOTD: clean card layouts with subtle borders and generous whitespace",
+    "Mobbin food delivery flows: pastel category differentiation, clean SVG iconography"
   ],
   "design_references": [
-    "screenshots/ref-dribbble.png",
-    "capabilities/visual-effects.json",
-    "~/.config/opencode/src/components/ShaderBackground.jsx",
-    "~/.config/opencode/src/components/LiquidGlassPanel.jsx"
+    "Inline SVG icon system (Lucide/Phosphor pattern) for all 22 unique emoji replacements",
+    "Clean white card pattern with rounded-[24px] and border-gray-100",
+    "Pastel circle containers for food category icons",
+    "Modal auth overlay with centered card, SVG lock/user icons"
   ],
-  "token_overrides": {
-    "--sky-gradient-start": "#87CEEB",
-    "--sky-gradient-mid": "#B0E0E6",
-    "--sky-gradient-end": "#E3F2FD",
-    "--pastel-peach": "#FCE4D6",
-    "--pastel-matcha": "#E2EFDA",
-    "--pastel-mango": "#FFF2CC",
-    "--pastel-berry": "#F8CECC",
-    "--accent-blue": "#64B5F6",
-    "--accent-blue-light": "#90CAF9",
-    "--text-primary": "#111111",
-    "--text-secondary": "#374151",
-    "--text-muted": "#6B7280"
-  },
   "research_complete": true
 }

@@ -1,0 +1,15 @@
+{
+  "has_overflow": true,
+  "scrollWidth": 375,
+  "innerWidth": 375,
+  "overflow_count": 1,
+  "offending_elements": [
+    {
+      "tag": "div",
+      "id": null,
+      "className": "absolute top-1/4 left-1/3 w-96 h-48 bg-w",
+      "rightEdge": 509,
+      "viewportWidth": 375
+    }
+  ]
+}

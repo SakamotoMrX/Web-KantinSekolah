@@ -1,0 +1,46 @@
+{
+  "wcag_passed": false,
+  "lowest_ratio": 2.56,
+  "samples": [
+    {
+      "element": "h2",
+      "snippet": "Portal Pengelola Kantin Boash",
+      "color": "rgb(26, 26, 26)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 17.4,
+      "passed": true
+    },
+    {
+      "element": "p",
+      "snippet": "Masukkan kredensial pengelola ",
+      "color": "rgb(148, 163, 184)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 2.56,
+      "passed": false
+    },
+    {
+      "element": "span",
+      "snippet": "Username atau password pengelo",
+      "color": "rgb(190, 18, 60)",
+      "background": "rgb(255, 241, 242)",
+      "ratio": 5.72,
+      "passed": true
+    },
+    {
+      "element": "label",
+      "snippet": "Username Pengelola",
+      "color": "rgb(55, 65, 81)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 10.31,
+      "passed": true
+    },
+    {
+      "element": "label",
+      "snippet": "Password",
+      "color": "rgb(55, 65, 81)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 10.31,
+      "passed": true
+    }
+  ]
+}

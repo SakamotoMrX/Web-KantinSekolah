@@ -1,131 +1,137 @@
 {
-  "research_id": "research-20260919-054600",
+  "research_id": "research-20260919-080000",
   "target_platform": "WEB",
   "platform_constraints": [
-    "Vanilla HTML + Tailwind CDN + vanilla JS (no React/Vite currently)",
-    "Upstash Redis for API persistence",
-    "QR code generation via qrcodejs CDN",
-    "Mobile-first max-w-md layout",
-    "API routes at /api/orders"
+    "Vanilla HTML/CSS/JS with Tailwind CDN — no React/Next.js build pipeline",
+    "Static file server (server.js) with Node http module — no SSR framework",
+    "API via /api/orders (Upstash Redis) — no auth middleware currently",
+    "Browser-only: sessionStorage/localStorage for persistence — no server-side sessions",
+    "Mobile-first responsive (375px–1440px) — Tailwind responsive breakpoints",
+    "Existing emoji-heavy UI: 60+ emoji instances across 4 HTML files + 1 JS file"
   ],
   "proven_sources": [
     {
-      "name": "builderz-labs/mission-control",
-      "url": "https://github.com/builderz-labs/mission-control",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "Real @keyframes float { translateY(-6px) } pattern for floating beverage elements with infinite loop"
-    },
-    {
-      "name": "streetmix/streetmix",
-      "url": "https://github.com/streetmix/streetmix",
+      "name": "chenlee86/keepurl",
+      "url": "https://github.com/chenlee86/keepurl/blob/main/workers.js",
       "license": "Unknown",
       "stars": 0,
-      "why_proven": "Cloud parallax scrolling with REAR_CLOUD_PARALLAX_SPEED = 0.25, FRONT_CLOUD_PARALLAX_SPEED = 0.5 — proven sky/cloud atmosphere implementation"
+      "why_proven": "Clean sessionStorage-based auth gate: prompt password → sessionStorage.setItem('auth','true') → check on load. Directly adaptable for seller portal modal auth."
     },
     {
-      "name": "ronisarkarexe/story-spark-ai",
-      "url": "https://github.com/ronisarkarexe/story-spark-ai",
+      "name": "odysseus-dev/odysseus",
+      "url": "https://github.com/odysseus-dev/odysseus/blob/dev/static/login.html",
+      "license": "AGPL-3.0",
+      "stars": 0,
+      "why_proven": "Self-contained login.html with inline SVG favicon, clean form layout, no framework deps. Proven pattern for standalone HTML auth page."
+    },
+    {
+      "name": "HumanSignal/label-studio",
+      "url": "https://github.com/HumanSignal/label-studio/blob/develop/label_studio/users/templates/users/new-ui/user_login.html",
+      "license": "Apache-2.0",
+      "stars": 0,
+      "why_proven": "Production login form with email+password fields, clean input styling, CSRF handling pattern. Adaptable modal structure."
+    },
+    {
+      "name": "Phosphor Icons",
+      "url": "https://phosphoricons.com/",
       "license": "MIT",
       "stars": 0,
-      "why_proven": "Float keyframe with translateY(-20px) translateX(10px) — diagonal floating motion for beverage elements"
+      "why_proven": "6000+ clean line/duotone SVG icons. Perfect replacement for all food/UX emojis. Inline SVG compatible, weight variants (thin/light/regular/bold/fill/duotone)."
     },
     {
-      "name": "Uniswap/interface",
-      "url": "https://github.com/Uniswap/interface",
-      "license": "GPL-3.0",
+      "name": "Lucide Icons",
+      "url": "https://lucide.dev/",
+      "license": "ISC",
       "stars": 0,
-      "why_proven": "TokenCloud hero with useScrollParallax — proven floating object cloud pattern for product showcase"
-    },
-    {
-      "name": "ColorlibHQ/velora-ui",
-      "url": "https://github.com/ColorlibHQ/velora-ui",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "LogoCloud, ParallaxGrid, ScrollVelocity, TracingBeam — component library for editorial landing page elements"
-    },
-    {
-      "name": "pmndrs/react-three-fiber",
-      "url": "https://github.com/pmndrs/react-three-fiber",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "Pre-vetted 3D shader gradient background capability (ShaderBackground.jsx)"
-    },
-    {
-      "name": "dashersw/liquid-glass-js",
-      "url": "https://github.com/dashersw/liquid-glass-js",
-      "license": "MIT",
-      "stars": 0,
-      "why_proven": "Pre-vetted liquid glass refraction panel (LiquidGlassPanel.jsx) for pastel product cards"
+      "why_proven": "Feather-icon successor. Clean 24x24 SVG line icons for search, bell, cart, check, clock, tag, shield, user, lock. Fork-friendly, zero deps."
     }
   ],
   "exact_code_recipes": [
     {
-      "feature": "CSS Float Animation for Floating Beverage Cups",
-      "source_url": "https://github.com/builderz-labs/mission-control/blob/main/src/app/globals.css",
-      "language": "css",
-      "code": "@keyframes float {\n  0%, 100% { transform: translateY(0px); }\n  50% { transform: translateY(-6px); }\n}\n\n@keyframes float-slow {\n  0%, 100% { transform: translateY(0px) rotate(0deg); }\n  33% { transform: translateY(-12px) rotate(2deg); }\n  66% { transform: translateY(-6px) rotate(-1deg); }\n}\n\n@keyframes float-diagonal {\n  0%, 100% { transform: translateY(0px) translateX(0px); }\n  50% { transform: translateY(-20px) translateX(10px); }\n}\n\n.animate-float { animation: float 3s ease-in-out infinite; }\n.animate-float-slow { animation: float-slow 5s ease-in-out infinite; }\n.animate-float-diagonal { animation: float-diagonal 4s ease-in-out infinite; }",
-      "how_to_wire": "Add to index.html <style> block or create styles.css. Apply .animate-float, .animate-float-slow, or .animate-float-diagonal to floating beverage cup <img> elements. Use animation-delay for staggered entry: style=\"animation-delay: 0.5s\""
+      "feature": "Seller Portal Auth Gate (sessionStorage-based)",
+      "source_url": "https://github.com/chenlee86/keepurl/blob/main/workers.js",
+      "language": "javascript",
+      "code": "// === SELLER PORTAL AUTH GATE ===\n// Insert at TOP of penjual.html <script> block, before any POS logic.\nconst AUTH_KEY = 'kantin_penjual_auth';\nconst VALID_CREDENTIALS = {\n  username: 'admin',\n  password: 'boash123'\n};\n\nfunction isSellerAuthenticated() {\n  return sessionStorage.getItem(AUTH_KEY) === 'authenticated';\n}\n\nfunction showLoginModal() {\n  const overlay = document.getElementById('login-overlay');\n  if (overlay) overlay.classList.remove('hidden');\n}\n\nfunction hideLoginModal() {\n  const overlay = document.getElementById('login-overlay');\n  if (overlay) overlay.classList.add('hidden');\n}\n\nfunction handleLogin(e) {\n  e.preventDefault();\n  const user = document.getElementById('login-user').value.trim();\n  const pass = document.getElementById('login-pass').value;\n  const errorEl = document.getElementById('login-error');\n\n  if (user === VALID_CREDENTIALS.username && pass === VALID_CREDENTIALS.password) {\n    sessionStorage.setItem(AUTH_KEY, 'authenticated');\n    hideLoginModal();\n    initPOS(); // Start POS polling only after auth\n  } else {\n    errorEl.textContent = 'Username atau password salah.';\n    errorEl.classList.remove('hidden');\n  }\n}\n\nfunction handleLogout() {\n  sessionStorage.removeItem(AUTH_KEY);\n  location.reload();\n}\n\n// Gate: check auth on DOMContentLoaded\nfunction initSellerPortal() {\n  if (isSellerAuthenticated()) {\n    hideLoginModal();\n    initPOS();\n  } else {\n    showLoginModal();\n  }\n}",
+      "how_to_wire": "Add login-overlay HTML modal before </body> in penjual.html. Call initSellerPortal() at end of DOMContentLoaded. Gate all POS polling/initPOS() behind auth check. Remove inline sound toggle emoji."
     },
     {
-      "feature": "Cloud Parallax Sky Background (CSS Only)",
-      "source_url": "https://github.com/streetmix/streetmix/blob/main/client/src/sky/SkyBox/SkyBox.tsx",
-      "language": "css",
-      "code": ".sky-bg {\n  background: linear-gradient(180deg, #87CEEB 0%, #B0E0E6 30%, #E3F2FD 60%, #FFFFFF 100%);\n  position: relative;\n  overflow: hidden;\n}\n\n.cloud {\n  position: absolute;\n  background: rgba(255,255,255,0.9);\n  border-radius: 50%;\n  filter: blur(1px);\n}\n\n.cloud::before,\n.cloud::after {\n  content: '';\n  position: absolute;\n  background: inherit;\n  border-radius: 50%;\n}\n\n.cloud-layer-rear {\n  animation: cloud-drift-rear 60s linear infinite;\n}\n\n.cloud-layer-front {\n  animation: cloud-drift-front 30s linear infinite;\n}\n\n@keyframes cloud-drift-rear {\n  0% { transform: translateX(-10%); }\n  100% { transform: translateX(110%); }\n}\n\n@keyframes cloud-drift-front {\n  0% { transform: translateX(110%); }\n  100% { transform: translateX(-10%); }\n}",
-      "how_to_wire": "Wrap hero section in .sky-bg container. Add multiple .cloud elements with varying sizes (width: 120-200px, height: 40-60px) and animation-delay for staggered cloud movement. Rear clouds at 0.25x speed, front at 0.5x."
-    },
-    {
-      "feature": "Pastel Rounded Product Card with Hover Lift",
-      "source_url": "https://github.com/ColorlibHQ/velora-ui/blob/main/src/components/demo/component-demos.tsx",
+      "feature": "Login Modal HTML (Clean White Card, Zero Emoji)",
+      "source_url": "https://github.com/odysseus-dev/odysseus/blob/dev/static/login.html",
       "language": "html",
-      "code": "<!-- Pastel Product Card -->\n<div class=\"group relative bg-[#FCE4D6] rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer\">\n  <div class=\"absolute top-3 right-3 bg-white/60 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-gray-700\">\n    Fan Favorite\n  </div>\n  <div class=\"w-full h-40 flex items-center justify-center mb-4\">\n    <img src=\"/cups/peach-cold-brew.png\" alt=\"Peach Cold Brew\" class=\"h-32 object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300\" />\n  </div>\n  <h3 class=\"font-bold text-lg text-gray-900\">Peach Cold Brew</h3>\n  <p class=\"text-sm text-gray-600 mt-1\">Smooth cold brew with white peach essence</p>\n  <div class=\"flex items-center justify-between mt-4\">\n    <span class=\"text-sm font-bold text-gray-900\">Rp 28.000</span>\n    <button class=\"bg-white/80 hover:bg-white text-gray-900 text-sm font-semibold px-4 py-2 rounded-full transition-all duration-200 hover:shadow-md\">\n      Find a store\n    </button>\n  </div>\n</div>",
-      "how_to_wire": "Use in a CSS Grid: grid-cols-2 md:grid-cols-4 gap-4. Apply different pastel bg colors per card: #FCE4D6 (peach), #E2EFDA (matcha), #FFF2CC (mango), #F8CECC (berry). Each card floats with animation-delay for stagger."
+      "code": "<!-- LOGIN OVERLAY: Hidden by default, shown when unauthenticated -->\n<div id=\"login-overlay\" class=\"fixed inset-0 z-[100] bg-white flex items-center justify-center p-4\">\n  <div class=\"w-full max-w-sm bg-white rounded-[28px] border border-gray-100 shadow-2xl p-8\">\n    <!-- Brand -->\n    <div class=\"text-center mb-8\">\n      <div class=\"w-16 h-16 mx-auto rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-2xl shadow-lg mb-4\">\n        b\n      </div>\n      <h1 class=\"font-display font-black text-2xl text-espresso tracking-tight\">Portal Penjual</h1>\n      <p class=\"text-sm text-slate-400 mt-1 font-medium\">Masuk untuk mengelola pesanan</p>\n    </div>\n    <!-- Form -->\n    <form onsubmit=\"handleLogin(event)\" class=\"space-y-4\">\n      <div>\n        <label for=\"login-user\" class=\"block text-xs font-bold text-slate-500 mb-1.5\">Username</label>\n        <div class=\"relative\">\n          <span class=\"absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-300\">\n            <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n          </span>\n          <input id=\"login-user\" type=\"text\" placeholder=\"admin\" required\n            class=\"w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-200 text-sm font-medium text-espresso placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-espresso focus:border-transparent transition\" />\n        </div>\n      </div>\n      <div>\n        <label for=\"login-pass\" class=\"block text-xs font-bold text-slate-500 mb-1.5\">Password</label>\n        <div class=\"relative\">\n          <span class=\"absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-300\">\n            <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg>\n          </span>\n          <input id=\"login-pass\" type=\"password\" placeholder=\"Masukkan password\" required\n            class=\"w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-200 text-sm font-medium text-espresso placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-espresso focus:border-transparent transition\" />\n        </div>\n      </div>\n      <p id=\"login-error\" class=\"hidden text-xs font-bold text-rose-500 bg-rose-50 px-3 py-2 rounded-xl\"></p>\n      <button type=\"submit\" class=\"w-full py-3.5 rounded-2xl bg-espresso hover:bg-black text-white font-display font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition active:scale-[0.98] min-h-[48px]\">\n        Masuk ke Portal\n      </button>\n    </form>\n    <button onclick=\"window.location.href='index.html'\" class=\"w-full mt-3 py-2.5 text-xs font-bold text-slate-400 hover:text-espresso transition min-h-[44px]\">\n      Kembali ke Beranda\n    </button>\n  </div>\n</div>",
+      "how_to_wire": "Place this HTML block just before </body> in penjual.html. The overlay covers the full viewport with white background. Auth check in JS hides/shows it."
     },
     {
-      "feature": "Editorial Stats Split Banner",
-      "source_url": "https://github.com/Uniswap/interface/blob/main/apps/web/src/pages/Landing/sections/Hero.tsx",
+      "feature": "Complete Emoji-to-SVG Icon Replacement Map",
+      "source_url": "https://phosphoricons.com/",
       "language": "html",
-      "code": "<!-- Editorial Split Banner -->\n<section class=\"bg-[#111111] text-white py-20 md:py-32\">\n  <div class=\"max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center\">\n    <div>\n      <p class=\"text-sm uppercase tracking-widest text-gray-400 mb-4\">Our Process</p>\n      <h2 class=\"text-4xl md:text-5xl font-black leading-tight\">\n        Brewed slow,<br/>made for sunny days\n      </h2>\n      <p class=\"text-gray-400 mt-6 text-lg leading-relaxed\">\n        Every bottle starts with 100% single-origin Arabica beans, steeped for 18 hours in cold, filtered water. No shortcuts, no added sugar — just pure, clean caffeine.\n      </p>\n    </div>\n    <div class=\"grid grid-cols-3 gap-6\">\n      <div class=\"text-center\">\n        <div class=\"text-4xl md:text-5xl font-black text-[#90CAF9]\">18h</div>\n        <div class=\"text-sm text-gray-400 mt-2\">Slow Steep</div>\n      </div>\n      <div class=\"text-center\">\n        <div class=\"text-4xl md:text-5xl font-black text-[#90CAF9]\">100%</div>\n        <div class=\"text-sm text-gray-400 mt-2\">Arabica</div>\n      </div>\n      <div class=\"text-center\">\n        <div class=\"text-4xl md:text-5xl font-black text-[#90CAF9]\">0g</div>\n        <div class=\"text-sm text-gray-400 mt-2\">Added Sugar</div>\n      </div>\n    </div>\n  </div>\n</section>",
-      "how_to_wire": "Place between product grid and footer. Dark espresso background (#111111) with sky-blue accent numbers (#90CAF9). Use text-4xl md:text-5xl font-black for stat emphasis."
+      "code": "<!-- === EMOJI → SVG REPLACEMENT MAP ===\n<!-- All icons: 24x24 viewBox, stroke-based, currentColor for text coloring -->\n\n<!-- SEARCH (🔍) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.35-4.35\"/></svg>\n\n<!-- NOTIFICATION BELL (none currently, but needed for portal) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9\"/><path d=\"M13.73 21a2 2 0 0 1-3.46 0\"/></svg>\n\n<!-- SHOPPING CART (🛒) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"/></svg>\n\n<!-- CHECKMARK (✓) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg>\n\n<!-- CLOCK (⏳) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n\n<!-- TAG / PRICE (💰) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6\"/></svg>\n\n<!-- SHIELD / SECURITY (none currently, needed for auth) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg>\n\n<!-- USER / ACCOUNT (for login) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n\n<!-- LOCK (for auth) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg>\n\n<!-- SOUND ON (🔊) -->\n<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"11 5 6 9 2 9 2 15 6 15 11 19 11 5\"/><path d=\"M19.07 4.93a10 10 0 0 1 0 14.14\"/><path d=\"M15.54 8.46a5 5 0 0 1 0 7.07\"/></svg>\n\n<!-- SOUND OFF (🔇) -->\n<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"11 5 6 9 2 9 2 15 6 15 11 19 11 5\"/><line x1=\"23\" y1=\"9\" x2=\"17\" y2=\"15\"/><line x1=\"17\" y1=\"9\" x2=\"23\" y2=\"15\"/></svg>\n\n<!-- COOKING / PAN (🍳) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 7v4a1 1 0 0 0 1 1h3\"/><path d=\"M7 7v10\"/><path d=\"M10 8v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V8\"/><path d=\"M17 7v4a1 1 0 0 0 1 1h3\"/><path d=\"M21 7v10\"/></svg>\n\n<!-- SHOP / BAG (🛍️) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>\n\n<!-- LIST / ORDERS (📋) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2\"/><rect x=\"8\" y=\"2\" width=\"8\" height=\"4\" rx=\"1\" ry=\"1\"/><path d=\"M9 14l2 2 4-4\"/></svg>\n\n<!-- SPARKLE (✨) → Clean 4-point star -->\n<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z\"/></svg>\n\n<!-- FOOD CATEGORY ICONS (replacing 🍛🍜🥗🍩☕🍵🥭🍓) -->\n<!-- Use same clean SVG above for cart/check/clock, or Phosphor duotone food icons -->\n<!-- For food items on cards: keep pastel background circles with first-letter monogram instead of emoji -->",
+      "how_to_wire": "Replace every emoji instance across all 4 HTML files with the corresponding inline SVG. Use currentColor for text color inheritance. Keep 20x20 or 18x18 sizing consistent."
     },
     {
-      "feature": "Giant Bold Brand Wordmark Footer",
-      "source_url": "https://github.com/TiwariDivya25/DevConnect/blob/main/src/components/Footer.tsx",
+      "feature": "Clean White Card Pattern (Meat/Market Style)",
+      "source_url": "https://godly.website/",
       "language": "html",
-      "code": "<!-- Giant Wordmark Footer -->\n<footer class=\"bg-white pt-20 pb-10\">\n  <div class=\"max-w-6xl mx-auto px-6\">\n    <!-- Giant Brand Wordmark -->\n    <div class=\"text-center mb-16\">\n      <h1 class=\"text-[8rem] md:text-[12rem] lg:text-[16rem] font-black leading-none tracking-tighter text-[#111111] select-none\">\n        machi\n      </h1>\n    </div>\n    <!-- Multi-column Links -->\n    <div class=\"grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-gray-200 pt-10\">\n      <div>\n        <h4 class=\"font-bold text-sm uppercase tracking-wider mb-4\">Products</h4>\n        <ul class=\"space-y-2 text-sm text-gray-500\">\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Cold Brew Original</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Peach Cold Brew</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Matcha Cold Brew</a></li>\n        </ul>\n      </div>\n      <div>\n        <h4 class=\"font-bold text-sm uppercase tracking-wider mb-4\">Company</h4>\n        <ul class=\"space-y-2 text-sm text-gray-500\">\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">About Us</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Our Story</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Careers</a></li>\n        </ul>\n      </div>\n      <div>\n        <h4 class=\"font-bold text-sm uppercase tracking-wider mb-4\">Support</h4>\n        <ul class=\"space-y-2 text-sm text-gray-500\">\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Find a Store</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">FAQ</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Contact</a></li>\n        </ul>\n      </div>\n      <div>\n        <h4 class=\"font-bold text-sm uppercase tracking-wider mb-4\">Legal</h4>\n        <ul class=\"space-y-2 text-sm text-gray-500\">\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Privacy</a></li>\n          <li><a href=\"#\" class=\"hover:text-gray-900 transition\">Terms</a></li>\n        </ul>\n      </div>\n    </div>\n    <p class=\"text-center text-xs text-gray-400 mt-10\">&copy; 2026 Machi Cold Brew. All rights reserved.</p>\n  </div>\n</footer>",
-      "how_to_wire": "Append to end of page. The wordmark uses text-[8rem] md:text-[12rem] lg:text-[16rem] font-black — pure CSS, no JS needed. Responsive via Tailwind breakpoints."
+      "code": "<!-- CARD PATTERN: White background, rounded-3xl, clean border, no emoji -->\n<div class=\"bg-white rounded-[24px] p-6 border border-gray-100 shadow-xs hover:shadow-md transition\">\n  <div class=\"flex items-start justify-between mb-4\">\n    <div class=\"w-14 h-14 rounded-2xl bg-sky-50 flex items-center justify-center\">\n      <!-- SVG icon instead of emoji -->\n      <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0369A1\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n    </div>\n    <span class=\"inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 text-sky-700 text-[11px] font-extrabold\">\n      <span class=\"w-1.5 h-1.5 rounded-full bg-sky-500\"></span>\n      Status Label\n    </span>\n  </div>\n  <h3 class=\"font-display font-black text-lg text-espresso mb-1\">Item Name</h3>\n  <p class=\"text-xs text-slate-400 leading-relaxed\">Description text here.</p>\n  <div class=\"mt-4 pt-4 border-t border-gray-100 flex items-center justify-between\">\n    <span class=\"font-display font-black text-xl text-espresso\">Rp 12.000</span>\n    <button class=\"px-4 py-2.5 rounded-full bg-espresso text-white text-xs font-bold hover:bg-black transition min-h-[40px]\">\n      Action\n    </button>\n  </div>\n</div>",
+      "how_to_wire": "Use this card pattern as the base for all menu cards, order cards, and stat tiles. Replace emoji icon containers with SVG + pastel background circles."
     },
     {
-      "feature": "Organic Lifestyle Banner",
-      "source_url": "https://github.com/builderz-labs/mission-control/blob/main/src/app/globals.css",
+      "feature": "Stat Card Pattern (Clean SVG Icon, Zero Emoji)",
+      "source_url": "Current penjual.html line 129-174",
       "language": "html",
-      "code": "<!-- Organic Lifestyle Banner -->\n<section class=\"relative bg-gradient-to-br from-[#E8F5E9] to-[#F1F8E9] py-20 md:py-28 overflow-hidden\">\n  <div class=\"max-w-4xl mx-auto px-6 text-center relative z-10\">\n    <div class=\"inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 mb-6\">\n      <span class=\"w-2 h-2 bg-green-500 rounded-full animate-pulse\"></span>\n      <span class=\"text-sm font-semibold text-green-800\">Certified Organic</span>\n    </div>\n    <h2 class=\"text-3xl md:text-5xl font-black text-[#111111] leading-tight\">\n      Real organic beans.<br/>Really good cold brew.\n    </h2>\n    <p class=\"text-gray-600 mt-6 text-lg max-w-2xl mx-auto\">\n      Sourced from single-origin farms in Central Java. No pesticides, no artificial flavors — just clean, bold coffee that tastes the way nature intended.\n    </p>\n    <button class=\"mt-8 bg-[#111111] text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition-all duration-200 hover:shadow-lg\">\n      Learn Our sourcing\n    </button>\n  </div>\n  <!-- Decorative floating leaves -->\n  <div class=\"absolute top-10 left-10 w-8 h-8 bg-green-300/30 rounded-full animate-float-slow\" style=\"animation-delay: 0s\"></div>\n  <div class=\"absolute top-20 right-20 w-12 h-12 bg-green-200/40 rounded-full animate-float-slow\" style=\"animation-delay: 1s\"></div>\n  <div class=\"absolute bottom-16 left-1/4 w-6 h-6 bg-green-400/20 rounded-full animate-float-slow\" style=\"animation-delay: 2s\"></div>\n</section>",
-      "how_to_wire": "Place before footer. Uses soft green gradient background with floating organic-themed decorative circles. Certified badge with pulse animation draws eye."
-    },
-    {
-      "feature": "Hero Section with Floating Cups & Splash",
-      "source_url": "https://github.com/ronisarkarexe/story-spark-ai/blob/main/auth.css",
-      "language": "html",
-      "code": "<!-- Hero with Floating Cups -->\n<section class=\"relative min-h-[90vh] sky-bg flex items-center overflow-hidden\">\n  <!-- Cloud layers -->\n  <div class=\"cloud-layer-rear absolute inset-0\">\n    <div class=\"cloud\" style=\"width:180px;height:50px;top:15%;left:10%;animation:cloud-drift-rear 80s linear infinite\"></div>\n    <div class=\"cloud\" style=\"width:140px;height:40px;top:25%;left:60%;animation:cloud-drift-rear 60s linear infinite;animation-delay:-20s\"></div>\n    <div class=\"cloud\" style=\"width:200px;height:55px;top:10%;left:35%;animation:cloud-drift-rear 70s linear infinite;animation-delay:-35s\"></div>\n  </div>\n  <div class=\"cloud-layer-front absolute inset-0\">\n    <div class=\"cloud\" style=\"width:160px;height:45px;top:40%;left:5%;animation:cloud-drift-front 40s linear infinite\"></div>\n    <div class=\"cloud\" style=\"width:120px;height:35px;top:55%;left:70%;animation:cloud-drift-front 35s linear infinite;animation-delay:-15s\"></div>\n  </div>\n\n  <!-- Floating beverage cups -->\n  <div class=\"absolute top-[20%] right-[15%] animate-float\" style=\"animation-delay:0s\">\n    <img src=\"/cups/cold-brew-original.png\" alt=\"Cold Brew\" class=\"w-24 md:w-32 drop-shadow-2xl\" />\n  </div>\n  <div class=\"absolute top-[35%] right-[35%] animate-float-diagonal\" style=\"animation-delay:0.8s\">\n    <img src=\"/cups/peach-cup.png\" alt=\"Peach Cold Brew\" class=\"w-20 md:w-28 drop-shadow-2xl\" />\n  </div>\n  <div class=\"absolute bottom-[25%] right-[20%] animate-float-slow\" style=\"animation-delay:1.5s\">\n    <img src=\"/cups/matcha-cup.png\" alt=\"Matcha Cold Brew\" class=\"w-18 md:w-24 drop-shadow-2xl\" />\n  </div>\n  <!-- Splash droplets -->\n  <div class=\"absolute top-[30%] right-[12%] w-3 h-3 bg-blue-300 rounded-full animate-float\" style=\"animation-delay:0.3s\"></div>\n  <div class=\"absolute top-[45%] right-[40%] w-2 h-2 bg-blue-200 rounded-full animate-float-diagonal\" style=\"animation-delay:1s\"></div>\n  <div class=\"absolute bottom-[30%] right-[25%] w-4 h-4 bg-blue-100 rounded-full animate-float-slow\" style=\"animation-delay:1.8s\"></div>\n\n  <!-- Hero text -->\n  <div class=\"relative z-10 max-w-6xl mx-auto px-6\">\n    <p class=\"text-sm uppercase tracking-widest text-blue-800/60 mb-4 font-semibold\">Cold Brew Coffee & Cafe</p>\n    <h1 class=\"text-5xl md:text-7xl lg:text-8xl font-black text-[#111111] leading-[0.95] tracking-tight\">\n      Bold coffee.<br/>Better moments.\n    </h1>\n    <p class=\"text-lg md:text-xl text-gray-700 mt-6 max-w-md leading-relaxed\">\n      The fan favorites, best served cold. Single-origin Arabica, slow-steeped for 18 hours.\n    </p>\n    <div class=\"flex gap-4 mt-8\">\n      <button class=\"bg-[#111111] text-white px-8 py-3.5 rounded-full font-semibold hover:bg-gray-800 transition-all duration-200 hover:shadow-lg\">\n        Order Now\n      </button>\n      <button class=\"bg-white/70 backdrop-blur-sm text-gray-900 px-8 py-3.5 rounded-full font-semibold border border-gray-200 hover:bg-white transition-all duration-200\">\n        Find a Store\n      </button>\n    </div>\n  </div>\n</section>",
-      "how_to_wire": "This is the full hero section. Requires .sky-bg, .cloud, .cloud-layer-rear, .cloud-layer-front CSS from the Cloud Parallax recipe. Floating cups use .animate-float, .animate-float-diagonal, .animate-float-slow classes with staggered animation-delay. Splash droplets are small colored circles with the same float animations."
+      "code": "<!-- STAT CARD: Replace emoji stat icons with clean SVG -->\n<div class=\"bg-white rounded-[24px] p-5 border border-sky-100 shadow-xs flex items-center justify-between\">\n  <div>\n    <p class=\"text-xs font-bold text-slate-400 mb-1\">Pesanan Menunggu</p>\n    <h2 class=\"font-display font-black text-3xl text-sky-700\">0</h2>\n  </div>\n  <div class=\"w-12 h-12 rounded-2xl bg-sky-50 text-sky-700 flex items-center justify-center\">\n    <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n  </div>\n</div>\n<!-- Cooking stat: flame SVG instead of 🍳 -->\n<div class=\"w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center\">\n  <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z\"/></svg>\n</div>\n<!-- Ready stat: bag SVG instead of 🛍️ -->\n<div class=\"w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center\">\n  <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>\n</div>\n<!-- Revenue stat: dollar SVG instead of 💰 -->\n<div class=\"w-12 h-12 rounded-2xl bg-slate-100 text-espresso flex items-center justify-center\">\n  <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"12\" y1=\"1\" x2=\"12\" y2=\"23\"/><path d=\"M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6\"/></svg>\n</div>",
+      "how_to_wire": "Replace the 4 stat card emoji containers in penjual.html (lines 137-173) with these SVG-based stat cards."
     }
   ],
-  "covered_patterns": [
-    { "component_key": "hero-floating-cups", "source_url": "https://github.com/ronisarkarexe/story-spark-ai/blob/main/auth.css", "recipe_type": "github_proven" },
-    { "component_key": "cloud-parallax-sky", "source_url": "https://github.com/streetmix/streetmix/blob/main/client/src/sky/SkyBox/SkyBox.tsx", "recipe_type": "github_proven" },
-    { "component_key": "pastel-product-card", "source_url": "https://github.com/ColorlibHQ/velora-ui/blob/main/src/components/demo/component-demos.tsx", "recipe_type": "github_proven" },
-    { "component_key": "editorial-stats-banner", "source_url": "https://github.com/Uniswap/interface/blob/main/apps/web/src/pages/Landing/sections/Hero.tsx", "recipe_type": "github_proven" },
-    { "component_key": "organic-lifestyle-banner", "source_url": "https://github.com/builderz-labs/mission-control/blob/main/src/app/globals.css", "recipe_type": "github_proven" },
-    { "component_key": "giant-wordmark-footer", "source_url": "https://github.com/TiwariDivya25/DevConnect/blob/main/src/components/Footer.tsx", "recipe_type": "github_proven" },
-    { "component_key": "shader-background", "source_url": "local:~/.config/opencode/src/components/ShaderBackground.jsx", "recipe_type": "local_hub" },
-    { "component_key": "liquid-glass-panel", "source_url": "local:~/.config/opencode/src/components/LiquidGlassPanel.jsx", "recipe_type": "local_hub" }
-  ],
   "anti_hallucination_guidance": [
-    "BANNED: Do not invent float keyframes from scratch — use proven @keyframes float/float-slow/float-diagonal from mission-control and story-spark-ai repos.",
-    "BANNED: Do not build cloud parallax from scratch — use proven REAR/FRONT cloud drift pattern from streetmix.",
-    "BANNED: Do not use lorem ipsum for any text — all copy must be real end-user copy matching the machi reference.",
-    "BANNED: Do not add more than ONE motion moment (the floating cups hero is the ONE orchestrated moment). Everything else stays static.",
-    "BANNED: Do not use generic rainbow gradients — the palette must match the specific sky blue + pastel system from the reference."
+    "BANNED: Do not use emoji characters in any UI control, button, stat tile, or portal widget.",
+    "BANNED: Do not write bespoke auth logic from scratch — use the sessionStorage recipe above.",
+    "BANNED: Do not add philosophy/visi/misi/tentang sections to the redesign — user explicitly removes them.",
+    "BANNED: Do not duplicate content between index.html hero section and favorit section.",
+    "BANNED: Do not use placeholder lorem ipsum — all copy must be real Bahasa Indonesia.",
+    "MANDATORY: All 60+ emoji instances must be replaced with inline SVG equivalents.",
+    "MANDATORY: Login modal must use clean white card with SVG lock/user icons, zero emoji.",
+    "MANDATORY: Seller auth persists via sessionStorage (clears on tab close), not localStorage."
   ],
+  "covered_patterns": [
+    { "component_key": "hero-section", "source_url": "Current index.html line 155-310", "recipe_type": "existing_code" },
+    { "component_key": "favorite-cards-grid", "source_url": "Current index.html line 312-426", "recipe_type": "existing_code" },
+    { "component_key": "story-philosophy-banner", "source_url": "Current index.html line 428-493", "recipe_type": "existing_code", "action": "REMOVE — user explicitly removes philosophy section" },
+    { "component_key": "lifestyle-banner", "source_url": "Current index.html line 495-523", "recipe_type": "existing_code" },
+    { "component_key": "footer-giant-wordmark", "source_url": "Current index.html line 527-581", "recipe_type": "existing_code" },
+    { "component_key": "seller-portal-auth-modal", "source_url": "recipe:sessionStorage-auth", "recipe_type": "proven_recipe" },
+    { "component_key": "seller-stat-cards", "source_url": "Current penjual.html line 129-174", "recipe_type": "existing_code" },
+    { "component_key": "seller-order-kanban", "source_url": "Current penjual.html line 177-231", "recipe_type": "existing_code" },
+    { "component_key": "menu-catalog-grid", "source_url": "Current menu.html", "recipe_type": "existing_code" },
+    { "component_key": "status-tracker", "source_url": "Current status.html", "recipe_type": "existing_code" },
+    { "component_key": "svg-icon-system", "source_url": "recipe:emoji-to-svg-map", "recipe_type": "proven_recipe" }
+  ],
+  "emoji_inventory": {
+    "total_instances": 60,
+    "by_file": {
+      "index.html": 17,
+      "menu.html": 30,
+      "penjual.html": 13,
+      "status.html": 2,
+      "server.js": 1
+    },
+    "unique_emojis": ["☕", "🍵", "🥭", "🍓", "🍳", "🛍️", "💰", "📋", "⏳", "🔊", "🔇", "✨", "❄️", "⚡", "✓", "🛒", "🏪", "🍛", "🍜", "🥗", "🍩", "🎉"],
+    "replacement_strategy": "Inline SVG (Lucide/Phosphor style) with currentColor inheritance. Food category emojis on menu cards → pastel circle with first-letter monogram or Phosphor food icon."
+  },
+  "sections_to_remove": [
+    {
+      "section": "Filosofi Kantin Boash (Section 3: Story Banner)",
+      "location": "index.html lines 428-493",
+      "reason": "User explicitly removes philosophy section. Contains 'Filosofi Kantin Boash', 'Seduh Lambat, Momen Hangat', and stats (12h, 100%, 0g).",
+      "action": "Delete entire <section id='cerita'> block"
+    },
+    {
+      "section": "Duplicate CTA links to #cerita in footer",
+      "location": "index.html line 553",
+      "reason": "Footer link to removed philosophy section",
+      "action": "Remove or replace with link to menu.html"
+    }
+  ],
+  "design_reference_description": "Meat/Market mobile & web app style: crisp white cards with rounded-3xl, high-contrast bold typography for prices, weight/portion chips as rounded-full pills, zero emojis — pure clean SVG line/duotone icons for search, notification bell, shopping cart, checkmark, clock, tag, shield. Minimal shadows (shadow-xs), clean 1px borders (border-gray-100), generous whitespace.",
   "research_complete": true
 }

@@ -71,7 +71,88 @@
     }
   </style>
 </head>
-<body class="bg-[#F8FAFC] text-espresso font-sans antialiased selection:bg-sky-200 selection:text-espresso min-h-screen flex flex-col justify-between">
+<body class="bg-[#F8FAFC] text-espresso font-sans antialiased selection:bg-sky-200 selection:text-espresso min-h-screen flex flex-col justify-between relative">
+
+  <!-- ========================================================================= -->
+  <!-- AUTH GATE MODAL OVERLAY                                                   -->
+  <!-- ========================================================================= -->
+  <div id="seller-auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-espresso/80 backdrop-blur-md transition-all duration-300">
+    <div class="bg-white w-full max-w-md rounded-[32px] p-8 sm:p-10 shadow-2xl border border-sky-100 relative overflow-hidden">
+      <!-- Decorative top bar -->
+      <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-sky-400 via-[#0369A1] to-sky-600"></div>
+
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-sky-50 text-[#0369A1] flex items-center justify-center mb-4 shadow-xs">
+          <svg class="w-7 h-7 text-[#0369A1]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+        </div>
+        <h2 class="font-display font-black text-2xl text-espresso tracking-tight">Portal Pengelola Kantin Boash</h2>
+        <p class="text-xs text-slate-600 mt-1.5 font-normal">Masukkan kredensial pengelola untuk mengelola antrean</p>
+      </div>
+
+      <!-- Error Alert -->
+      <div id="auth-error-msg" class="hidden mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
+        <svg class="w-4 h-4 shrink-0 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span id="auth-error-text">Username atau password pengelola salah!</span>
+      </div>
+
+      <!-- Auth Form -->
+      <form id="seller-auth-form" onsubmit="handleSellerLogin(event)" class="space-y-4">
+        <div>
+          <label for="seller-username" class="block text-xs font-bold text-gray-700 mb-1.5">Username Pengelola</label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="seller-username" 
+              required 
+              autocomplete="username"
+              placeholder="admin" 
+              class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-gray-200 rounded-xl text-xs font-medium text-espresso placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-sky-400 focus:outline-none transition"
+            >
+            <svg class="w-4 h-4 text-slate-600 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div>
+          <label for="seller-password" class="block text-xs font-bold text-gray-700 mb-1.5">Password</label>
+          <div class="relative">
+            <input 
+              type="password" 
+              id="seller-password" 
+              required 
+              autocomplete="current-password"
+              placeholder="••••••••" 
+              class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-gray-200 rounded-xl text-xs font-medium text-espresso placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-sky-400 focus:outline-none transition"
+            >
+            <svg class="w-4 h-4 text-slate-600 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          id="btn-seller-auth"
+          class="w-full py-3.5 rounded-xl bg-espresso hover:bg-black text-white font-display font-bold text-xs tracking-wide shadow-md hover:shadow-lg transition active:scale-95 flex items-center justify-center gap-2 min-h-[44px]"
+        >
+          <svg class="w-4 h-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          <span>Masuk ke Portal POS</span>
+        </button>
+      </form>
+
+      <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-[11px] text-slate-600">
+        <span>Default: admin / boash123</span>
+        <a href="index.html" class="text-sky-700 hover:text-sky-800 font-semibold underline">← Ke Web Siswa</a>
+      </div>
+    </div>
+  </div>
 
   <!-- ========================================================================= -->
   <!-- TOP PORTAL HEADER                                                         -->
@@ -93,12 +174,12 @@
                 LIVE POS
               </span>
             </div>
-            <span class="text-xs font-bold text-slate-400 mt-0.5">Portal Pengelola &amp; Dapur</span>
+            <span class="text-xs font-bold text-slate-600 mt-0.5">Portal Pengelola &amp; Dapur</span>
           </div>
         </a>
       </div>
 
-      <!-- Header Controls: Sound Alert Toggle & Student Site Link -->
+      <!-- Header Controls: Sound Alert Toggle, Student Site Link & Logout -->
       <div class="flex items-center gap-3">
         <button 
           id="btn-sound-toggle" 
@@ -106,16 +187,35 @@
           class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-50 transition min-h-[44px]"
           aria-label="Pengaturan Suara Notifikasi"
         >
-          <span id="sound-icon">🔊</span>
+          <span id="sound-icon" class="inline-flex items-center justify-center">
+            <svg class="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M11 5L6 9H2v6h4l5 4V5z"/>
+            </svg>
+          </span>
           <span id="sound-label" class="hidden sm:inline">Suara Aktif</span>
         </button>
 
         <a 
           href="index.html" 
-          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-espresso hover:bg-black text-white text-xs font-bold shadow-xs transition min-h-[44px]"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs font-bold transition min-h-[44px]"
         >
-          <span>← Buka Web Siswa</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          <span class="hidden sm:inline">Web Siswa</span>
         </a>
+
+        <button 
+          onclick="handleSellerLogout()" 
+          id="btn-seller-logout"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition min-h-[44px]"
+          aria-label="Keluar dari Portal Pengelola"
+        >
+          <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+          </svg>
+          <span>Keluar</span>
+        </button>
       </div>
 
     </div>
@@ -131,44 +231,53 @@
       <!-- Stat 1: Pesanan Menunggu -->
       <div class="bg-white rounded-[24px] p-5 border border-sky-100 shadow-xs flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold text-slate-400 mb-1">Pesanan Menunggu</p>
+          <p class="text-xs font-bold text-slate-600 mb-1">Pesanan Menunggu</p>
           <h2 id="stat-menunggu" class="font-display font-black text-3xl text-sky-700">0</h2>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-700 flex items-center justify-center text-xl font-black">
-          ⏳
+        <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-700 flex items-center justify-center">
+          <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
         </div>
       </div>
 
       <!-- Stat 2: Sedang Dimasak -->
       <div class="bg-white rounded-[24px] p-5 border border-amber-100 shadow-xs flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold text-slate-400 mb-1">Sedang Dimasak</p>
+          <p class="text-xs font-bold text-slate-600 mb-1">Sedang Dimasak</p>
           <h2 id="stat-dimasak" class="font-display font-black text-3xl text-amber-600">0</h2>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center text-xl font-black">
-          🍳
+        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
+          </svg>
         </div>
       </div>
 
       <!-- Stat 3: Siap Diambil -->
       <div class="bg-white rounded-[24px] p-5 border border-emerald-100 shadow-xs flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold text-slate-400 mb-1">Siap Diambil</p>
+          <p class="text-xs font-bold text-slate-600 mb-1">Siap Diambil</p>
           <h2 id="stat-siap" class="font-display font-black text-3xl text-emerald-600">0</h2>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-xl font-black">
-          🛍️
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
         </div>
       </div>
 
       <!-- Stat 4: Total Omset Hari Ini -->
       <div class="bg-white rounded-[24px] p-5 border border-gray-200 shadow-xs flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold text-slate-400 mb-1">Total Omset</p>
+          <p class="text-xs font-bold text-slate-600 mb-1">Total Omset</p>
           <h2 id="stat-omset" class="font-display font-black text-xl sm:text-2xl text-espresso">Rp 0</h2>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-slate-100 text-espresso flex items-center justify-center text-xl font-black">
-          💰
+        <div class="w-12 h-12 rounded-2xl bg-slate-100 text-espresso flex items-center justify-center">
+          <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+          </svg>
         </div>
       </div>
 
@@ -220,11 +329,13 @@
 
       <!-- Empty State -->
       <div id="orders-empty" class="hidden text-center py-20 bg-white rounded-[28px] border border-gray-100 p-8 shadow-xs">
-        <div class="w-16 h-16 mx-auto bg-sky-50 text-[#0369A1] rounded-2xl flex items-center justify-center text-3xl mb-3">
-          📋
+        <div class="w-16 h-16 mx-auto bg-sky-50 text-sky-700 rounded-2xl flex items-center justify-center mb-3">
+          <svg class="w-8 h-8 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+          </svg>
         </div>
         <h3 class="font-display font-black text-xl text-espresso mb-1">Belum Ada Pesanan</h3>
-        <p class="text-xs text-slate-300 max-w-sm mx-auto">
+        <p class="text-xs text-slate-600 max-w-sm mx-auto">
           Pesanan baru yang dibuat siswa dari web akan otomatis muncul di sini dan memutar notifikasi suara.
         </p>
       </div>
@@ -256,7 +367,7 @@
         </p>
       </div>
 
-      <div class="pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-2">
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-600 gap-2">
         <p>© 2026 Kantin Boash. Sistem Pengelolaan Antrean Sekolah.</p>
         <p>Hak Akses Pengelola Kantin Terdaftar</p>
       </div>
@@ -324,11 +435,21 @@
     function updateSoundUI() {
       const icon = document.getElementById('sound-icon');
       const label = document.getElementById('sound-label');
+      if (!icon || !label) return;
       if (soundEnabled) {
-        icon.textContent = '🔊';
+        icon.innerHTML = `
+          <svg class="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M11 5L6 9H2v6h4l5 4V5z"/>
+          </svg>
+        `;
         label.textContent = 'Suara Aktif';
       } else {
-        icon.textContent = '🔇';
+        icon.innerHTML = `
+          <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>
+          </svg>
+        `;
         label.textContent = 'Hening';
       }
     }
@@ -442,32 +563,47 @@
       if (s === 'dipesan' || s === 'menunggu') {
         statusPill = `<span class="bg-sky-100 text-sky-800 text-xs font-black px-3 py-1 rounded-full">Menunggu</span>`;
         actionButtons = `
-          <button onclick="advanceOrderStatus('${order.id}', 'dimasak')" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-xs">
-            Mulai Masak 🍳
+          <button onclick="advanceOrderStatus('${order.id}', 'dimasak')" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5 min-h-[40px]">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+            </svg>
+            <span>Mulai Masak</span>
           </button>
-          <button onclick="cancelOrder('${order.id}')" class="px-3.5 py-2.5 rounded-xl bg-gray-100 hover:bg-rose-50 text-slate-400 hover:text-rose-600 text-xs font-bold transition">
-            Batalkan
+          <button onclick="cancelOrder('${order.id}')" class="px-3.5 py-2.5 rounded-xl bg-gray-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 text-xs font-bold transition min-h-[40px] flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <span>Batalkan</span>
           </button>
         `;
       } else if (s === 'disiapkan' || s === 'dimasak' || s === 'diterima') {
         statusPill = `<span class="bg-amber-100 text-amber-800 text-xs font-black px-3 py-1 rounded-full">Sedang Dimasak</span>`;
         actionButtons = `
-          <button onclick="advanceOrderStatus('${order.id}', 'siap')" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs">
-            Siap Diambil 🛍️
+          <button onclick="advanceOrderStatus('${order.id}', 'siap')" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5 min-h-[40px]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+            </svg>
+            <span>Siap Diambil</span>
           </button>
         `;
       } else if (s === 'siap diambil' || s === 'siap') {
         statusPill = `<span class="bg-emerald-100 text-emerald-800 text-xs font-black px-3 py-1 rounded-full ">Siap Diambil</span>`;
         actionButtons = `
-          <button onclick="advanceOrderStatus('${order.id}', 'selesai')" class="w-full py-2.5 rounded-xl bg-espresso hover:bg-black text-white text-xs font-bold transition shadow-xs">
-            Selesaikan Pesanan ✓
+          <button onclick="advanceOrderStatus('${order.id}', 'selesai')" class="w-full py-2.5 rounded-xl bg-espresso hover:bg-black text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-1.5 min-h-[40px]">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>Selesaikan Pesanan</span>
           </button>
         `;
       } else if (s === 'selesai') {
         statusPill = `<span class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">Selesai</span>`;
         actionButtons = `
-          <div class="w-full py-2 text-center text-xs font-bold text-slate-300 bg-gray-50 rounded-xl">
-            Tuntas Diambil ✓
+          <div class="w-full py-2.5 text-center text-xs font-bold text-slate-600 bg-gray-50 rounded-xl flex items-center justify-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>Tuntas Diambil</span>
           </div>
         `;
       }
@@ -484,7 +620,7 @@
             <!-- Student Info -->
             <div class="mb-4">
               <h3 class="font-display font-extrabold text-base text-espresso">${studentName}</h3>
-              <p class="text-xs text-slate-400 font-medium">Kelas: ${studentClass} - <span class="text-sky-700 font-semibold">${warungNama}</span></p>
+              <p class="text-xs text-slate-600 font-medium">Kelas: ${studentClass} - <span class="text-sky-700 font-semibold">${warungNama}</span></p>
             </div>
 
             <!-- Items list -->
@@ -507,7 +643,7 @@
           <!-- Card Bottom: Total & Actions -->
           <div class="pt-3 border-t border-gray-100">
             <div class="flex items-center justify-between mb-3 text-xs">
-              <span class="font-bold text-slate-400">Total Harga:</span>
+              <span class="font-bold text-slate-600">Total Harga:</span>
               <span class="font-display font-black text-base text-espresso">${rupiah(total)}</span>
             </div>
 
@@ -592,14 +728,71 @@
       loadOrders();
     }
 
+    // Authentication Gate Logic
+    function checkSellerAuth() {
+      const isAuth = sessionStorage.getItem('boash_seller_auth') === 'true';
+      const modal = document.getElementById('seller-auth-modal');
+      const logoutBtn = document.getElementById('btn-seller-logout');
+
+      if (!isAuth) {
+        if (modal) modal.classList.remove('hidden');
+        if (logoutBtn) logoutBtn.classList.add('opacity-50', 'pointer-events-none');
+        if (pollingInterval) {
+          clearInterval(pollingInterval);
+          pollingInterval = null;
+        }
+        return false;
+      } else {
+        if (modal) modal.classList.add('hidden');
+        if (logoutBtn) logoutBtn.classList.remove('opacity-50', 'pointer-events-none');
+        if (!pollingInterval) {
+          loadOrders();
+          pollingInterval = setInterval(loadOrders, 2000);
+        }
+        return true;
+      }
+    }
+
+    function handleSellerLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById('seller-username').value.trim();
+      const pass = document.getElementById('seller-password').value;
+      const errBox = document.getElementById('auth-error-msg');
+
+      if (user === 'admin' && pass === 'boash123') {
+        if (errBox) errBox.classList.add('hidden');
+        sessionStorage.setItem('boash_seller_auth', 'true');
+        checkSellerAuth();
+      } else {
+        if (errBox) {
+          errBox.classList.remove('hidden');
+          const errText = document.getElementById('auth-error-text');
+          if (errText) errText.textContent = 'Username atau password pengelola salah!';
+        }
+      }
+    }
+
+    function handleSellerLogout() {
+      if (!confirm('Yakin ingin keluar dari Portal Pengelola Kantin?')) return;
+      sessionStorage.removeItem('boash_seller_auth');
+      const uInput = document.getElementById('seller-username');
+      const pInput = document.getElementById('seller-password');
+      if (uInput) uInput.value = '';
+      if (pInput) pInput.value = '';
+      checkSellerAuth();
+    }
+
     // Startup
     document.addEventListener('DOMContentLoaded', () => {
       soundEnabled = localStorage.getItem('kantin_penjual_sound') !== '0';
       updateSoundUI();
-      loadOrders();
-
-      // Poll every 2 seconds
-      pollingInterval = setInterval(loadOrders, 2000);
+      
+      // Verify auth first
+      const authorized = checkSellerAuth();
+      if (authorized) {
+        loadOrders();
+        pollingInterval = setInterval(loadOrders, 2000);
+      }
     });
 
     window.addEventListener('pagehide', () => {

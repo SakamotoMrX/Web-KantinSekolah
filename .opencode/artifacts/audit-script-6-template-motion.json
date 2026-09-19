@@ -1,34 +1,9 @@
 {
   "template_tells": [
     "template_chrome:all_caps_eyebrow:ES KOPI",
-    "template_chrome:middot_separator",
-    "template_chrome:arrow_cta_suffix:Mulai Pesan Sekarang",
-    "template_chrome:monospace_small_label",
     "template_tell:hero_excessive_wrapping:4_lines"
   ],
-  "motion_moments": 7,
-  "card_count": 136,
-  "animated_elements_count": 547,
-  "detected_colors_sample": [
-    "#1A1A1A",
-    "#0284C7",
-    "#374151",
-    "#38BDF8",
-    "#075985",
-    "#0EA5E9",
-    "#4B5563",
-    "#FFF2CC",
-    "#78350F",
-    "#B45309",
-    "#F8CECC",
-    "#881337",
-    "#BE123C",
-    "#6B7280",
-    "#FCE4D6",
-    "#7DD3FC",
-    "#E2EFDA",
-    "#064E3B",
-    "#713F12",
-    "#F8FAFC"
-  ]
+  "motion_moments": 5,
+  "card_count": 42,
+  "animated_elements_count": 217
 }

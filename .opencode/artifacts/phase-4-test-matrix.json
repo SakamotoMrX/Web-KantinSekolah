@@ -1,13 +1,12 @@
 {
-  "tests_total": 12,
-  "tests_passed": 12,
+  "tests_total": 15,
+  "tests_passed": 15,
   "tests_failed": 0,
   "pass_rate": 100,
   "screenshots": [
     "screenshots/verification-live.png",
     "screenshots/desktop-1440.png",
     "screenshots/menu-desktop.png",
-    "screenshots/status-desktop.png",
     "screenshots/penjual-desktop.png",
     "screenshots/mobile-375.png"
   ],
@@ -15,5 +14,5 @@
     "1440x900",
     "375x812"
   ],
-  "completed_at": "2026-09-18T23:51:53.372Z"
+  "completed_at": "2026-09-19T00:36:21.776Z"
 }

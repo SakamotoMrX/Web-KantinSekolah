@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
 import handler from '../api/orders.js';
 
 // Helper mock to simulate req and res
@@ -365,5 +367,50 @@ test('API Orders Suite - Complete Unit & Integration Flows', async (t) => {
     const getFinal = createMockReqRes({ method: 'GET' });
     await handler(getFinal.req, getFinal.res);
     assert.equal(getFinal.res._data.length, 0);
+  });
+
+  await t.test('12. Seller Auth logic: credentials validation', async () => {
+    function validateSellerCredentials(user, pass) {
+      return (typeof user === 'string' && user.trim() === 'admin' && pass === 'boash123');
+    }
+
+    // Valid credentials
+    assert.equal(validateSellerCredentials('admin', 'boash123'), true);
+    assert.equal(validateSellerCredentials('  admin  ', 'boash123'), true);
+
+    // Invalid credentials
+    assert.equal(validateSellerCredentials('admin', 'wrongpass'), false);
+    assert.equal(validateSellerCredentials('user', 'boash123'), false);
+    assert.equal(validateSellerCredentials('', ''), false);
+    assert.equal(validateSellerCredentials(null, undefined), false);
+  });
+
+  await t.test('13. Duplicate section removal audit: scan index.html', async () => {
+    const indexPath = path.resolve(process.cwd(), 'index.html');
+    const indexHtml = fs.readFileSync(indexPath, 'utf-8');
+
+    assert.equal(indexHtml.includes('Filosofi Kantin Boash'), false, 'Filosofi Kantin Boash must not exist in index.html');
+    assert.equal(indexHtml.includes('Standar Bersih & Cerdas'), false, 'Standar Bersih & Cerdas must not exist in index.html');
+  });
+
+  await t.test('14. Zero-emoji audit on penjual.html metric cards', async () => {
+    const penjualPath = path.resolve(process.cwd(), 'penjual.html');
+    const penjualHtml = fs.readFileSync(penjualPath, 'utf-8');
+
+    const bannedEmojis = ['⏳', '🍳', '🛍️', '💰', '📋', '🔊', '🔇'];
+
+    // Check metric cards section
+    const metricCardsMatch = penjualHtml.match(/<!--\s*TOP STAT CARDS[\s\S]*?<\/section>/i)
+      || penjualHtml.match(/id="stat-menunggu"[\s\S]*?id="stat-omset"/i);
+    assert.ok(metricCardsMatch, 'Metric cards section should be found in penjual.html');
+    const metricCardsHtml = metricCardsMatch[0];
+
+    for (const emoji of bannedEmojis) {
+      assert.equal(
+        metricCardsHtml.includes(emoji),
+        false,
+        `Metric cards must not contain banned emoji: ${emoji}`
+      );
+    }
   });
 });

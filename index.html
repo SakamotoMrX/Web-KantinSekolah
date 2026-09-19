@@ -131,13 +131,15 @@
       <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-700" aria-label="Navigasi Utama">
         <a href="menu.html" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Menu Lengkap</a>
         <a href="status.html" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Cek Pesanan</a>
-        <a href="#cerita" class="hover:text-[#0369A1] transition py-3 px-3 inline-flex items-center min-h-[44px]">Cerita Kami</a>
       </nav>
 
       <!-- Right Actions: Seller Portal & Cart Pill -->
       <div class="flex items-center gap-3">
-        <a href="penjual.html" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-100 transition shadow-xs min-h-[44px]">
-          <span>🏪</span> Portal Penjual
+        <a href="penjual.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-100 transition shadow-xs min-h-[44px]">
+          <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v4H3V3zm2 4v13a1 1 0 001 1h12a1 1 0 001-1V7H5zm5 4h4v4h-4v-4z"/>
+          </svg>
+          <span>Portal Penjual</span>
         </a>
         <a href="menu.html" class="relative inline-flex items-center gap-2 bg-espresso text-white px-5 py-2.5 rounded-full text-xs font-bold shadow-md hover:bg-black transition active:scale-95 min-h-[44px]">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -159,9 +161,9 @@
       
       <!-- Floating Cloud Silhouettes -->
       <div class="absolute inset-0 pointer-events-none select-none overflow-hidden" aria-hidden="true">
-        <div class="absolute -top-10 -left-16 w-80 h-40 bg-white/40 rounded-full blur-2xl animate-cloud"></div>
-        <div class="absolute top-1/4 left-1/3 w-96 h-48 bg-white/50 rounded-full blur-3xl opacity-70"></div>
-        <div class="absolute -bottom-12 right-0 w-[34rem] h-60 bg-white/70 rounded-full blur-2xl"></div>
+        <div class="absolute -top-10 -left-16 w-80 h-40 bg-white/40 rounded-full blur-2xl max-w-full overflow-hidden pointer-events-none animate-cloud"></div>
+        <div class="absolute top-1/4 left-1/3 w-96 h-48 bg-white/50 rounded-full blur-3xl max-w-full overflow-hidden pointer-events-none opacity-70"></div>
+        <div class="absolute -bottom-12 right-0 w-[34rem] h-60 bg-white/70 rounded-full blur-2xl max-w-full overflow-hidden pointer-events-none"></div>
 
         <svg class="absolute top-24 right-12 w-44 opacity-80" viewBox="0 0 160 80" fill="none">
           <path d="M40 70C20 70 5 55 5 35C5 18 18 5 35 5C45 5 54 10 60 18C68 8 82 2 95 2C118 2 138 20 138 42C148 44 155 52 155 62C155 72 146 80 135 80H40C40 80 40 70 40 70Z" fill="white" fill-opacity="0.85"/>
@@ -203,16 +205,28 @@
             <!-- Micro Info Highlights -->
             <div class="mt-12 pt-8 border-t border-sky-200/50 flex flex-wrap items-center gap-6 sm:gap-10 text-xs font-semibold text-gray-700">
               <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center font-black text-[#0369A1]">✓</span>
+                <span class="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center text-[#0369A1]">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </span>
                 <span>Bebas Antre di Kantin</span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center font-black text-[#0369A1]">⚡</span>
+                <span class="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center text-[#0369A1]">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                </span>
                 <span>QR Pick-up Otomatis</span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center font-black text-[#0369A1]">❄️</span>
-                <span>100% Segar &amp; Dingin</span>
+                <span class="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center text-[#0369A1]">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18m9-9H3m15.364-6.364l-12.728 12.728m0-12.728l12.728 12.728"/>
+                  </svg>
+                </span>
+                <span>100% Segar &amp; Higienis</span>
               </div>
             </div>
           </div>
@@ -220,7 +234,7 @@
           <!-- Right Column: Orchestrated Floating Cups Showcase (5 Cols) -->
           <div class="lg:col-span-5 relative flex items-center justify-center min-h-[380px] sm:min-h-[460px]">
             
-            <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-white/40 filter blur-3xl" aria-hidden="true"></div>
+            <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-white/40 filter blur-3xl max-w-full overflow-hidden pointer-events-none" aria-hidden="true"></div>
 
             <!-- FLOATING CUP 1: PEACH COLD BREW (Primary Left) -->
             <div class="absolute left-4 sm:left-8 top-6 z-20 animate-cup-primary cursor-pointer hover:scale-105 transition" onclick="quickAddFromHero('Es Kopi Susu', 12000, 'machi', 'Machi Cold Brew Bar', '☕')">
@@ -235,7 +249,7 @@
                   <rect x="58" y="135" width="26" height="26" rx="4" fill="#FFFFFF" fill-opacity="0.4" stroke="#FFFFFF" stroke-width="1.5" transform="rotate(16 58 135)"/>
                   <path d="M42 32L46 80C65 74 95 85 118 78L118 32H42Z" fill="#FCE4D6" fill-opacity="0.9"/>
                   <rect x="52" y="112" width="56" height="34" rx="4" fill="#FFFFFF" fill-opacity="0.95" stroke="#FCE4D6" stroke-width="1"/>
-                  <text x="80" y="126" font-family="'Plus Jakarta Sans', sans-serif" font-size="7" font-weight="900" fill="#1A1A1A" text-anchor="middle" letter-spacing="1">ES KOPI</text>
+                  <text x="80" y="126" font-family="'Plus Jakarta Sans', sans-serif" font-size="7" font-weight="900" fill="#1A1A1A" text-anchor="middle" letter-spacing="1">Es Kopi</text>
                   <text x="80" y="137" font-family="'Inter', sans-serif" font-size="6" font-weight="700" fill="#E65100" text-anchor="middle">SUSU - DINGIN</text>
                   <defs>
                     <linearGradient id="peachLiquidGrad" x1="80" y1="30" x2="80" y2="224" gradientUnits="userSpaceOnUse">
@@ -418,114 +432,19 @@
         <div class="mt-12 text-center">
           <a href="menu.html" class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-sky-100 hover:bg-sky-200 text-sky-900 font-display font-black text-sm tracking-wide transition min-h-[44px]">
             <span>Buka Katalog Lengkap dengan Nasi &amp; Snack</span>
-            <span></span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
           </a>
         </div>
 
       </div>
     </section>
 
-    <!-- ========================================================================= -->
-    <!-- 3. STORY BANNER (SEDUH LAMBAT, MOMEN HANGAT)                              -->
-    <!-- ========================================================================= -->
-    <section id="cerita" class="py-20 md:py-28 bg-slate-50 relative overflow-hidden">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="bg-gradient-to-br from-sky-50 via-[#E8F4F8] to-[#FFF8F0] rounded-[36px] p-8 sm:p-12 lg:p-16 border border-sky-100 shadow-sm relative overflow-hidden">
-          
-          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            <div class="lg:col-span-7">
-              <span class="inline-flex items-center gap-2 text-xs font-bold text-sky-800 bg-white/80 px-3.5 py-1.5 rounded-full mb-4 shadow-xs">
-                Filosofi Kantin Boash
-              </span>
-              <h2 class="font-display font-black text-3xl sm:text-5xl text-espresso tracking-tight leading-tight mb-6">
-                Seduh Lambat,<br>Momen Hangat.
-              </h2>
-              <p class="text-base text-gray-700 leading-relaxed font-normal mb-6">
-                Kantin sekolah bukan sekadar tempat menyantap makan siang kilat, melainkan ruang beristirahat bersama teman, bertukar cerita, dan mengisi kembali energi positif sebelum sesi belajar berikutnya.
-              </p>
-              <p class="text-sm text-gray-600 leading-relaxed font-normal">
-                Kami menyeduh minuman dingin secara perlahan selama semalam suntuk, menjaga cita rasa alami biji kopi lokal dan dedaunan teh tanpa perlu mengandalkan pemanis berlebih. Higienis, terjangkau, dan ramah kantong siswa.
-              </p>
-            </div>
-
-            <!-- Stats Column (5 Cols) -->
-            <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
-              
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white shadow-xs flex items-center sm:flex-col lg:flex-row gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-800 font-display font-black text-2xl flex items-center justify-center shrink-0">
-                  12h
-                </div>
-                <div>
-                  <p class="font-display font-black text-xl text-espresso">12 Jam</p>
-                  <p class="text-xs text-slate-400 font-medium">Cold steep perlahan untuk kelembutan rasa tanpa asam berlebih.</p>
-                </div>
-              </div>
-
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white shadow-xs flex items-center sm:flex-col lg:flex-row gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 font-display font-black text-2xl flex items-center justify-center shrink-0">
-                  100%
-                </div>
-                <div>
-                  <p class="font-display font-black text-xl text-espresso">100% Bahan Higienis</p>
-                  <p class="text-xs text-slate-400 font-medium">Biji lokal pilihan &amp; standar higienitas kantin sekolah teruji.</p>
-                </div>
-              </div>
-
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white shadow-xs flex items-center sm:flex-col lg:flex-row gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-800 font-display font-black text-2xl flex items-center justify-center shrink-0">
-                  0g
-                </div>
-                <div>
-                  <p class="font-display font-black text-xl text-espresso">Rendah Gula</p>
-                  <p class="text-xs text-slate-400 font-medium">Tanpa pemanis buatan berlebih, tetap segar dan aman dikonsumsi harian.</p>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ========================================================================= -->
-    <!-- 4. LIFESTYLE BANNER                                                       -->
-    <!-- ========================================================================= -->
-    <section class="py-14 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-espresso text-white rounded-3xl p-8 sm:p-14 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
-          
-          <div class="max-w-2xl relative z-10">
-            <div class="inline-block bg-white/20 backdrop-blur-sm text-sky-300 text-xs font-bold px-3.5 py-1.5 rounded-full mb-4">
-              Standar Bersih &amp; Cerdas
-            </div>
-            <h2 class="font-display font-black text-2xl sm:text-4xl text-white tracking-tight leading-tight">
-              Bahan Segar Berkualitas.<br>Kantin Sehat, Siswa Semangat.
-            </h2>
-            <p class="text-sm sm:text-base text-gray-300 mt-3 font-normal">
-              Didukung penuh oleh koperasi sekolah dan seluruh mitra kantin terdaftar demi kenyamanan santap siswa setiap hari.
-            </p>
-          </div>
-
-          <div class="relative z-10 shrink-0">
-            <a href="menu.html" class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white hover:bg-sky-50 text-espresso font-display font-black text-sm tracking-wide shadow-lg hover:shadow-xl transition active:scale-95 min-h-[44px]">
-              <span>Mulai Pesan di Menu</span>
-              <span></span>
-            </a>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <!-- ========================================================================= -->
-  <!-- 5. FOOTER WITH GIANT "BOASH" WORDMARK                                     -->
+  <!-- FOOTER WITH GIANT "BOASH" WORDMARK                                        -->
   <!-- ========================================================================= -->
   <footer class="bg-espresso text-white pt-20 pb-12 overflow-hidden relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -550,7 +469,6 @@
             <li><a href="index.html" class="hover:text-white transition">Beranda</a></li>
             <li><a href="menu.html" class="hover:text-white transition">Katalog Menu</a></li>
             <li><a href="status.html" class="hover:text-white transition">Cek Status Pesanan</a></li>
-            <li><a href="#cerita" class="hover:text-white transition">Tentang Kantin</a></li>
           </ul>
         </div>
 
@@ -558,8 +476,8 @@
           <p class="font-bold text-white text-xs tracking-normal mb-4">Pengelola &amp; Mitra</p>
           <ul class="space-y-2.5 text-xs text-slate-300">
             <li><a href="penjual.html" class="hover:text-white transition">Portal Penjual (POS)</a></li>
-            <li><span class="text-slate-400">Koperasi Sekolah</span></li>
-            <li><span class="text-slate-400">Jam Operasional: 07.00 - 15.00 WIB</span></li>
+            <li><span class="text-slate-600">Koperasi Sekolah</span></li>
+            <li><span class="text-slate-600">Jam Operasional: 07.00 - 15.00 WIB</span></li>
           </ul>
         </div>
 
@@ -572,7 +490,7 @@
         </p>
       </div>
 
-      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600 gap-4">
         <p>© 2026 Kantin Boash. Momen Terbaik Sekolah.</p>
         <p>Dibuat untuk kenyamanan seluruh siswa &amp; mitra kantin.</p>
       </div>
@@ -583,10 +501,14 @@
   <!-- Quick Toast Notification Container -->
   <div id="quick-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
     <div class="bg-espresso text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-white/10 pointer-events-auto">
-      <span class="text-emerald-400 text-lg">✓</span>
+      <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+        </svg>
+      </span>
       <div class="text-xs">
         <p id="toast-title" class="font-bold">Item ditambahkan ke keranjang</p>
-        <a href="menu.html" class="text-sky-300 hover:text-sky-200 underline font-semibold mt-0.5 inline-block">Lihat di Menu / Keranjang </a>
+        <a href="menu.html" class="text-sky-300 hover:text-sky-200 underline font-semibold mt-0.5 inline-block">Lihat di Menu / Keranjang</a>
       </div>
     </div>
   </div>

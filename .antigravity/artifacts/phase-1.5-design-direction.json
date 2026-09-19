@@ -2,22 +2,18 @@
   "visual_reference": {
     "source_type": "dribbble",
     "reference_path": "screenshots/ref-dribbble.png",
-    "reference_title": "machi cold brew cafe landing page",
-    "image_to_code_analysis": {
-      "card_structure": "Deconstructed from Dribbble shot & Machi reference: rounded-3xl (24px) soft cards with borderless pastel fills (#FCE4D6 peach, #E2EFDA matcha, #FFF2CC mango, #F8CECC berry), light 1px border (#F3F4F6) only on white elevated surfaces with soft ambient drop shadow shadow-[0_20px_50px_rgba(100,181,246,0.15)].",
-      "badge_and_accents": "Status pill tags with rounded-full geometry, dual-tone contrast (sky-100/sky-800 for Dipesan, amber-100/amber-800 for Disiapkan, emerald-100/emerald-800 for Siap Diambil, gray-100/gray-700 for Selesai), clean emoji accents, zero decorative clutter.",
-      "typography_hierarchy": "Plus Jakarta Sans bold/extrabold (700/800/900) for high-character display headings & giant 'boash' wordmark footer, paired with clean tabular/system Inter (400/500/600) for order metadata, pricing, and operational telemetry.",
-      "adapted_components": [
-        "hero-floating-cups",
-        "cloud-parallax-sky",
-        "pastel-product-card",
-        "editorial-stats-banner",
-        "organic-lifestyle-banner",
-        "giant-wordmark-footer",
-        "merchant-dashboard-pos",
-        "order-status-timeline"
-      ]
-    }
+    "reference_title": "Modern mobile fresh market and gourmet store UI",
+    "adapted_components": [
+      "hero-section",
+      "favorite-cards-grid",
+      "footer-giant-wordmark",
+      "seller-portal-auth-modal",
+      "seller-stat-cards",
+      "seller-order-kanban",
+      "menu-catalog-grid",
+      "status-tracker",
+      "svg-icon-system"
+    ]
   },
   "color_system": {
     "sky_blue": "#64B5F6",
@@ -25,7 +21,7 @@
     "espresso_dark": "#1A1A1A",
     "matcha_pastel": "#E2EFDA",
     "peach_tint": "#FCE4D6",
-    "mango_cream": "#FFF2CC"
+    "market_red": "#DC2626"
   },
   "typography": {
     "typefaces": [
@@ -43,47 +39,46 @@
     "line_length_target": 65
   },
   "layout": {
-    "concept": "Unified multi-page ecosystem: breezy sky-blue atmospheric landing (index.html) with giant 'boash' wordmark; clean focused ordering catalog (menu.html) with floating cart summary; reassuring live order status tracker (status.html); and a dedicated modern cafe POS merchant portal (penjual.html) with clean live queue boards and real-time revenue cards.",
-    "ascii_wireframe": "+---------------------------------------------------+\n| [Kantin Boash]   Menu  Cek Pesanan   [Portal Toko] |\n+---------------------------------------------------+\n| (index.html: Hero Float + Fan Favorites + Story)  |\n| (menu.html: Filter Tabs + Pastel Cards + Drawer)   |\n| (status.html: Queue Timeline + QR + Live Polling)  |\n| (penjual.html: POS Kanban + Stat Cards + Actions)  |\n+---------------------------------------------------+\n|            b  o  a  s  h   (Giant Wordmark)       |\n+---------------------------------------------------+",
-    "alignment": "Left-aligned editorial typography on wide desktop grid, with centered floating hero focal elements and balanced multi-column product card distribution.",
-    "alignment_rationale": "Left-aligned editorial typography provides immediate scannability for fast school break ordering and kitchen queue management, while centered hero and wordmark bookends create brand gravitas."
+    "concept": "Clean gourmet market interface with zero philosophy clutter: hero with floating fresh coffee visual, high-contrast market cards with weight/portion chips, crisp inline SVG icons, and a dedicated seller POS terminal protected by a modern auth lock card.",
+    "ascii_wireframe": "+---------------------------------------------------+\n| [Kantin Boash]    Menu    Cek Pesanan   [Portal]  |\n+---------------------------------------------------+\n|  Kopi & Kudapan Kantin Boash                      |\n|  (Clean Hero with Floating Cold Brew Graphic)      |\n|  [Pesan Sekarang]  [Jelajahi Menu]                |\n+---------------------------------------------------+\n|              Menu Favorit Siswa                   |\n| +------------------+  +-------------------------+ |\n| | Es Kopi Susu     |  | Iced Matcha Latte       | |\n| | [Reguler] [Large]|  | [Reguler] [Large]       | |\n| | Rp 12.000  [+]   |  | Rp 15.000  [+]          | |\n| +------------------+  +-------------------------+ |\n+---------------------------------------------------+\n| [penjual.html: Auth Lock -> POS with SVG Icons]   |\n+---------------------------------------------------+\n|             b  o  a  s  h  (Giant Wordmark)       |\n+---------------------------------------------------+",
+    "alignment": "Left-aligned editorial typography on wide desktop grid, with centered floating hero focal elements and balanced multi-column product card distribution."
   },
-  "principles": "Kantin Boash unites student refreshment and canteen vendor management under a cohesive Japanese-Italian boutique coffee identity (machi). By separating user flows into dedicated pages (landing, ordering, live tracking, and merchant POS), cognitive load is minimized while every screen maintains crisp contrast, pastel warmth, and tactile clarity.",
+  "principles": "Stripping away redundant philosophy sections transforms Kantin Boash into a hyper-efficient market app. Removing emojis from dashboard controls elevates the merchant portal into a high-utility POS terminal powered by crisp vector graphics, while student ordering benefits from tactile market chips and immediate cart feedback.",
   "orchestrated_moment": {
-    "trigger": "Page-specific focal moments: hero cup float on landing, cart drawer slide-out on menu, status badge pulse on tracking, and order ticket entrance on merchant portal",
-    "justification": "Exactly ONE deliberate motion moment per page prevents animation noise while providing immediate sensory feedback for critical user transitions."
+    "trigger": "Single continuous floating animation on the hero beverage visual, with static crisp state on all UI controls and portal widgets",
+    "justification": "Capping motion strictly at the hero maintains the chilled, fresh beverage atmosphere without distracting users during critical menu selection and order management."
   },
   "token_overrides": {
     "border_radius": "rounded-3xl (24px) for cards and modals, rounded-full for pills, rounded-2xl for dashboard tiles",
     "shadows": "shadow-[0_20px_50px_rgba(100,181,246,0.15)] soft atmosphere glow, 0 4px 12px rgba(0,0,0,0.04)",
-    "spacing": "Generous py-16 to py-24 section gutters, 4/8dp spatial grid inside cards",
-    "palette": "Custom sky atmosphere (#64B5F6 to #FFFFFF) and machi pastels overriding default slate/gray primitives"
+    "spacing": "Generous py-16 to py-20 section gutters, 4/8dp spatial grid inside cards",
+    "palette": "Crisp white cards, rich espresso #1A1A1A, market crimson #DC2626 accents, and custom SVG line icons replacing emojis"
   },
   "tells_checked": [
     {
+      "tell": "emojis in UI controls / seller portal",
+      "caught": true,
+      "revision": "Banned. All dashboard icons, status badges, and action buttons replaced with clean inline SVG graphics."
+    },
+    {
+      "tell": "redundant philosophy & duplicate standard sections",
+      "caught": true,
+      "revision": "Banned. Completely eliminated 'Filosofi Kantin Boash' and the duplicated 'Standar Bersih & Cerdas' section."
+    },
+    {
       "tell": "cream background + terracotta",
       "caught": true,
-      "revision": "Banned. Replaced with breezy sky-blue (#64B5F6) and cloud-white (#FFFFFF) palette."
+      "revision": "Banned. Replaced with crisp cloud-white and atmospheric sky-blue palette."
     },
     {
       "tell": "near-black + acid-green",
       "caught": true,
-      "revision": "Banned. Replaced with deep espresso #1A1A1A on light pastels."
+      "revision": "Banned. Replaced with deep rich espresso #1A1A1A on light pastels."
     },
     {
       "tell": "SaaS card kit uniform 1px border cards",
       "caught": true,
-      "revision": "Banned. Cards feature borderless soft pastel tonal fills (#FCE4D6, #E2EFDA, #FFF2CC) with deep 24px radius."
-    },
-    {
-      "tell": "template chrome ALL-CAPS tracked eyebrows",
-      "caught": true,
-      "revision": "Banned. Clean natural sentence-case Indonesian and Latin headings."
-    },
-    {
-      "tell": "multiple stacked animations",
-      "caught": true,
-      "revision": "Capped strictly at ONE motion moment per page."
+      "revision": "Banned. Replaced with borderless soft pastel and white market cards with 24px radius."
     }
   ]
 }

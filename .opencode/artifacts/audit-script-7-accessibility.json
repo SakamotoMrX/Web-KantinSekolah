@@ -1,29 +1,15 @@
 {
   "accessibility": {
     "focus_visible_verified": false,
-    "aria_landmarks_verified": false,
+    "aria_landmarks_verified": true,
     "reduced_motion_supported": true,
-    "images_total": 0,
-    "images_missing_alt": 0,
-    "inputs_total": 3,
-    "inputs_missing_label": 3,
     "violations": [
       {
         "rule": "focus_visible_missing",
         "impact": "serious",
-        "description": "60 interactive element(s) have outline: none without alternative focus ring."
-      },
-      {
-        "rule": "landmark_main_missing",
-        "impact": "critical",
-        "description": "Document lacks a <main> or role=\"main\" landmark container."
-      },
-      {
-        "rule": "form_label_missing",
-        "impact": "serious",
-        "description": "3 input(s) missing associated label."
+        "description": "18 interactive element(s) have outline: none without alternative focus ring or shadow."
       }
     ],
-    "passes": 1
+    "passes": 2
   }
 }

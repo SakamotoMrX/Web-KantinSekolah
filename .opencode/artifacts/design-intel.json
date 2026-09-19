@@ -1,151 +1,134 @@
 {
   "research_metadata": {
-    "executed_at": "2026-09-19T00:00:00Z",
-    "task_context": "Phase 0 research for multi-page Kantin Boash SaaS merchant dashboard — 8 visual patterns, Machi cold brew aesthetic alignment, penjual.html full redesign",
+    "executed_at": "2026-09-19T08:00:00.000Z",
+    "task_context": "Market redesign: Meat/Market clean white card style, emoji→SVG migration, seller portal auth, philosophy section removal",
     "confidence": "HIGH"
   },
   "design_signals": {
     "recommended_color_system": {
-      "background": "#F0F9FF",
-      "surface": "#FFFFFF",
+      "background": "#FFFFFF",
+      "surface": "#F8FAFC",
       "primary": "#1A1A1A",
-      "accent": "#64B5F6",
+      "accent": "#0369A1",
       "text_primary": "#1A1A1A",
-      "text_secondary": "#6B7280",
-      "status_new": "#E0F2FE",
-      "status_new_text": "#0369A1",
-      "status_preparing": "#FEF3C7",
-      "status_preparing_text": "#92400E",
-      "status_ready": "#D1FAE5",
-      "status_ready_text": "#065F46",
-      "status_done": "#F3F4F6",
-      "status_done_text": "#374151",
-      "rationale": "Exact Machi cold brew palette from REFERENCE-DESIGN.md. Espresso #1A1A1A for text, sky gradient #64B5F6→#B0E0E6→#F0F9FF for backgrounds. Status colors match existing index.html updateModalStatusBadge."
+      "text_secondary": "#64748B",
+      "border": "#F1F5F9",
+      "pastel_peach": "#FCE4D6",
+      "pastel_matcha": "#E2EFDA",
+      "pastel_mango": "#FFF2CC",
+      "pastel_berry": "#F8CECC",
+      "rationale": "Meat/Market reference uses pure white cards (#FFFFFF) with subtle 1px borders (#F1F5F9), high-contrast espresso typography (#1A1A1A), and pastel accent backgrounds for food category differentiation. Sky blue (#0369A1) retained as brand accent from existing design system."
     },
     "recommended_typography": {
       "heading_font": "Plus Jakarta Sans",
       "body_font": "Inter",
-      "mono_font": null,
-      "rationale": "Existing Google Fonts already loaded in both index.html and penjual.html. Display weight: extrabold/black for headings. Body: regular/medium for descriptions."
+      "mono_font": "JetBrains Mono",
+      "rationale": "Existing font pairing is strong. Plus Jakarta Sans (700-900) for display headings and price callouts. Inter (400-600) for body text. Add JetBrains Mono for any numeric readouts (queue numbers, prices). Keep current Google Fonts import."
     },
-    "recommended_animation_approach": "Minimal — CSS transitions only (hover:shadow-md, active:scale-95). No GSAP, no Framer Motion. Sound notification via Web Audio API oscillators.",
+    "recommended_animation_approach": "Minimal — single orchestrated moment on page load (hero fade-in). No per-card animations. Status pulse ring on active order stage. All animations respect prefers-reduced-motion.",
     "trending_components": [
-      "Live order card grid",
-      "Status filter pill tabs",
-      "Stat summary cards",
-      "Quick-action status advance buttons",
-      "Sound toggle control"
+      "Clean white cards with rounded-[24px] and 1px border",
+      "Rounded-full pill badges for status/weight/portions",
+      "SVG icon containers with pastel background circles",
+      "Modal auth overlay with centered card layout",
+      "Giant wordmark footer (existing pattern — keep)"
     ],
     "anti_patterns_to_avoid": [
-      "Do not add heavy animation libraries (GSAP, Framer Motion) — vanilla CSS transitions only",
-      "Do not use generic orange/green/blue POS dashboard colors — stick to Machi palette",
-      "Do not create separate component files — all HTML/JS inline in single penjual.html",
-      "Do not add loading spinners or skeleton screens — orders load instantly from Redis",
-      "Do not use modals for status updates — inline card actions only",
-      "Do not add user authentication — merchant portal is open access (school environment)"
+      "Emoji in any UI control or widget — replace with inline SVG",
+      "Philosophy/about sections — user explicitly removes",
+      "Duplicate content between hero and favorites sections",
+      "Gradient hero backgrounds — switch to clean white",
+      "Heavy shadows (shadow-2xl) — use shadow-xs for subtlety",
+      "Cloud/float animations — remove for clean static feel"
     ]
   },
   "library_decisions": {
-    "animation": { "library": "none", "version": "N/A", "key_apis": ["CSS transition", "CSS @keyframes (float)"] },
-    "icons": { "library": "emoji", "version": "N/A" },
-    "ui_primitives": { "library": "Tailwind CDN", "version": "3.x", "key_apis": ["utility classes"] },
-    "state": { "library": "vanilla JS", "version": "N/A", "key_apis": ["localStorage", "setInterval"] }
+    "animation": { "library": "none", "version": "N/A", "key_apis": ["CSS @keyframes for single pulse moment only"] },
+    "icons": { "library": "Inline SVG (Lucide/Phosphor pattern)", "version": "N/A", "key_apis": ["24x24 viewBox", "stroke-based", "currentColor"] },
+    "ui_primitives": { "library": "None — vanilla HTML + Tailwind CDN", "version": "N/A" },
+    "state": { "library": "sessionStorage (auth) + localStorage (cart)", "version": "N/A" }
   },
   "proven_templates_and_kits": {
-    "brad_traversy_source": "N/A — project uses custom Machi design system, not third-party templates",
-    "recommended_templates": [],
-    "recommended_component_kits": []
+    "brad_traversy_source": "https://github.com/bradtraversy/design-resources-for-developers#html--css-templates",
+    "recommended_templates": [
+      { "name": "Clean white card patterns from Godly.website SOTD", "url": "https://godly.website/", "archetype": "food-market" },
+      { "name": "Minimal admin portal patterns", "url": "https://land-book.com/websites/7024-admin-dashboards", "archetype": "seller-portal" }
+    ],
+    "recommended_component_kits": [
+      { "name": "Lucide Icons (inline SVG)", "url": "https://lucide.dev/", "primitives": ["search", "bell", "cart", "check", "clock", "tag", "shield", "user", "lock"] },
+      { "name": "Phosphor Icons (duotone variant)", "url": "https://phosphoricons.com/", "primitives": ["cooking-pot", "shopping-bag", "receipt", "coin"] }
+    ]
+  },
+  "svg_icon_specifications": {
+    "viewbox": "0 0 24 24",
+    "stroke_width": "2",
+    "stroke_linecap": "round",
+    "stroke_linejoin": "round",
+    "fill": "none",
+    "color_inheritance": "currentColor",
+    "sizing": {
+      "inline_text": "width=\"16\" height=\"16\"",
+      "button_icon": "width=\"18\" height=\"18\"",
+      "stat_tile": "width=\"22\" height=\"22\"",
+      "card_header": "width=\"24\" height=\"24\""
+    },
+    "icon_map": {
+      "search": "circle cx=11 cy=11 r=8 + path m21 21-4.35-4.35",
+      "bell": "path M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9 + path M13.73 21a2 2 0 0 1-3.46 0",
+      "cart": "circle cx=9 cy=21 r=1 + circle cx=20 cy=21 r=1 + path M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6",
+      "check": "polyline points 20 6 9 17 4 12",
+      "clock": "circle cx=12 cy=12 r=10 + polyline points 12 6 12 12 16 14",
+      "dollar": "line x1=12 y1=1 x2=12 y2=23 + path M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+      "shield": "path M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+      "user": "path M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 + circle cx=12 cy=7 r=4",
+      "lock": "rect x=3 y=11 width=18 height=11 rx=2 ry=2 + path M7 11V7a5 5 0 0 1 10 0v4",
+      "sound_on": "polygon points 11 5 6 9 2 9 2 15 6 15 11 19 11 5 + path M19.07 4.93a10 10 0 0 1 0 14.14",
+      "sound_off": "polygon points 11 5 6 9 2 9 2 15 6 15 11 19 11 5 + line x1=23 y1=9 x2=17 y2=15 + line x1=17 y1=9 x2=23 y2=15",
+      "flame": "path M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z",
+      "bag": "path M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z + line x1=3 y1=6 x2=21 y2=6 + path M16 10a4 4 0 01-8 0",
+      "list": "path M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2 + rect x=8 y=2 width=8 height=4 rx=1 ry=1 + path M9 14l2 2 4-4",
+      "sparkle": "path M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z (filled)"
+    }
   },
   "component_composition_sources": {
-    "existing_implementations": [
-      "index.html lines 974-1004 — pastel product card pattern (adapt for merchant order cards)",
-      "index.html lines 439-510 — editorial stats banner (adapt for stat summary cards)",
-      "index.html lines 1315-1332 — status badge color system (reuse exact classes)",
-      "penjual.html lines 30-80 — existing order list + status update logic (preserve API contract)"
-    ],
-    "zero_scratch_mandate": true
+    "shadcn_registry_items": [],
+    "reactbits_components": [],
+    "zero_scratch_mandate": "All components are vanilla HTML + Tailwind CDN. No React/framework. SVG icons are inline, not from a component library."
   },
   "community_verdict": {
-    "sentiment_summary": "N/A — school canteen internal app, no external community signals needed. Design decisions grounded in existing Machi aesthetic + REFERENCE-DESIGN.md spec.",
+    "sentiment_summary": "Clean white card + SVG icon pattern is the dominant 2025-2026 food/market app aesthetic. Emoji in production UI is considered unprofessional. sessionStorage for simple auth gates is standard for client-side POS portals.",
     "key_warnings": [
-      "Do not change API contract — penjual.html and index.html share same backend",
-      "Do not add dependencies — project is vanilla HTML/JS/Tailwind CDN",
-      "Do not break existing order flow — status must progress Dipesan→Diterima→Disiapkan→Siap Diambil→Selesai"
+      "Do not use emoji in production UI — unprofessional, inconsistent rendering across platforms",
+      "sessionStorage auth is client-side only — no server-side protection. Acceptable for school POS portal.",
+      "Removing philosophy section may break footer anchor links — update all #cerita references"
     ],
     "key_endorsements": [
-      "Reuse exact status badge colors from index.html updateModalStatusBadge",
-      "Follow existing Tailwind class patterns (rounded-3xl, shadow-sm, border-gray-100)",
-      "Keep polling at 1.5s interval (existing pattern)"
+      "Inline SVG with currentColor is the gold standard for icon systems in vanilla HTML projects",
+      "Rounded-[24px] cards with 1px border is the dominant food delivery app card pattern",
+      "Pastel background circles for food category differentiation is clean and accessible"
     ]
   },
   "github_signals": {
-    "reference_repos": [],
+    "reference_repos": [
+      { "name": "chenlee86/keepurl", "stars": 0, "why_relevant": "sessionStorage auth gate pattern" },
+      { "name": "odysseus-dev/odysseus", "stars": 0, "why_relevant": "Clean standalone login.html" }
+    ],
     "pattern_evidence": [
-      "Existing index.html is the primary reference — 1402 lines of battle-tested Machi aesthetic code",
-      "penjual.html preserves API compatibility with api/orders.js (GET/POST/PATCH/DELETE)",
-      "test/orders.test.js validates all status transitions and edge cases"
+      "sessionStorage.setItem('auth', 'true') for client-side auth gates",
+      "SVG inline icons with viewBox 0 0 24 24 stroke-based pattern",
+      "Modal overlay with fixed inset-0 z-[100] for auth screens"
     ]
   },
   "ui_precedents": [
-    "Dribbble POS/cafe dashboard references (screenshots/ref-dribbble.png)",
-    "Current index.html pastel card system as merchant card template",
-    "Machi cold brew aesthetic from REFERENCE-DESIGN.md"
+    "Meat/Market style: white cards, rounded-3xl, bold price display, weight/portion chips, zero emojis",
+    "Godly.website SOTD: clean card layouts with subtle borders and generous whitespace",
+    "Mobbin food delivery flows: pastel category differentiation, clean SVG iconography"
   ],
   "design_references": [
-    "screenshots/REFERENCE-DESIGN.md — complete Machi design spec",
-    "screenshots/ref-dribbble.png — Dribbble POS references",
-    "screenshots/baseline-penjual.png — current penjual.html baseline",
-    "screenshots/baseline-current.png — current index.html baseline"
-  ],
-  "covered_patterns": [
-    {
-      "component_key": "hero-floating-cups",
-      "source_url": "index.html lines 59-118",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "cloud-parallax-sky",
-      "source_url": "index.html lines 59-76",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "pastel-product-card",
-      "source_url": "index.html lines 974-1004",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "editorial-stats-banner",
-      "source_url": "index.html lines 439-510",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "organic-lifestyle-banner",
-      "source_url": "index.html lines 547-602",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "giant-wordmark-footer",
-      "source_url": "index.html lines 605-678",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "merchant-dashboard-pos",
-      "source_url": "penjual.html",
-      "recipe_type": "needs_redesign",
-      "status": "in_progress"
-    },
-    {
-      "component_key": "order-status-timeline",
-      "source_url": "index.html lines 1315-1332",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    }
+    "Inline SVG icon system (Lucide/Phosphor pattern) for all 22 unique emoji replacements",
+    "Clean white card pattern with rounded-[24px] and border-gray-100",
+    "Pastel circle containers for food category icons",
+    "Modal auth overlay with centered card, SVG lock/user icons"
   ],
   "research_complete": true
 }

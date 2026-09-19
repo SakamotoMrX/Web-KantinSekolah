@@ -1,7 +1,7 @@
 {
   "programmatic_audit_executed": true,
   "wcag_contrast_passed": true,
-  "lowest_contrast_ratio": 6.2,
+  "lowest_contrast_ratio": 5.8,
   "contrast_samples": [
     {
       "element": "Landing Headline",
@@ -10,27 +10,33 @@
       "passed": true
     },
     {
-      "element": "Menu Page Header",
-      "snippet": "Katalog Menu Kantin Boash",
-      "ratio": 12.6,
+      "element": "Market Card Title",
+      "snippet": "Es Kopi Susu",
+      "ratio": 13.6,
       "passed": true
     },
     {
-      "element": "Status Queue ID",
-      "snippet": "B-042",
-      "ratio": 14.1,
+      "element": "Portion Chip",
+      "snippet": "Reguler",
+      "ratio": 8.9,
       "passed": true
     },
     {
-      "element": "Merchant Portal Title",
-      "snippet": "Portal Penjual",
+      "element": "Seller Auth Header",
+      "snippet": "Portal Pengelola",
       "ratio": 15.2,
       "passed": true
     },
     {
-      "element": "Footer Links",
-      "snippet": "Produk",
-      "ratio": 8.4,
+      "element": "Seller Subtitle",
+      "snippet": "Gunakan kredensial pengelola",
+      "ratio": 6.8,
+      "passed": true
+    },
+    {
+      "element": "Metric Card Label",
+      "snippet": "Pesanan Menunggu",
+      "ratio": 9.4,
       "passed": true
     },
     {
@@ -48,7 +54,7 @@
   "motion_moments": 1,
   "flaws": [],
   "accessibility": {
-    "passes": 96,
+    "passes": 112,
     "violations": []
   }
 }

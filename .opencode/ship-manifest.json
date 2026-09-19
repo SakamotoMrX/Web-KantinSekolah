@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "mission_id": "ship-20260919-063855",
-  "request": "kantin boash multi-page architecture with separate seller dashboard and order status tracking",
-  "created_at": "2026-09-18T23:58:43.069Z",
+  "mission_id": "ship-20260919-071326",
+  "request": "market redesign, remove philosophy section, seller portal auth login, strictly no emoji use svg graphics",
+  "created_at": "2026-09-19T00:41:37.408Z",
   "dev_port": 3000,
   "triage_tier": "STANDARD",
   "current_phase": "PHASE_6_CROSS_AUDIT",
@@ -12,7 +12,7 @@
     "gitignore_created": false,
     "scaffold_executed": false,
     "branch_created": false,
-    "branch_name": "feat/1.2-kantin-boash-multipage-dashboard"
+    "branch_name": "feat/1.3-market-redesign-auth-no-emoji"
   },
   "design_direction": "phase-1.5-design-direction.json",
   "template_tells": [],
@@ -28,7 +28,7 @@
     "scope": "FULL",
     "dirty_symbols": [],
     "skip_design_rerun": false,
-    "triggered_at": "2026-09-18T23:57:47.451Z"
+    "triggered_at": "2026-09-19T00:40:26.384Z"
   },
   "retry_counts": {
     "ARCHITECTURE_FLAW": 0,
@@ -42,52 +42,52 @@
   "phase_history": [
     {
       "barrier": "barrier-0",
-      "passed_at": "2026-09-18T23:45:15.669Z",
+      "passed_at": "2026-09-19T00:28:55.001Z",
       "summary": "Recon valid. Tier: STANDARD — Full 7-phase pipeline: Oracle blueprint → contract-bound parallel impl → Playwright matrix → visual audit → adversarial cross-audit"
     },
     {
       "barrier": "barrier-1",
-      "passed_at": "2026-09-18T23:46:14.099Z",
-      "summary": "Blueprint & contracts locked at .opencode/artifacts/phase-1-contracts.ts (5 breaking scenario(s) modeled, real copy locked)"
+      "passed_at": "2026-09-19T00:29:42.355Z",
+      "summary": "Blueprint & contracts locked at .antigravity/artifacts/phase-1-contracts.ts (4 breaking scenario(s) modeled, real copy locked)"
     },
     {
       "barrier": "barrier-1.5",
-      "passed_at": "2026-09-18T23:46:48.360Z",
+      "passed_at": "2026-09-19T00:30:32.264Z",
       "summary": "Design Direction locked: 6 colors, 2 typeface(s), 1 orchestrated motion moment, 5 tells checked & revised. [DESIGN-SYSTEM CONTINUITY: Aligned with persistent design-system.json]"
     },
     {
       "barrier": "barrier-2",
-      "passed_at": "2026-09-18T23:49:58.111Z",
+      "passed_at": "2026-09-19T00:34:19.557Z",
       "summary": "Reconciliation & logic tests passed (Exit Code 0). Security scan: clean. Lane discipline: clean."
     },
     {
       "barrier": "barrier-3",
-      "passed_at": "2026-09-18T23:51:12.660Z",
-      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (247 elements, 695158 bytes). Semantic checks: no stubs (skipped)."
+      "passed_at": "2026-09-19T00:35:42.394Z",
+      "summary": "Runtime healthy on http://localhost:3000, DOM rendered (217 elements, 464159 bytes). Semantic checks: no stubs (skipped)."
     },
     {
       "barrier": "barrier-4",
-      "passed_at": "2026-09-18T23:52:04.811Z",
-      "summary": "Matrix passed: 12/12 tests, 6 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
+      "passed_at": "2026-09-19T00:36:45.712Z",
+      "summary": "Matrix passed: 15/15 tests, 5 physical screenshots verified (>10KB each). [No independent acceptance tests found — create phase-1-acceptance-stubs.json in Phase 1 to enable]"
     },
     {
       "barrier": "barrier-5",
-      "passed_at": "2026-09-18T23:57:58.925Z",
-      "summary": "Visual audit valid. Flaws: 0, template tells: 0, motion moments: 1. Accessibility audit: 0 total violations (0 critical), 96 passes."
+      "passed_at": "2026-09-19T00:40:37.945Z",
+      "summary": "Visual audit valid. Flaws: 0, template tells: 0, motion moments: 1. Accessibility audit: 0 total violations (0 critical), 112 passes."
     },
     {
       "barrier": "barrier-6",
-      "passed_at": "2026-09-18T23:58:43.154Z",
+      "passed_at": "2026-09-19T00:41:37.463Z",
       "summary": "Oracle cross-audit verified. Verdict: GO | 1 prior retry attempt(s) on record."
     }
   ],
   "status": "IN_PROGRESS",
-  "_checksum": "34c2d50ff65b03e1",
+  "_checksum": "3db5fde02b536ece",
   "retry_history": [
     {
-      "timestamp": "2026-09-18T23:57:47.455Z",
+      "timestamp": "2026-09-19T00:40:26.388Z",
       "domain": "DESIGN_UI_FLAW",
-      "reason": "Footer contrast, nav touch targets, focus rings, and motion moment caps across multi-page suite",
+      "reason": "Subtitle contrast, nav touch targets, mobile blur overflow, and animation moment cap",
       "attempt": 1,
       "scope": "FULL",
       "dirty_symbols": [],
@@ -96,16 +96,16 @@
   ],
   "last_failure_context": {
     "domain": "DESIGN_UI_FLAW",
-    "reason": "Footer contrast, nav touch targets, focus rings, and motion moment caps across multi-page suite",
+    "reason": "Subtitle contrast, nav touch targets, mobile blur overflow, and animation moment cap",
     "attempt": 1,
-    "timestamp": "2026-09-18T23:57:47.455Z",
+    "timestamp": "2026-09-19T00:40:26.388Z",
     "scientific_debugging_required": true,
     "repair_scope": {
       "domain": "DESIGN_UI_FLAW",
       "scope": "FULL",
       "dirty_symbols": [],
       "skip_design_rerun": false,
-      "triggered_at": "2026-09-18T23:57:47.451Z"
+      "triggered_at": "2026-09-19T00:40:26.384Z"
     },
     "protocol": "1. Reproduce with failing test -> 2. Formulate 3 orthogonal hypotheses -> 3. Isolate root cause -> 4. Minimal surgical fix -> 5. Zero-regression pass",
     "instruction": "[FULL RETRY & SCIENTIFIC DEBUGGING] Focus repair ONLY on the failure described above. Do NOT rewrite unrelated components. Reproduce first with red test, isolate root cause (no symptom patches), and apply minimal surgical fix."

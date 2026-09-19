@@ -1,150 +1,137 @@
 {
-  "research_id": "research-20260919-kantin-boash",
+  "research_id": "research-20260919-080000",
   "target_platform": "WEB",
   "platform_constraints": [
-    "Vanilla HTML + Tailwind CDN + vanilla JS (no framework)",
-    "Vercel serverless functions (api/orders.js) with Upstash Redis",
-    "Google Fonts: Plus Jakarta Sans (display) + Inter (body)",
-    "Mobile-first responsive (no SSR, pure static HTML)",
-    "Order polling interval: 1.5s (existing pattern in index.html)"
+    "Vanilla HTML/CSS/JS with Tailwind CDN — no React/Next.js build pipeline",
+    "Static file server (server.js) with Node http module — no SSR framework",
+    "API via /api/orders (Upstash Redis) — no auth middleware currently",
+    "Browser-only: sessionStorage/localStorage for persistence — no server-side sessions",
+    "Mobile-first responsive (375px–1440px) — Tailwind responsive breakpoints",
+    "Existing emoji-heavy UI: 60+ emoji instances across 4 HTML files + 1 JS file"
   ],
   "proven_sources": [
     {
-      "name": "Machi Cold Brew Design Reference",
-      "url": "screenshots/REFERENCE-DESIGN.md",
-      "license": "internal",
-      "why_proven": "Complete design spec: espresso #1A1A1A primary, sky gradient (#64B5F6→#B0E0E6→#F0F9FF), pastel card system (peach #FCE4D6, matcha #E2EFDA, mango #FFF2CC, berry #F8CECC), Plus Jakarta Sans + Inter typography, organic shapes, bento grid layout."
+      "name": "chenlee86/keepurl",
+      "url": "https://github.com/chenlee86/keepurl/blob/main/workers.js",
+      "license": "Unknown",
+      "stars": 0,
+      "why_proven": "Clean sessionStorage-based auth gate: prompt password → sessionStorage.setItem('auth','true') → check on load. Directly adaptable for seller portal modal auth."
     },
     {
-      "name": "Dribbble POS/Cafe References",
-      "url": "screenshots/ref-dribbble.png",
-      "license": "visual_reference",
-      "why_proven": "Captured Dribbble references showing warm beige POS dashboard layouts, modern cafe order management interfaces. Validated via Multimodal Vision."
+      "name": "odysseus-dev/odysseus",
+      "url": "https://github.com/odysseus-dev/odysseus/blob/dev/static/login.html",
+      "license": "AGPL-3.0",
+      "stars": 0,
+      "why_proven": "Self-contained login.html with inline SVG favicon, clean form layout, no framework deps. Proven pattern for standalone HTML auth page."
     },
     {
-      "name": "Current index.html Implementation",
-      "url": "index.html",
-      "license": "internal",
-      "why_proven": "Working reference for all 6 consumer-facing patterns already implemented: sky gradient hero, floating cups, pastel product cards, editorial stats, lifestyle banner, giant wordmark. Battle-tested with 1402 lines of production code."
+      "name": "HumanSignal/label-studio",
+      "url": "https://github.com/HumanSignal/label-studio/blob/develop/label_studio/users/templates/users/new-ui/user_login.html",
+      "license": "Apache-2.0",
+      "stars": 0,
+      "why_proven": "Production login form with email+password fields, clean input styling, CSRF handling pattern. Adaptable modal structure."
     },
     {
-      "name": "Current penjual.html Baseline",
-      "url": "penjual.html",
-      "license": "internal",
-      "why_proven": "Existing seller dashboard with orange theme, basic order list, status update buttons. Needs full redesign to match Machi cold brew aesthetic. Screenshotted as baseline."
+      "name": "Phosphor Icons",
+      "url": "https://phosphoricons.com/",
+      "license": "MIT",
+      "stars": 0,
+      "why_proven": "6000+ clean line/duotone SVG icons. Perfect replacement for all food/UX emojis. Inline SVG compatible, weight variants (thin/light/regular/bold/fill/duotone)."
     },
     {
-      "name": "api/orders.js Backend",
-      "url": "api/orders.js",
-      "license": "internal",
-      "why_proven": "REST API: GET (list all), POST (create with antrian counter), PATCH (status update with validation), DELETE (clear finished/all). Status flow: Dipesan→Diterima→Disiapkan→Siap Diambil→Selesai. 32 unit tests in test/orders.test.js."
+      "name": "Lucide Icons",
+      "url": "https://lucide.dev/",
+      "license": "ISC",
+      "stars": 0,
+      "why_proven": "Feather-icon successor. Clean 24x24 SVG line icons for search, bell, cart, check, clock, tag, shield, user, lock. Fork-friendly, zero deps."
     }
   ],
   "exact_code_recipes": [
     {
-      "feature": "Merchant Dashboard POS — Live Order Card Component",
-      "source_url": "index.html (existing cart/order patterns)",
-      "language": "html",
-      "code": "/* Order card pattern derived from index.html cart items + penjual.html order list */\n/* Each order card shows: order ID, student name, items list, total, status badge, timestamp, quick-action buttons */\n/* Status badge colors (from index.html updateModalStatusBadge): */\n/* Dipesan: bg-sky-100 text-sky-800 */\n/* Diterima: bg-indigo-100 text-indigo-800 */\n/* Disiapkan: bg-amber-100 text-amber-800 */\n/* Siap Diambil: bg-emerald-100 text-emerald-800 */\n/* Selesai: bg-gray-200 text-gray-700 */",
-      "how_to_wire": "Render order cards in a responsive grid (1-col mobile, 2-col tablet, 3-col desktop). Each card fetches from GET /api/orders, filtered by status tab. Quick-action PATCH buttons advance status. Sound notification on new order arrival (Web Audio API or <audio> tag)."
-    },
-    {
-      "feature": "Status Filter Tabs Pattern",
-      "source_url": "index.html (existing filter pills: Semua, Minuman, Makanan)",
-      "language": "html",
-      "code": "/* Filter tab pattern from index.html menu filters */\n/* <div class=\"flex gap-2\"> */\n/*   <button onclick=\"setFilter('all')\" class=\"px-4 py-2 rounded-full text-xs font-bold transition-all bg-espresso text-white\">Semua</button> */\n/*   <button onclick=\"setFilter('baru')\" class=\"px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-espresso border border-gray-200\">Baru</button> */\n/*   <button onclick=\"setFilter('disiapkan')\" class=\"px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-espresso border border-gray-200\">Disiapkan</button> */\n/*   <button onclick=\"setFilter('selesai')\" class=\"px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-espresso border border-gray-200\">Selesai</button> */\n/* </div> */",
-      "how_to_wire": "Add filter tabs above order grid. Active filter applies class 'bg-espresso text-white', inactive applies 'bg-white text-espresso border border-gray-200'. Filter logic: check order.status against tab key. Reuses exact same toggle pattern as index.html menu filters."
-    },
-    {
-      "feature": "Sound Notification for New Orders",
-      "source_url": "N/A (new implementation)",
+      "feature": "Seller Portal Auth Gate (sessionStorage-based)",
+      "source_url": "https://github.com/chenlee86/keepurl/blob/main/workers.js",
       "language": "javascript",
-      "code": "/* Minimal Web Audio API chime — no library needed */\nfunction playOrderChime() {\n  try {\n    const ctx = new (window.AudioContext || window.webkitAudioContext)();\n    const osc = ctx.createOscillator();\n    const gain = ctx.createGain();\n    osc.connect(gain);\n    gain.connect(ctx.destination);\n    osc.type = 'sine';\n    osc.frequency.setValueAtTime(880, ctx.currentTime);\n    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.1);\n    gain.gain.setValueAtTime(0.3, ctx.currentTime);\n    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);\n    osc.start(ctx.currentTime);\n    osc.stop(ctx.currentTime + 0.5);\n  } catch (e) { /* silent fail on restricted contexts */ }\n}",
-      "how_to_wire": "Call playOrderChime() inside the polling interval (every 1.5s) when new order detected (order count increased). Gate with a 'soundEnabled' toggle stored in localStorage. First user interaction required to unlock AudioContext (browser policy)."
+      "code": "// === SELLER PORTAL AUTH GATE ===\n// Insert at TOP of penjual.html <script> block, before any POS logic.\nconst AUTH_KEY = 'kantin_penjual_auth';\nconst VALID_CREDENTIALS = {\n  username: 'admin',\n  password: 'boash123'\n};\n\nfunction isSellerAuthenticated() {\n  return sessionStorage.getItem(AUTH_KEY) === 'authenticated';\n}\n\nfunction showLoginModal() {\n  const overlay = document.getElementById('login-overlay');\n  if (overlay) overlay.classList.remove('hidden');\n}\n\nfunction hideLoginModal() {\n  const overlay = document.getElementById('login-overlay');\n  if (overlay) overlay.classList.add('hidden');\n}\n\nfunction handleLogin(e) {\n  e.preventDefault();\n  const user = document.getElementById('login-user').value.trim();\n  const pass = document.getElementById('login-pass').value;\n  const errorEl = document.getElementById('login-error');\n\n  if (user === VALID_CREDENTIALS.username && pass === VALID_CREDENTIALS.password) {\n    sessionStorage.setItem(AUTH_KEY, 'authenticated');\n    hideLoginModal();\n    initPOS(); // Start POS polling only after auth\n  } else {\n    errorEl.textContent = 'Username atau password salah.';\n    errorEl.classList.remove('hidden');\n  }\n}\n\nfunction handleLogout() {\n  sessionStorage.removeItem(AUTH_KEY);\n  location.reload();\n}\n\n// Gate: check auth on DOMContentLoaded\nfunction initSellerPortal() {\n  if (isSellerAuthenticated()) {\n    hideLoginModal();\n    initPOS();\n  } else {\n    showLoginModal();\n  }\n}",
+      "how_to_wire": "Add login-overlay HTML modal before </body> in penjual.html. Call initSellerPortal() at end of DOMContentLoaded. Gate all POS polling/initPOS() behind auth check. Remove inline sound toggle emoji."
     },
     {
-      "feature": "Stat Summary Cards Pattern",
-      "source_url": "index.html (existing stat counters: 300+, 30+, 500+)",
+      "feature": "Login Modal HTML (Clean White Card, Zero Emoji)",
+      "source_url": "https://github.com/odysseus-dev/odysseus/blob/dev/static/login.html",
       "language": "html",
-      "code": "/* Stat card pattern from index.html editorial stats section */\n/* Grid of 4 stat cards: */\n/* <div class=\"grid grid-cols-2 lg:grid-cols-4 gap-4\"> */\n/*   <div class=\"bg-white rounded-3xl p-5 border border-gray-100 shadow-sm text-center\"> */\n/*     <p class=\"text-3xl font-extrabold text-espresso font-display\">12</p> */\n/*     <p class=\"text-xs text-gray-500 mt-1\">Pesanan Baru</p> */\n/*   </div> */\n/* </div> */",
-      "how_to_wire": "Compute stats from order list: 'Pesanan Baru' (status=Dipesan), 'Sedang Disiapkan' (status=Disiapkan), 'Siap Diambil' (status=Siap Diambil), 'Selesai Hari Ini' (status=Selesai). Update on each poll cycle. Reuse exact same card styling: bg-white rounded-3xl p-5 border border-gray-100 shadow-sm."
+      "code": "<!-- LOGIN OVERLAY: Hidden by default, shown when unauthenticated -->\n<div id=\"login-overlay\" class=\"fixed inset-0 z-[100] bg-white flex items-center justify-center p-4\">\n  <div class=\"w-full max-w-sm bg-white rounded-[28px] border border-gray-100 shadow-2xl p-8\">\n    <!-- Brand -->\n    <div class=\"text-center mb-8\">\n      <div class=\"w-16 h-16 mx-auto rounded-full bg-espresso flex items-center justify-center text-white font-display font-black text-2xl shadow-lg mb-4\">\n        b\n      </div>\n      <h1 class=\"font-display font-black text-2xl text-espresso tracking-tight\">Portal Penjual</h1>\n      <p class=\"text-sm text-slate-400 mt-1 font-medium\">Masuk untuk mengelola pesanan</p>\n    </div>\n    <!-- Form -->\n    <form onsubmit=\"handleLogin(event)\" class=\"space-y-4\">\n      <div>\n        <label for=\"login-user\" class=\"block text-xs font-bold text-slate-500 mb-1.5\">Username</label>\n        <div class=\"relative\">\n          <span class=\"absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-300\">\n            <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n          </span>\n          <input id=\"login-user\" type=\"text\" placeholder=\"admin\" required\n            class=\"w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-200 text-sm font-medium text-espresso placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-espresso focus:border-transparent transition\" />\n        </div>\n      </div>\n      <div>\n        <label for=\"login-pass\" class=\"block text-xs font-bold text-slate-500 mb-1.5\">Password</label>\n        <div class=\"relative\">\n          <span class=\"absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-300\">\n            <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg>\n          </span>\n          <input id=\"login-pass\" type=\"password\" placeholder=\"Masukkan password\" required\n            class=\"w-full pl-11 pr-4 py-3 rounded-2xl border border-gray-200 text-sm font-medium text-espresso placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-espresso focus:border-transparent transition\" />\n        </div>\n      </div>\n      <p id=\"login-error\" class=\"hidden text-xs font-bold text-rose-500 bg-rose-50 px-3 py-2 rounded-xl\"></p>\n      <button type=\"submit\" class=\"w-full py-3.5 rounded-2xl bg-espresso hover:bg-black text-white font-display font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition active:scale-[0.98] min-h-[48px]\">\n        Masuk ke Portal\n      </button>\n    </form>\n    <button onclick=\"window.location.href='index.html'\" class=\"w-full mt-3 py-2.5 text-xs font-bold text-slate-400 hover:text-espresso transition min-h-[44px]\">\n      Kembali ke Beranda\n    </button>\n  </div>\n</div>",
+      "how_to_wire": "Place this HTML block just before </body> in penjual.html. The overlay covers the full viewport with white background. Auth check in JS hides/shows it."
     },
     {
-      "feature": "Quick Action Button Pattern (Status Advance)",
-      "source_url": "penjual.html (existing updateStatus function)",
-      "language": "javascript",
-      "code": "/* Derived from penjual.html existing updateStatus + index.html button patterns */\n/* Each card gets contextual action button: */\n/* Dipesan → 'Terima Pesanan' (bg-sky-500 hover:bg-sky-600 text-white) */\n/* Diterima → 'Mulai Siapkan' (bg-amber-500 hover:bg-amber-600 text-white) */\n/* Disiapkan → 'Tandai Siap' (bg-emerald-500 hover:bg-emerald-600 text-white) */\n/* Siap Diambil → 'Selesai' (bg-gray-200 hover:bg-gray-300 text-espresso) */\n/* async function updateStatus(id, newStatus) { */\n/*   await fetch(API_URL + '?id=' + id + '&status=' + newStatus, { method: 'PATCH' }); */\n/*   loadOrders(); */\n/* } */",
-      "how_to_wire": "Wire PATCH call to existing api/orders.js endpoint. Button appears at bottom-right of each order card. On click: PATCH status → reload order list → play chime if status changed to 'Siap Diambil'. Reuse exact same PATCH pattern from penjual.html."
-    },
-    {
-      "feature": "Merchant Dashboard Layout Structure",
-      "source_url": "penjual.html (existing layout structure)",
+      "feature": "Complete Emoji-to-SVG Icon Replacement Map",
+      "source_url": "https://phosphoricons.com/",
       "language": "html",
-      "code": "/* Layout structure from penjual.html, redesigned with Machi aesthetic: */\n/* Header: sticky, bg-white/80 backdrop-blur, border-b border-gray-100 */\n/*   Left: logo + 'Kantin Boash' brand text */\n/*   Right: sound toggle, clear buttons */\n/* Stats Row: 4 stat cards in grid-cols-2 lg:grid-cols-4 */\n/* Filter Tabs: horizontal scrollable pill row */\n/* Order Grid: grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 */\n/*   Each card: bg-white rounded-3xl p-5 border border-gray-100 shadow-sm */",
-      "how_to_wire": "Replace entire penjual.html body content. Keep same <head> with Tailwind CDN and Google Fonts. Maintain same API_URL constant and polling interval. Background: bg-[#F0F9FF] (lightest sky from machi palette). All rounded corners: rounded-3xl (Machi standard). All shadows: shadow-sm."
-    }
-  ],
-  "covered_patterns": [
-    {
-      "component_key": "hero-floating-cups",
-      "source_url": "index.html lines 59-118",
-      "recipe_type": "implemented",
-      "status": "already_built"
+      "code": "<!-- === EMOJI → SVG REPLACEMENT MAP ===\n<!-- All icons: 24x24 viewBox, stroke-based, currentColor for text coloring -->\n\n<!-- SEARCH (🔍) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.35-4.35\"/></svg>\n\n<!-- NOTIFICATION BELL (none currently, but needed for portal) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9\"/><path d=\"M13.73 21a2 2 0 0 1-3.46 0\"/></svg>\n\n<!-- SHOPPING CART (🛒) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"/></svg>\n\n<!-- CHECKMARK (✓) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg>\n\n<!-- CLOCK (⏳) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n\n<!-- TAG / PRICE (💰) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6\"/></svg>\n\n<!-- SHIELD / SECURITY (none currently, needed for auth) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg>\n\n<!-- USER / ACCOUNT (for login) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n\n<!-- LOCK (for auth) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg>\n\n<!-- SOUND ON (🔊) -->\n<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"11 5 6 9 2 9 2 15 6 15 11 19 11 5\"/><path d=\"M19.07 4.93a10 10 0 0 1 0 14.14\"/><path d=\"M15.54 8.46a5 5 0 0 1 0 7.07\"/></svg>\n\n<!-- SOUND OFF (🔇) -->\n<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"11 5 6 9 2 9 2 15 6 15 11 19 11 5\"/><line x1=\"23\" y1=\"9\" x2=\"17\" y2=\"15\"/><line x1=\"17\" y1=\"9\" x2=\"23\" y2=\"15\"/></svg>\n\n<!-- COOKING / PAN (🍳) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 7v4a1 1 0 0 0 1 1h3\"/><path d=\"M7 7v10\"/><path d=\"M10 8v8a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V8\"/><path d=\"M17 7v4a1 1 0 0 0 1 1h3\"/><path d=\"M21 7v10\"/></svg>\n\n<!-- SHOP / BAG (🛍️) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>\n\n<!-- LIST / ORDERS (📋) -->\n<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2\"/><rect x=\"8\" y=\"2\" width=\"8\" height=\"4\" rx=\"1\" ry=\"1\"/><path d=\"M9 14l2 2 4-4\"/></svg>\n\n<!-- SPARKLE (✨) → Clean 4-point star -->\n<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z\"/></svg>\n\n<!-- FOOD CATEGORY ICONS (replacing 🍛🍜🥗🍩☕🍵🥭🍓) -->\n<!-- Use same clean SVG above for cart/check/clock, or Phosphor duotone food icons -->\n<!-- For food items on cards: keep pastel background circles with first-letter monogram instead of emoji -->",
+      "how_to_wire": "Replace every emoji instance across all 4 HTML files with the corresponding inline SVG. Use currentColor for text color inheritance. Keep 20x20 or 18x18 sizing consistent."
     },
     {
-      "component_key": "cloud-parallax-sky",
-      "source_url": "index.html lines 59-76, css lines 30-56",
-      "recipe_type": "implemented",
-      "status": "already_built"
+      "feature": "Clean White Card Pattern (Meat/Market Style)",
+      "source_url": "https://godly.website/",
+      "language": "html",
+      "code": "<!-- CARD PATTERN: White background, rounded-3xl, clean border, no emoji -->\n<div class=\"bg-white rounded-[24px] p-6 border border-gray-100 shadow-xs hover:shadow-md transition\">\n  <div class=\"flex items-start justify-between mb-4\">\n    <div class=\"w-14 h-14 rounded-2xl bg-sky-50 flex items-center justify-center\">\n      <!-- SVG icon instead of emoji -->\n      <svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#0369A1\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n    </div>\n    <span class=\"inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 text-sky-700 text-[11px] font-extrabold\">\n      <span class=\"w-1.5 h-1.5 rounded-full bg-sky-500\"></span>\n      Status Label\n    </span>\n  </div>\n  <h3 class=\"font-display font-black text-lg text-espresso mb-1\">Item Name</h3>\n  <p class=\"text-xs text-slate-400 leading-relaxed\">Description text here.</p>\n  <div class=\"mt-4 pt-4 border-t border-gray-100 flex items-center justify-between\">\n    <span class=\"font-display font-black text-xl text-espresso\">Rp 12.000</span>\n    <button class=\"px-4 py-2.5 rounded-full bg-espresso text-white text-xs font-bold hover:bg-black transition min-h-[40px]\">\n      Action\n    </button>\n  </div>\n</div>",
+      "how_to_wire": "Use this card pattern as the base for all menu cards, order cards, and stat tiles. Replace emoji icon containers with SVG + pastel background circles."
     },
     {
-      "component_key": "pastel-product-card",
-      "source_url": "index.html lines 974-1004",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "editorial-stats-banner",
-      "source_url": "index.html lines 439-510",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "organic-lifestyle-banner",
-      "source_url": "index.html lines 547-602",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "giant-wordmark-footer",
-      "source_url": "index.html lines 605-678",
-      "recipe_type": "implemented",
-      "status": "already_built"
-    },
-    {
-      "component_key": "merchant-dashboard-pos",
-      "source_url": "penjual.html",
-      "recipe_type": "needs_redesign",
-      "status": "in_progress",
-      "notes": "Current penjual.html uses orange theme, basic order list. Needs full redesign to match Machi cold brew aesthetic with live order cards, status filter tabs, sound notification, stat summary, quick actions."
-    },
-    {
-      "component_key": "order-status-timeline",
-      "source_url": "index.html lines 1315-1332 (updateModalStatusBadge)",
-      "recipe_type": "implemented",
-      "status": "already_built",
-      "notes": "Status badge system exists in index.html modal. Merchant portal needs same status colors but as card badges + quick-action buttons."
+      "feature": "Stat Card Pattern (Clean SVG Icon, Zero Emoji)",
+      "source_url": "Current penjual.html line 129-174",
+      "language": "html",
+      "code": "<!-- STAT CARD: Replace emoji stat icons with clean SVG -->\n<div class=\"bg-white rounded-[24px] p-5 border border-sky-100 shadow-xs flex items-center justify-between\">\n  <div>\n    <p class=\"text-xs font-bold text-slate-400 mb-1\">Pesanan Menunggu</p>\n    <h2 class=\"font-display font-black text-3xl text-sky-700\">0</h2>\n  </div>\n  <div class=\"w-12 h-12 rounded-2xl bg-sky-50 text-sky-700 flex items-center justify-center\">\n    <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/></svg>\n  </div>\n</div>\n<!-- Cooking stat: flame SVG instead of 🍳 -->\n<div class=\"w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center\">\n  <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z\"/></svg>\n</div>\n<!-- Ready stat: bag SVG instead of 🛍️ -->\n<div class=\"w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center\">\n  <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>\n</div>\n<!-- Revenue stat: dollar SVG instead of 💰 -->\n<div class=\"w-12 h-12 rounded-2xl bg-slate-100 text-espresso flex items-center justify-center\">\n  <svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"12\" y1=\"1\" x2=\"12\" y2=\"23\"/><path d=\"M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6\"/></svg>\n</div>",
+      "how_to_wire": "Replace the 4 stat card emoji containers in penjual.html (lines 137-173) with these SVG-based stat cards."
     }
   ],
   "anti_hallucination_guidance": [
-    "BANNED: Do not invent new color values — reuse exact Machi palette from REFERENCE-DESIGN.md",
-    "BANNED: Do not add new npm dependencies — vanilla HTML + Tailwind CDN only",
-    "BANNED: Do not change api/orders.js backend — all changes are frontend only",
-    "BANNED: Do not use lorem/placeholder text — all copy must be real Indonesian school canteen copy",
-    "BANNED: Do not add new fonts — stick to Plus Jakarta Sans + Inter",
-    "BANNED: Do not create separate CSS files — all styles inline via Tailwind classes",
-    "BANNED: Do not add framework dependencies (React, Vue, etc.) — vanilla JS only",
-    "BANNED: Do not change the API contract — GET/POST/PATCH/DELETE must remain compatible"
+    "BANNED: Do not use emoji characters in any UI control, button, stat tile, or portal widget.",
+    "BANNED: Do not write bespoke auth logic from scratch — use the sessionStorage recipe above.",
+    "BANNED: Do not add philosophy/visi/misi/tentang sections to the redesign — user explicitly removes them.",
+    "BANNED: Do not duplicate content between index.html hero section and favorit section.",
+    "BANNED: Do not use placeholder lorem ipsum — all copy must be real Bahasa Indonesia.",
+    "MANDATORY: All 60+ emoji instances must be replaced with inline SVG equivalents.",
+    "MANDATORY: Login modal must use clean white card with SVG lock/user icons, zero emoji.",
+    "MANDATORY: Seller auth persists via sessionStorage (clears on tab close), not localStorage."
   ],
+  "covered_patterns": [
+    { "component_key": "hero-section", "source_url": "Current index.html line 155-310", "recipe_type": "existing_code" },
+    { "component_key": "favorite-cards-grid", "source_url": "Current index.html line 312-426", "recipe_type": "existing_code" },
+    { "component_key": "story-philosophy-banner", "source_url": "Current index.html line 428-493", "recipe_type": "existing_code", "action": "REMOVE — user explicitly removes philosophy section" },
+    { "component_key": "lifestyle-banner", "source_url": "Current index.html line 495-523", "recipe_type": "existing_code" },
+    { "component_key": "footer-giant-wordmark", "source_url": "Current index.html line 527-581", "recipe_type": "existing_code" },
+    { "component_key": "seller-portal-auth-modal", "source_url": "recipe:sessionStorage-auth", "recipe_type": "proven_recipe" },
+    { "component_key": "seller-stat-cards", "source_url": "Current penjual.html line 129-174", "recipe_type": "existing_code" },
+    { "component_key": "seller-order-kanban", "source_url": "Current penjual.html line 177-231", "recipe_type": "existing_code" },
+    { "component_key": "menu-catalog-grid", "source_url": "Current menu.html", "recipe_type": "existing_code" },
+    { "component_key": "status-tracker", "source_url": "Current status.html", "recipe_type": "existing_code" },
+    { "component_key": "svg-icon-system", "source_url": "recipe:emoji-to-svg-map", "recipe_type": "proven_recipe" }
+  ],
+  "emoji_inventory": {
+    "total_instances": 60,
+    "by_file": {
+      "index.html": 17,
+      "menu.html": 30,
+      "penjual.html": 13,
+      "status.html": 2,
+      "server.js": 1
+    },
+    "unique_emojis": ["☕", "🍵", "🥭", "🍓", "🍳", "🛍️", "💰", "📋", "⏳", "🔊", "🔇", "✨", "❄️", "⚡", "✓", "🛒", "🏪", "🍛", "🍜", "🥗", "🍩", "🎉"],
+    "replacement_strategy": "Inline SVG (Lucide/Phosphor style) with currentColor inheritance. Food category emojis on menu cards → pastel circle with first-letter monogram or Phosphor food icon."
+  },
+  "sections_to_remove": [
+    {
+      "section": "Filosofi Kantin Boash (Section 3: Story Banner)",
+      "location": "index.html lines 428-493",
+      "reason": "User explicitly removes philosophy section. Contains 'Filosofi Kantin Boash', 'Seduh Lambat, Momen Hangat', and stats (12h, 100%, 0g).",
+      "action": "Delete entire <section id='cerita'> block"
+    },
+    {
+      "section": "Duplicate CTA links to #cerita in footer",
+      "location": "index.html line 553",
+      "reason": "Footer link to removed philosophy section",
+      "action": "Remove or replace with link to menu.html"
+    }
+  ],
+  "design_reference_description": "Meat/Market mobile & web app style: crisp white cards with rounded-3xl, high-contrast bold typography for prices, weight/portion chips as rounded-full pills, zero emojis — pure clean SVG line/duotone icons for search, notification bell, shopping cart, checkmark, clock, tag, shield. Minimal shadows (shadow-xs), clean 1px borders (border-gray-100), generous whitespace.",
   "research_complete": true
 }

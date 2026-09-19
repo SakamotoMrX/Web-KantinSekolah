@@ -1,55 +1,43 @@
 {
-  "baseline_id": "baseline-20260919-074000",
+  "baseline_id": "baseline-20260913-060000",
   "baseline_available": true,
   "is_greenfield": false,
   "target_url": "http://localhost:3000",
-  "screenshot_path": "screenshots/baseline-current.png",
-  "secondary_screenshot": "screenshots/baseline-penjual.png",
-  "pages_captured": ["index.html", "penjual.html"],
+  "screenshots": {
+    "landing": "screenshots/baseline-current.png",
+    "penjual": "screenshots/baseline-penjual.png"
+  },
   "current_design_state": {
-    "color_palette_observed": ["#1A1A1A", "#64B5F6", "#B0E0E6", "#F0F9FF", "#FCE4D6", "#E2EFDA", "#FFF2CC", "#F8CECC", "#0369A1", "#F97316"],
-    "typography_observed": ["Plus Jakarta Sans", "Inter", "system-ui"],
-    "layout_type": "monolithic_single_page_app",
-    "visual_density": "medium-high",
-    "architecture": "single-file_monolith_embedded_JS_CSS",
-    "design_language": "machi_cold_brew_pasteleximity_with_sky_gradient_hero",
+    "color_palette_observed": ["#0a0a0a", "#e0e0e0", "#f59e0b", "#ffffff", "#3b82f6", "#22c55e"],
+    "typography_observed": ["Inter", "sans-serif"],
+    "layout_type": "landing_page_with_pos",
+    "visual_density": "high",
     "identified_tells_or_flaws": [
-      "penjual.html uses completely different visual identity (orange #F97316 theme) vs index.html Machi sky/espresso aesthetic — zero design system continuity",
-      "Monolithic single-file architecture: ~1200+ lines of HTML+CSS+JS in index.html with no component separation",
-      "Menu catalog data hardcoded in JavaScript arrays, not fetched from API backend",
-      "Mobile navigation hidden behind md:flex with no hamburger menu fallback",
-      "Cart drawer, checkout modal, and order success modal all embedded inline in index.html",
-      "Multiple concurrent float animations on hero cups (4 independent keyframes) — exceeds single orchestrated motion moment limit",
-      "penjual.html lacks Google Fonts import (no Plus Jakarta Sans or Inter loaded)",
-      "penjual.html uses basic default Tailwind colors with no custom theme configuration",
-      "Footer giant wordmark 'kantin' at 15rem font-size may cause layout shift on mobile"
+      "All-caps eyebrow label detected: 'ES KOPI' (template_chrome:all_caps_eyebrow)",
+      "Penjual portal uses emoji stat cards (☕🧾🚫) — unprofessional for admin UI",
+      "Penjual page has NO auth barrier — anyone can access the POS",
+      "Contrast FAIL on penjual: 'Portal Pengelola & Dapur' gray text rgb(148,163,184) on white = 2.56:1 (WCAG AA requires 4.5:1)",
+      "Landing page touch targets FAIL: nav links under 44px height (Beranda 47×15, Katalog Menu 78×15)",
+      "Penjual filter buttons 40px height — below 44px touch target minimum",
+      "21 interactive elements on landing have outline:none without focus ring replacement",
+      "5 motion moments detected, 247 animated elements — exceeds 1 motion moment cap",
+      "Duplicate content sections: 'Filosofi Kantin Boash' and 'Bahan Segar Berkualitas' appear on index.html"
     ]
   },
   "existing_features": [
-    { "name": "Hero Section with Floating SVG Cups", "route": "/#hero", "status": "WORKING" },
-    { "name": "4 Pastel Product Cards (Favorit)", "route": "/#favorit", "status": "WORKING" },
-    { "name": "Full Menu Catalog with Warung Tabs", "route": "/#semua-menu", "status": "WORKING" },
-    { "name": "Story & Stats Section", "route": "/#cerita", "status": "WORKING" },
-    { "name": "Cart Drawer Slide-over", "route": "inline-modal", "status": "WORKING" },
-    { "name": "Checkout with QR Code Generation", "route": "inline-modal", "status": "WORKING" },
-    { "name": "Order Success Modal with Live Status", "route": "inline-modal", "status": "WORKING" },
-    { "name": "Seller Dashboard (penjual.html)", "route": "/penjual.html", "status": "WORKING" },
-    { "name": "Real-time Order Polling (1.5s interval)", "route": "both-pages", "status": "WORKING" },
-    { "name": "API Integration (/api/orders)", "route": "/api/orders", "status": "WORKING" },
-    { "name": "localStorage Fallback", "route": "both-pages", "status": "WORKING" },
-    { "name": "Accessibility: prefers-reduced-motion", "route": "global", "status": "WORKING" },
-    { "name": "Accessibility: Focus-visible outlines", "route": "global", "status": "WORKING" }
+    { "name": "Landing Page", "route": "/index.html", "status": "WORKING" },
+    { "name": "Customer Menu Browsing", "route": "/menu.html", "status": "WORKING" },
+    { "name": "Seller POS / Order Management", "route": "/penjual.html", "status": "WORKING" },
+    { "name": "Order Status Tracking", "route": "/status.html", "status": "WORKING" }
   ],
   "recommendations_for_redesign": [
-    "Extract shared design tokens (espresso, sky, pastel palette) into a persistent design-system.json for cross-page continuity",
-    "Redesign penjual.html to match Machi aesthetic: sky gradient header, Plus Jakarta Sans typography, pastel stat cards",
-    "Break monolithic index.html into component files (Hero, ProductCard, CartDrawer, OrderModal, Footer)",
-    "Consolidate hero cup animations to a single orchestrated reveal moment (Motion Cap Law: 1 per page)",
-    "Add mobile hamburger menu navigation for screens < md breakpoint",
-    "Move hardcoded warung catalog data to API endpoint or shared JSON module",
-    "Replace emoji-based product icons with consistent SVG illustration system",
-    "Implement gapless bento grid layout for menu catalog instead of uniform card grid",
-    "Add ARIA landmarks (role=main already present, but nav needs aria-label)",
-    "Reduce footer wordmark to responsive clamp(4rem, 10vw, 15rem) to prevent mobile overflow"
+    "Replace emoji stat cards in penjual.html with proper stat components using design tokens",
+    "Add authentication barrier to /penjual.html — currently open to anyone",
+    "Fix contrast FAIL: increase 'Portal Pengelola & Dapur' text from rgb(148,163,184) to at least rgb(113,113,122) for 4.5:1",
+    "Increase all nav link and filter button touch targets to minimum 44×44px",
+    "Add visible focus rings (ring-2 focus-visible:ring-blue-500) on all 21+ interactive elements",
+    "Reduce motion moments from 5 to 1 orchestrated moment; keep all other elements static",
+    "Remove duplicate content sections on index.html",
+    "Consolidate color palette — currently 6+ accent colors without clear system"
   ]
 }

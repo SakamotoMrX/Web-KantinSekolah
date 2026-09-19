@@ -19,6 +19,18 @@
       "text": "Cek Status Pesanan",
       "width": 113,
       "height": 15
+    },
+    {
+      "tag": "a",
+      "text": "Portal Penjual (POS)",
+      "width": 115,
+      "height": 15
+    },
+    {
+      "tag": "a",
+      "text": "Lihat di Menu / Kera",
+      "width": 147,
+      "height": 16
     }
   ]
 }

@@ -1,27 +1,190 @@
 {
+  "mission_id": "market-redesign-v2",
+  "scanned_at": "2026-09-19T00:00:00.000Z",
   "target_platform": "WEB",
-  "is_greenfield": false,
-  "style_system": "tailwind-cdn",
   "triage_tier": "STANDARD",
+  "triage_rationale": "4 HTML pages + 2 backend files require modification. Multiple sections need removal, pervasive emoji-to-SVG replacement across all pages, and new auth barrier added to penjual.html. File count 6, new dependencies 0, architecture changes yes (auth gate), test suite changes yes (visual regression).",
+  "framework": "Vanilla HTML + Tailwind CDN + Node.js HTTP Server",
+  "architectural_patterns": {
+    "state_management": "localStorage-based cart + polling for order status (2s interval)",
+    "data_fetching": "Fetch API to /api/orders with localStorage fallback",
+    "styling_engine": "Tailwind CSS v3 via CDN + custom CSS variables + pastel color tokens",
+    "orm_database": "In-memory array (globalThis._kantin_orders) with optional @upstash/redis",
+    "auth_pattern": "To be added: username/password gate with sessionStorage on penjual.html"
+  },
   "entry_points": [
     "index.html",
+    "menu.html",
+    "status.html",
     "penjual.html",
+    "server.js",
     "api/orders.js"
   ],
+  "blast_radius": {
+    "target_modules": [
+      "index.html",
+      "menu.html",
+      "penjual.html",
+      "status.html",
+      "server.js",
+      "api/orders.js"
+    ],
+    "dependent_consumers": {
+      "index.html": [
+        "menu.html",
+        "status.html",
+        "penjual.html"
+      ],
+      "menu.html": [
+        "index.html",
+        "status.html",
+        "api/orders.js",
+        "localStorage (kantin_cart, kantin_orders)"
+      ],
+      "penjual.html": [
+        "api/orders.js",
+        "localStorage (kantin_orders)",
+        "index.html (back link)"
+      ],
+      "status.html": [
+        "api/orders.js",
+        "localStorage (kantin_active_order_id)",
+        "index.html",
+        "menu.html"
+      ],
+      "server.js": [
+        "api/orders.js"
+      ],
+      "api/orders.js": [
+        "server.js",
+        "penjual.html",
+        "menu.html",
+        "status.html"
+      ]
+    },
+    "estimated_affected_files": 6,
+    "sections_to_remove_from_index": [
+      {
+        "id": "cerita",
+        "lines": "431-493",
+        "label": "Filosofi Kantin Boash"
+      },
+      {
+        "id": "lifestyle-banner",
+        "lines": "498-523",
+        "label": "Standar Bersih & Cerdas / Bahan Segar Berkualitas"
+      }
+    ],
+    "emoji_inventory": {
+      "index.html": [
+        "☕",
+        "⚡",
+        "❄️",
+        "✓",
+        "🍵",
+        "🥭",
+        "🍓"
+      ],
+      "menu.html": [
+        "❄️",
+        "🍛",
+        "🍩",
+        "🍗",
+        "🥣",
+        "🥤",
+        "🍜",
+        "🍲",
+        "🍝",
+        "🥗",
+        "🥑",
+        "🍞",
+        "🍩",
+        "🥟",
+        "🔍",
+        "🛒",
+        "✕"
+      ],
+      "penjual.html": [
+        "⏳",
+        "🍳",
+        "🛍️",
+        "💰",
+        "📋",
+        "🔊",
+        "🔇",
+        "✓"
+      ],
+      "status.html": [
+        "☕",
+        "🎉",
+        "+"
+      ]
+    },
+    "svg_replacement_plan": "Replace all Unicode emoji with inline SVG icons (Lucide/styled stroke icons). Each emoji maps to a clean SVG vector graphic matching the brand palette (#0369A1, #1A1A1A, #E2E8F0)."
+  },
   "dependencies": {
-    "tailwindcss": "cdn",
-    "qrcodejs": "cdn"
+    "ui_framework": "Tailwind CSS CDN (no build step)",
+    "backend": "Node.js http module + @upstash/redis (optional)",
+    "icons": "To be replaced: Unicode emoji → inline SVG (Lucide style)",
+    "qr_code": "qrcodejs CDN (status.html)",
+    "conflicts": []
   },
-  "planned_pages": {
-    "index.html": "Landing page for Kantin Boash with brand story, hero float, fan favorites showcase, and navigation links",
-    "menu.html": "Full ordering catalog with warung filters, product cards, cart drawer, and checkout",
-    "status.html": "Dedicated live order tracking page with queue timeline, polling, and QR code",
-    "penjual.html": "Dedicated separate merchant/seller dashboard portal matching modern cafe POS aesthetic"
+  "conflicts_detected": [],
+  "complexity_warnings": [
+    {
+      "path": "penjual.html",
+      "lines": 610,
+      "warning": "Adding auth gate requires sessionStorage logic, login modal, and protected route rendering — high risk of breaking existing DOM structure"
+    },
+    {
+      "path": "api/orders.js",
+      "lines": 219,
+      "warning": "Adding auth middleware requires request-level auth token/session validation — must not break existing CRUD operations"
+    },
+    {
+      "path": "index.html",
+      "lines": 655,
+      "warning": "Removing 2 sections + replacing 14 emojis with SVGs requires careful DOM surgery to preserve event handlers (quickAddFromHero, cart logic)"
+    }
+  ],
+  "debug_recon": {
+    "is_retry_task": true,
+    "suspect_files": []
   },
-  "brand_name": "Kantin Boash",
+  "unknowns": [
+    "Market visual reference specifics not yet ingested — design direction depends on reference image",
+    "Auth credentials format for penjual.html not specified (plain username/password vs token-based)",
+    "Exact SVG icon library preference not confirmed (Lucide vs Heroicons vs custom)",
+    "Whether seller portal auth should persist across sessions or be per-page-load"
+  ],
+  "ready_for_oracle": true,
+  "is_greenfield": false,
   "recon_complete": true,
-  "planned_entry_points": [
-    "menu.html",
-    "status.html"
+  "style_system": "tailwind-cdn",
+  "entry_points_details": [
+    {
+      "path": "index.html",
+      "type": "page"
+    },
+    {
+      "path": "menu.html",
+      "type": "page"
+    },
+    {
+      "path": "status.html",
+      "type": "page"
+    },
+    {
+      "path": "penjual.html",
+      "type": "page"
+    },
+    {
+      "path": "server.js",
+      "type": "server"
+    },
+    {
+      "path": "api/orders.js",
+      "type": "api_route"
+    }
   ]
 }

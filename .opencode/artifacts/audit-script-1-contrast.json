@@ -1,54 +1,36 @@
 {
-  "wcag_passed": false,
-  "lowest_ratio": 4.1,
-  "total_sampled": 49,
-  "failing_count": 6,
+  "wcag_passed": true,
+  "lowest_ratio": 5.02,
   "samples": [
     {
       "element": "a",
-      "snippet": "k\nkantin\nCOLD BREW & EATS",
+      "snippet": "b\nboash\nKantin Sekolah",
       "color": "rgb(26, 26, 26)",
-      "background": "rgba(255, 255, 255, 0.8)",
+      "background": "rgba(255, 255, 255, 0.85)",
       "ratio": 17.4,
       "passed": true
     },
     {
       "element": "span",
-      "snippet": "kantin",
+      "snippet": "boash",
       "color": "rgb(26, 26, 26)",
-      "background": "rgba(255, 255, 255, 0.8)",
+      "background": "rgba(255, 255, 255, 0.85)",
       "ratio": 17.4,
       "passed": true
     },
     {
       "element": "span",
-      "snippet": "COLD BREW & EATS",
-      "color": "rgb(2, 132, 199)",
-      "background": "rgba(255, 255, 255, 0.8)",
-      "ratio": 4.1,
-      "passed": false
-    },
-    {
-      "element": "a",
-      "snippet": "Menu Favorit",
-      "color": "rgb(55, 65, 81)",
-      "background": "rgba(255, 255, 255, 0.8)",
-      "ratio": 10.31,
+      "snippet": "Kantin Sekolah",
+      "color": "rgb(3, 105, 161)",
+      "background": "rgba(255, 255, 255, 0.85)",
+      "ratio": 5.93,
       "passed": true
     },
     {
       "element": "a",
-      "snippet": "Daftar Warung",
+      "snippet": "Menu Lengkap",
       "color": "rgb(55, 65, 81)",
-      "background": "rgba(255, 255, 255, 0.8)",
-      "ratio": 10.31,
-      "passed": true
-    },
-    {
-      "element": "a",
-      "snippet": "Cerita Kami",
-      "color": "rgb(55, 65, 81)",
-      "background": "rgba(255, 255, 255, 0.8)",
+      "background": "rgba(255, 255, 255, 0.85)",
       "ratio": 10.31,
       "passed": true
     },
@@ -56,32 +38,8 @@
       "element": "a",
       "snippet": "Cek Pesanan",
       "color": "rgb(55, 65, 81)",
-      "background": "rgba(255, 255, 255, 0.8)",
+      "background": "rgba(255, 255, 255, 0.85)",
       "ratio": 10.31,
-      "passed": true
-    },
-    {
-      "element": "a",
-      "snippet": "🏪\nPortal Penjual",
-      "color": "rgb(55, 65, 81)",
-      "background": "rgba(255, 255, 255, 0.8)",
-      "ratio": 10.31,
-      "passed": true
-    },
-    {
-      "element": "span",
-      "snippet": "🏪",
-      "color": "rgb(55, 65, 81)",
-      "background": "rgba(255, 255, 255, 0.8)",
-      "ratio": 10.31,
-      "passed": true
-    },
-    {
-      "element": "button",
-      "snippet": "Keranjang\n0",
-      "color": "rgb(255, 255, 255)",
-      "background": "rgb(26, 26, 26)",
-      "ratio": 17.4,
       "passed": true
     }
   ]
