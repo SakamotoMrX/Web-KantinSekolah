@@ -3,3 +3,4 @@ node_modules
 .vercel
 .playwright-mcp
 dev-server.log
+.env*
